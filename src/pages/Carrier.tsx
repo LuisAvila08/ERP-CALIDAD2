@@ -300,7 +300,7 @@ const ShipmentsContent = (): JSX.Element => {
 
   const handleUpdateShipment = (id: number) => {
     // Aquí puedes agregar la lógica para guardar el embarque actualizado, por ejemplo, hacer una solicitud a la API.
-    console.log('Actualizar embarque con ID:', id)
+    console.log('Actualizar embarque con ID', id)
   }
 
   // const events = [

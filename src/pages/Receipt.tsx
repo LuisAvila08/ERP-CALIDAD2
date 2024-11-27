@@ -30,7 +30,7 @@ const ActaPDF = ({ formData }) => (
         <Text>ACTA DE DESCARGA</Text>
         <View>
           <Text>F-I-CAL-02-01</Text>
-          <Text>Rev.7 (08-12-2023)</Text>
+          <Text>Rev.7 (08-12-2024)</Text>
         </View>
       </View>
 

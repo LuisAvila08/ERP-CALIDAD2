@@ -13,7 +13,8 @@ const Home = (): JSX.Element => {
   }, [])
 
   useEffect(() => {
-    if (isLoggedIn) {
+    const a = true
+    if (a) {
       const {
         pathname, search
       } = window.location
@@ -29,9 +30,9 @@ const Home = (): JSX.Element => {
   }, [isLoggedIn])
 
   return (
-    isLoggedIn
-      ? <Outlet />
-      : <LoginForm />
+
+    <Outlet />
+
   )
 }
 

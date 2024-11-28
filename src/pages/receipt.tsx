@@ -37,11 +37,13 @@ const styles = StyleSheet.create({
   table: {
     display: 'table',
     width: '100%',
-    borderWidth: 1,
-    borderColor: '#000'
+    borderWidth: 2,
+    borderColor: '#000',
+    marginTop: 15 // Adding space between tables
   },
   tableRow: {
-    flexDirection: 'row'
+    flexDirection: 'row',
+    width: '100%'
   },
   cellLabel: {
     flex: 1,
@@ -49,14 +51,88 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#000',
     padding: 5,
-    fontSize: 10
+    fontSize: 10,
+    fontWeight: 'bold',
+    textAlign: 'center'
   },
-  cellValue: {
-    flex: 3,
+  cellLabel2: {
+    flex: 1,
+    backgroundColor: '#FFFFFF',
     borderWidth: 1,
     borderColor: '#000',
     padding: 5,
-    fontSize: 10
+    fontSize: 10,
+    fontWeight: 'bold',
+    textAlign: 'center',
+
+  },
+  cellLabel3: {
+    flex: 1,
+    backgroundColor: '#FFFFFF',
+    borderWidth: 1,
+    borderColor: '#000',
+    padding: 30,
+    fontSize: 10,
+    fontWeight: 'bold',
+    textAlign: 'center'
+  },
+  cellValue: {
+    flex: 1,
+    borderWidth: 1,
+    borderColor: '#000',
+    padding: 5,
+    fontSize: 10,
+    textAlign: 'center'
+  },
+  sectionTitle: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginBottom: 10,
+    paddingVertical: 5,
+    backgroundColor: '#ddd'
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: '#ccc',
+    padding: 8,
+    fontSize: 12,
+    marginVertical: 5
+  },
+  checkboxRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center'
+  },
+  checkboxText: {
+    fontSize: 12,
+    textAlign: 'center'
+  },
+  optionCell: {
+    minWidth: 50, // Puedes ajustar este valor según el tamaño que desees
+    width: 'auto', // Asegura que no se comprima demasiado
+    padding: 10, // Agrega más espacio dentro de la celda
+    fontSize: 12, // Aumenta el tamaño de la fuente si es necesario
+    textAlign: 'center'
+  },
+  conditions: {
+    flex: 1,
+    backgroundColor: '#ccc',
+    minWidth: 100, // Garantiza que la celda tenga al menos este ancho
+    minHeight: 40, // Garantiza que la celda tenga al menos esta altura
+    borderWidth: 1,
+    borderColor: '#000',
+    padding: 10,
+    fontSize: 12,
+    fontWeight: 'bold',
+    textAlign: 'left'
+  },
+  columnContainer: {
+    flexDirection: 'column', // Organiza los elementos verticalmente
+    justifyContent: 'center',
+    alignItems: 'center',
+    flex: 1,
+    padding: 5
   }
 
 })
@@ -65,13 +141,14 @@ const ActaPDF = ({ formData, firmaBase64 }) => (
   <Document>
     <Page style={styles.page}>
       <View style={styles.logoSection}>
+        {/* image */}
         <Image
           style={styles.logo}
           src='../../src/assets/images/favicon.png'
         />
 
         <Text style={{ fontSize: 30 }}>ACTA DE DESCARGA</Text>
-        <View>
+        <View style={{ fontSize: 10 }}>
           <Text>F-I-CAL-02-01</Text>
           <Text>Rev.7 (08-12-2024)</Text>
         </View>
@@ -126,6 +203,49 @@ const ActaPDF = ({ formData, firmaBase64 }) => (
           <Text style={styles.cellValue}>{formData.chofer || ''}</Text>
         </View>
       </View>
+      <View style={{ marginBottom: 20 }} />
+
+      {/* Tabla */}
+      <View style={styles.table}>
+        {/* Fila 1 */}
+
+        <View style={styles.tableRow}>
+
+          <Text style={styles.conditions}>Condiciones del transporte</Text>
+          <View style={styles.tableRow}>
+
+            <Text style={styles.cellLabel2}>Temperatura de set point</Text>
+
+            <Text style={styles.cellValue}>{formData.chofer || ''}</Text>
+          </View>
+
+        </View>
+            <View style={styles.tableRow}>
+              <Text style={[styles.conditions]}>Condiciones del transporte</Text>
+              <View style={styles.table}>
+
+                
+            <View style={styles.tableRow}>
+              <Text style={styles.cellLabel2}>Temperatura de set point</Text>
+              <Text style={styles.cellLabel2}>SI</Text>
+              <Text style={styles.cellLabel2}>NO</Text>
+              <Text style={styles.cellValue}>{formData.chofer || ''}</Text>
+        </View>
+
+          {/* Fila 2 de condiciones */}
+        <View style={styles.tableRow}>
+          <Text style={styles.cellLabel2}>Temperatura de set point</Text>
+          <Text style={styles.cellLabel2}>SI</Text>
+          <Text style={styles.cellLabel2}>NO</Text>
+          <Text style={styles.cellValue}>{formData.chofer || ''}</Text>
+        </View>
+      </View>
+
+
+        </View>
+
+      </View>
+      <View style={{ marginBottom: 20 }} />
 
       <View style={styles.block}>
         <View style={styles.row}>

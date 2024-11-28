@@ -7,63 +7,23 @@ import './App.css'
 import './index.css'
 import Home from './pages/Home'
 import Dashboard from './pages/Dashboard'
-import Shipments from './pages/Shipments'
-import Locations from './pages/Locations'
-import Events from './pages/Events'
-import Carrier from './pages/Carrier'
-import Users from './pages/Users'
-import Prices from './pages/PriceList'
-import Units from './pages/Units'
-import Providers from './pages/Providers'
-import ErrorBoundary from '@/components/ErrorBoundary'
-import Receipt from './pages/Receipt'
+import ErrorBoundary from './pages/ErrorBoundary'
+import Receipt from './pages/receipt'
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <Home />,
-    errorElement: <ErrorBoundary />,
     children: [
       {
         path: 'dashboard',
         element: <Dashboard />
       },
       {
-        path: 'shipments',
-        element: <Shipments />
-      },
-      {
-        path: 'locations',
-        element: <Locations />
-      },
-      {
-        path: 'events',
-        element: <Events />
-      },
-      {
-        path: 'carrier',
-        element: <Carrier />
-      },
-      {
-        path: 'users',
-        element: <Users />
-      },
-      {
-        path: 'prices',
-        element: <Prices />
-      },
-      {
-        path: 'units',
-        element: <Units />
-      },
-      {
-        path: 'providers',
-        element: <Providers />
-      },
-      {
         path: 'receipt',
         element: <Receipt />
-      }
+      },
+      
     ]
   }
 ])

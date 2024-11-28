@@ -4,12 +4,10 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Switch } from '../ui/switch'
 import video from '@/assets/media/Tarahumara.mp4'
-import LogoDark from '@/assets/images/black-bg.png'
-import LogoLight from '@/assets/images/white-bg.png'
+import LogoTara from '/src/assets/images/LOGO.jpg'
+import Users from '@/stores/Users.json'
 import useAuthStore from '@/stores/useAuthStore'
 import { useNavigate } from 'react-router-dom'
-import axios from 'axios'
-import { API, LOGIN } from '@/config/Constant'
 
 const LoginForm = (): JSX.Element => {
   const [username, setUsername] = useState('')
@@ -20,8 +18,6 @@ const LoginForm = (): JSX.Element => {
 
   const [processing, setProcessing] = useState<boolean>(false)
   const [loginError, setLoginError] = useState<boolean>(false)
-
-  const [loginErrorMessage, setLoginErrorMessage] = useState<string>('La combinación de Usuario y Contraseña ingresa no corresponde a un usuario existente')
 
   const login = useAuthStore((state) => state.login)
 
@@ -39,34 +35,22 @@ const LoginForm = (): JSX.Element => {
     if (username.trim() !== '' && password.trim() !== '') {
       setProcessing(true)
 
-      axios.post(`${API}${LOGIN}`, {
-        username,
-        password
-      }).then((response) => {
+      const found = Users.find((user) => user.username === username && user.password === password)
+
+      if (found != null) {
         const rememberMe = localStorage.getItem('rememberMe') === 'true'
 
         if (rememberMe) {
-          localStorage.setItem('expiresIn', response.data.expiresIn)
+          localStorage.setItem('user', found.username)
           localStorage.setItem('isLoggedIn', 'true')
         }
 
-        useAuthStore.setState({ user: response.data.user })
-
-        localStorage.setItem('user', JSON.stringify(response.data.user))
-        localStorage.setItem('token', response.data.token)
-
         login()
         navigate('/dashboard')
-      }).catch((error) => {
-        if (error.response?.data?.status === false) {
-          setLoginErrorMessage(error.response?.data?.message)
-        } else {
-          setLoginErrorMessage('La combinación de Usuario y Contraseña ingresa no corresponde a un usuario existente')
-        }
-
+      } else {
         setProcessing(false)
         setLoginError(true)
-      })
+      }
     }
   }
 
@@ -76,11 +60,10 @@ const LoginForm = (): JSX.Element => {
         <div className='grid w-10/12 gap-6 mx-auto md:w-1/2'>
 
           <picture>
-            <source srcSet={LogoDark} media='(prefers-color-scheme: dark)' />
-            <source srcSet={LogoLight} media='(prefers-color-scheme: light)' />
-            <img src={LogoLight} alt='Logo Grupo Tarahumara' className='w-full' />
+            <source srcSet={LogoTara} media='(prefers-color-scheme: dark)' />
+            <source srcSet={LogoTara} media='(prefers-color-scheme: light)' />
+            <img src={LogoTara} alt='Logo de Tarahumara' className='w-auto mx-auto' />
           </picture>
-
           <div className='grid gap-2 text-center'>
             <h1 className='text-3xl font-bold'>Iniciar Sesión</h1>
             <p className='text-balance text-muted-foreground'>
@@ -93,7 +76,7 @@ const LoginForm = (): JSX.Element => {
               <Input
                 id='username'
                 type='text'
-                placeholder='E-00001'
+                placeholder='Código'
                 onChange={(e) => {
                   setUsername(e.target.value)
                   setUserNameError(false)
@@ -140,23 +123,19 @@ const LoginForm = (): JSX.Element => {
 
             {loginError && (
               <div className='p-4 text-center rounded bg-destructive/50 text-foreground'>
-                {loginErrorMessage}
+                La combinación de Usuario y Contraseña ingresa no corresponde a un usuario existente
               </div>)}
 
             <Button type='submit' onClick={handleSubmit} className='w-full' disabled={processing}>Ingresar</Button>
           </div>
         </div>
       </div>
-      <div className='relative hidden bg-muted lg:block'>
-        <video autoPlay muted loop className='object-cover w-full h-full'>
+      <div className='relative bg-gray-800 lg:block'>
+        <video autoPlay muted loop className='w-full h-full'>
           <source src={video} type='video/mp4' />
         </video>
-        <img
-          src={LogoDark}
-          alt='Logotipo Grupo Tarahumara'
-          className='absolute z-10 w-1/2 bottom-4 right-4'
-        />
       </div>
+
     </div>
   )
 }

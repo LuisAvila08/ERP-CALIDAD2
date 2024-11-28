@@ -18,6 +18,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#f9f9f9',
     boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)'
   },
+  logo: {
+    width: 32,
+    height: 32,
+    marginVertical: 10
+  },
   row: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 5 },
   inputLabel: { fontSize: 12, fontWeight: 'bold' }
 })
@@ -27,6 +32,7 @@ const ActaPDF = ({ formData }) => (
     <Page style={styles.page}>
       <View style={styles.logoSection}>
         <Text>LOGO</Text>
+        <img style={styles.logo} src='../../public/favicon-32x32.png' />
         <Text>ACTA DE DESCARGA</Text>
         <View>
           <Text>F-I-CAL-02-01</Text>

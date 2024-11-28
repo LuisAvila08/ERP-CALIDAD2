@@ -1,10 +1,9 @@
-import React, { useState } from 'react'
-import { Page, Text, View, Document, StyleSheet, PDFViewer, PDFDownloadLink } from '@react-pdf/renderer'
+import React, { useState , useRef } from 'react'
+import { Page, Text, View, Document, StyleSheet, PDFViewer, PDFDownloadLink, Image } from '@react-pdf/renderer'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import Layout from '../components/Layout'
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable'
-
 
 const styles = StyleSheet.create({
   page: { padding: 30 },
@@ -20,8 +19,8 @@ const styles = StyleSheet.create({
     boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)'
   },
   logo: {
-    width: 32,
-    height: 32,
+    width: 100,
+    height: 100,
     marginVertical: 10
   },
   row: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 5 },
@@ -32,9 +31,12 @@ const ActaPDF = ({ formData }) => (
   <Document>
     <Page style={styles.page}>
       <View style={styles.logoSection}>
-        <Text>LOGO</Text>
-        <img style={styles.logo} src='../../public/favicon-32x32.png' />
-        <Text>ACTA DE DESCARGA</Text>
+        <Image
+          style={styles.logo}
+          src='../../src/assets/images/favicon.png'
+        />
+
+        <Text style={{ fontSize: 30 }}>ACTA DE DESCARGA</Text>
         <View>
           <Text>F-I-CAL-02-01</Text>
           <Text>Rev.7 (08-12-2024)</Text>
@@ -134,6 +136,7 @@ const ActaDeLlegada = () => {
     sellado: '',
     numeroSerie: ''
   })
+  const signaturePad = useRef(null)
 
   const handleInputChange = (e) => {
     const { name, value } = e.target
@@ -142,122 +145,121 @@ const ActaDeLlegada = () => {
 
   return (
     <Layout>
-    <ResizablePanelGroup direction='horizontal'>
-      <ResizablePanel defaultSize={50}>
-        <div style={{ padding: '20px' }}>
-          <h1>Acta de Llegada</h1>
+      <ResizablePanelGroup direction='horizontal'>
+        <ResizablePanel defaultSize={50}>
+          <div style={{ padding: '20px' }}>
+            <h1>Acta de Llegada</h1>
 
-          <h2>Fecha y Verificación</h2>
-          <label>Fecha: </label>
-          <Input type='date' name='fecha' value={formData.fecha} onChange={handleInputChange} />
+            <h2>Fecha y Verificación</h2>
+            <label>Fecha: </label>
+            <Input type='date' name='fecha' value={formData.fecha} onChange={handleInputChange} />
 
-          <label>Inicio de verificación: </label>
-          <Input type='text' name='inicioVerificacion' value={formData.inicioVerificacion} onChange={handleInputChange} />
+            <label>Inicio de verificación: </label>
+            <Input type='text' name='inicioVerificacion' value={formData.inicioVerificacion} onChange={handleInputChange} />
 
-          <label>Término de verificación: </label>
-          <Input type='text' name='terminoVerificacion' value={formData.terminoVerificacion} onChange={handleInputChange} />
+            <label>Término de verificación: </label>
+            <Input type='text' name='terminoVerificacion' value={formData.terminoVerificacion} onChange={handleInputChange} />
 
-          <label>O.C.: </label>
-          <Input type='text' name='oc' value={formData.oc} onChange={handleInputChange} />
+            <label>O.C.: </label>
+            <Input type='text' name='oc' value={formData.oc} onChange={handleInputChange} />
 
-          <label>Proveedor: </label>
-          <Input type='text' name='proveedor' value={formData.proveedor} onChange={handleInputChange} />
+            <label>Proveedor: </label>
+            <Input type='text' name='proveedor' value={formData.proveedor} onChange={handleInputChange} />
 
-          <label>Especie: </label>
-          <Input type='text' name='especie' value={formData.especie} onChange={handleInputChange} />
+            <label>Especie: </label>
+            <Input type='text' name='especie' value={formData.especie} onChange={handleInputChange} />
 
-          <label>Variedades: </label>
-          <Input type='text' name='variedades' value={formData.variedades} onChange={handleInputChange} />
+            <label>Variedades: </label>
+            <Input type='text' name='variedades' value={formData.variedades} onChange={handleInputChange} />
 
-          <label>Frío de descarga: </label>
-          <Input type='text' name='frioDescarga' value={formData.frioDescarga} onChange={handleInputChange} />
+            <label>Frío de descarga: </label>
+            <Input type='text' name='frioDescarga' value={formData.frioDescarga} onChange={handleInputChange} />
 
-          <label>Cajas recibidas: </label>
-          <Input type='text' name='cajasRecibidas' value={formData.cajasRecibidas} onChange={handleInputChange} />
+            <label>Cajas recibidas: </label>
+            <Input type='text' name='cajasRecibidas' value={formData.cajasRecibidas} onChange={handleInputChange} />
 
-          <h2>Transporte</h2>
-          <label>Línea transportista: </label>
-          <Input type='text' name='lineaTransportista' value={formData.lineaTransportista} onChange={handleInputChange} />
+            <h2>Transporte</h2>
+            <label>Línea transportista: </label>
+            <Input type='text' name='lineaTransportista' value={formData.lineaTransportista} onChange={handleInputChange} />
 
-          <label>Número de contenedor: </label>
-          <Input type='text' name='numeroContenedor' value={formData.numeroContenedor} onChange={handleInputChange} />
+            <label>Número de contenedor: </label>
+            <Input type='text' name='numeroContenedor' value={formData.numeroContenedor} onChange={handleInputChange} />
 
-          <label>Placas camión: </label>
-          <Input type='text' name='placasCamion' value={formData.placasCamion} onChange={handleInputChange} />
+            <label>Placas camión: </label>
+            <Input type='text' name='placasCamion' value={formData.placasCamion} onChange={handleInputChange} />
 
-          <label>Placas caja: </label>
-          <Input type='text' name='placasCaja' value={formData.placasCaja} onChange={handleInputChange} />
+            <label>Placas caja: </label>
+            <Input type='text' name='placasCaja' value={formData.placasCaja} onChange={handleInputChange} />
 
-          <label>Chofer: </label>
-          <Input type='text' name='chofer' value={formData.chofer} onChange={handleInputChange} />
+            <label>Chofer: </label>
+            <Input type='text' name='chofer' value={formData.chofer} onChange={handleInputChange} />
 
-          <h2>Condiciones de Transporte</h2>
-          <label>Temperatura de set point: </label>
-          <Input type='text' name='tempSetPoint' value={formData.tempSetPoint} onChange={handleInputChange} />
+            <h2>Condiciones de Transporte</h2>
+            <label>Temperatura de set point: </label>
+            <Input type='text' name='tempSetPoint' value={formData.tempSetPoint} onChange={handleInputChange} />
 
-          <label>Observaciones set point: </label>
-          <Input type='text' name='observacionesSetPoint' value={formData.observacionesSetPoint} onChange={handleInputChange} />
+            <label>Observaciones set point: </label>
+            <Input type='text' name='observacionesSetPoint' value={formData.observacionesSetPoint} onChange={handleInputChange} />
 
-          <label>Temperatura de pantalla: </label>
-          <Input type='text' name='tempPantalla' value={formData.tempPantalla} onChange={handleInputChange} />
+            <label>Temperatura de pantalla: </label>
+            <Input type='text' name='tempPantalla' value={formData.tempPantalla} onChange={handleInputChange} />
 
-          <label>Observaciones pantalla: </label>
-          <Input type='text' name='observacionesPantalla' value={formData.observacionesPantalla} onChange={handleInputChange} />
+            <label>Observaciones pantalla: </label>
+            <Input type='text' name='observacionesPantalla' value={formData.observacionesPantalla} onChange={handleInputChange} />
 
-          <label>Termógrafo: </label>
-          <Input type='text' name='termografo' value={formData.termografo} onChange={handleInputChange} />
+            <label>Termógrafo: </label>
+            <Input type='text' name='termografo' value={formData.termografo} onChange={handleInputChange} />
 
-          <label>Temperatura de origen: </label>
-          <Input type='text' name='tempOrigen' value={formData.tempOrigen} onChange={handleInputChange} />
+            <label>Temperatura de origen: </label>
+            <Input type='text' name='tempOrigen' value={formData.tempOrigen} onChange={handleInputChange} />
 
-          <label>Temperatura de destino: </label>
-          <Input type='text' name='tempDestino' value={formData.tempDestino} onChange={handleInputChange} />
+            <label>Temperatura de destino: </label>
+            <Input type='text' name='tempDestino' value={formData.tempDestino} onChange={handleInputChange} />
 
-          <h2>Inspección de Transporte</h2>
-          <label>Limpio, libre de malos olores: </label>
-          <Input type='text' name='limpio' value={formData.limpio} onChange={handleInputChange} />
+            <h2>Inspección de Transporte</h2>
+            <label>Limpio, libre de malos olores: </label>
+            <Input type='text' name='limpio' value={formData.limpio} onChange={handleInputChange} />
 
-          <label>Caja cerrada, en buen estado: </label>
-          <Input type='text' name='cajaCerrada' value={formData.cajaCerrada} onChange={handleInputChange} />
+            <label>Caja cerrada, en buen estado: </label>
+            <Input type='text' name='cajaCerrada' value={formData.cajaCerrada} onChange={handleInputChange} />
 
-          <label>Lona en buen estado: </label>
-          <Input type='text' name='lona' value={formData.lona} onChange={handleInputChange} />
+            <label>Lona en buen estado: </label>
+            <Input type='text' name='lona' value={formData.lona} onChange={handleInputChange} />
 
-          <label>Libre de fauna nociva: </label>
-          <Input type='text' name='fauna' value={formData.fauna} onChange={handleInputChange} />
+            <label>Libre de fauna nociva: </label>
+            <Input type='text' name='fauna' value={formData.fauna} onChange={handleInputChange} />
 
-          <label>Carga en buen estado: </label>
-          <Input type='text' name='carga' value={formData.carga} onChange={handleInputChange} />
+            <label>Carga en buen estado: </label>
+            <Input type='text' name='carga' value={formData.carga} onChange={handleInputChange} />
 
-          <label>Seguridad de carga: </label>
-          <Input type='text' name='seguridadCarga' value={formData.seguridadCarga} onChange={handleInputChange} />
+            <label>Seguridad de carga: </label>
+            <Input type='text' name='seguridadCarga' value={formData.seguridadCarga} onChange={handleInputChange} />
 
-          <label>Sellado: </label>
-          <Input type='text' name='sellado' value={formData.sellado} onChange={handleInputChange} />
+            <label>Sellado: </label>
+            <Input type='text' name='sellado' value={formData.sellado} onChange={handleInputChange} />
 
-          <label>Número de serie: </label>
-          <Input type='text' name='numeroSerie' value={formData.numeroSerie} onChange={handleInputChange} />
-        </div>
-      </ResizablePanel>
-
-      <ResizableHandle />
-
-      <ResizablePanel>
-        <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-          <PDFViewer width='100%' height='100%'>
-            <ActaPDF formData={formData} />
-          </PDFViewer>
-          <div style={{ padding: '10px', display: 'flex', justifyContent: 'center' }}>
-            <PDFDownloadLink document={<ActaPDF formData={formData} />} fileName='acta_de_llegada.pdf'>
-              <Button variant='primary'>Descargar PDF</Button>
-            </PDFDownloadLink>
+            <label>Número de serie: </label>
+            <Input type='text' name='numeroSerie' value={formData.numeroSerie} onChange={handleInputChange} />
           </div>
-        </div>
-      </ResizablePanel>
-    </ResizablePanelGroup>
+        </ResizablePanel>
+
+        <ResizableHandle />
+
+        <ResizablePanel>
+          <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+            <PDFViewer width='100%' height='100%'>
+              <ActaPDF formData={formData} />
+            </PDFViewer>
+            <div style={{ padding: '10px', display: 'flex', justifyContent: 'center' }}>
+              <PDFDownloadLink document={<ActaPDF formData={formData} />} fileName='acta_de_llegada.pdf'>
+                <Button variant='primary'>Descargar PDF</Button>
+              </PDFDownloadLink>
+            </div>
+          </div>
+        </ResizablePanel>
+      </ResizablePanelGroup>
     </Layout>
   )
 }
-
 
 export default ActaDeLlegada

@@ -1,9 +1,17 @@
-import React, { useState , useRef } from 'react'
+import React, { useState, useRef } from 'react'
 import { Page, Text, View, Document, StyleSheet, PDFViewer, PDFDownloadLink, Image } from '@react-pdf/renderer'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import Layout from '../components/Layout'
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable'
+import SignatureCanvas from 'react-signature-canvas' // Importa SignatureCanvas
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger
+} from '@/components/ui/accordion'
+import { Bold } from 'lucide-react'
 
 const styles = StyleSheet.create({
   page: { padding: 30 },
@@ -24,10 +32,36 @@ const styles = StyleSheet.create({
     marginVertical: 10
   },
   row: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 5 },
-  inputLabel: { fontSize: 12, fontWeight: 'bold' }
+  inputLabel: { fontSize: 12, fontWeight: 'bold' },
+  signatureCanvasContainer: { border: '1px solid #ccc', padding: '10px', marginTop: '20px' },
+  table: {
+    display: 'table',
+    width: '100%',
+    borderWidth: 1,
+    borderColor: '#000'
+  },
+  tableRow: {
+    flexDirection: 'row'
+  },
+  cellLabel: {
+    flex: 1,
+    backgroundColor: '#ccc',
+    borderWidth: 1,
+    borderColor: '#000',
+    padding: 5,
+    fontSize: 10
+  },
+  cellValue: {
+    flex: 3,
+    borderWidth: 1,
+    borderColor: '#000',
+    padding: 5,
+    fontSize: 10
+  }
+
 })
 
-const ActaPDF = ({ formData }) => (
+const ActaPDF = ({ formData, firmaBase64 }) => (
   <Document>
     <Page style={styles.page}>
       <View style={styles.logoSection}>
@@ -44,20 +78,52 @@ const ActaPDF = ({ formData }) => (
       </View>
 
       <View style={styles.block}>
+
         <View style={styles.row}>
           <Text style={styles.inputLabel}>Fecha: {formData.fecha}</Text>
           <Text style={styles.inputLabel}>Inicio de verificación: {formData.inicioVerificacion}</Text>
           <Text style={styles.inputLabel}>Término de verificación: {formData.terminoVerificacion}</Text>
         </View>
         <View style={styles.row}>
-          <Text style={styles.inputLabel}>O.C.: {formData.oc}</Text>
           <Text style={styles.inputLabel}>Proveedor: {formData.proveedor}</Text>
-          <Text style={styles.inputLabel}>Especie: {formData.especie}</Text>
+          <Text style={styles.inputLabel}>O.C.: {formData.oc}</Text>
+          <Text style={styles.inputLabel}>Factura: </Text>
+
         </View>
+        <Text style={styles.inputLabel}>Especie: {formData.especie}</Text>
+        <Text style={styles.inputLabel}>Variedades: {formData.variedades}</Text>
         <View style={styles.row}>
-          <Text style={styles.inputLabel}>Variedades: {formData.variedades}</Text>
           <Text style={styles.inputLabel}>Frío de descarga: {formData.frioDescarga}</Text>
           <Text style={styles.inputLabel}>Cajas recibidas: {formData.cajasRecibidas}</Text>
+        </View>
+      </View>
+
+      {/* Tabla */}
+      <View style={styles.table}>
+        {/* Fila 1 */}
+        <View style={styles.tableRow}>
+          <Text style={styles.cellLabel}>LÍNEA TRANSPORTISTA</Text>
+          <Text style={styles.cellValue}>{formData.lineaTransportista || ''}</Text>
+        </View>
+        {/* Fila 2 */}
+        <View style={styles.tableRow}>
+          <Text style={styles.cellLabel}>No. DE CONTENEDOR</Text>
+          <Text style={styles.cellValue}>{formData.numeroContenedor || ''}</Text>
+        </View>
+        {/* Fila 3 */}
+        <View style={styles.tableRow}>
+          <Text style={styles.cellLabel}>PLACAS CAMIÓN</Text>
+          <Text style={styles.cellValue}>{formData.placasCamion || ''}</Text>
+        </View>
+        {/* Fila 4 */}
+        <View style={styles.tableRow}>
+          <Text style={styles.cellLabel}>PLACAS CAJA</Text>
+          <Text style={styles.cellValue}>{formData.placasCaja || ''}</Text>
+        </View>
+        {/* Fila 5 */}
+        <View style={styles.tableRow}>
+          <Text style={styles.cellLabel}>CHOFER</Text>
+          <Text style={styles.cellValue}>{formData.chofer || ''}</Text>
         </View>
       </View>
 
@@ -100,6 +166,14 @@ const ActaPDF = ({ formData }) => (
         <Text style={styles.inputLabel}>Sellado: {formData.sellado}</Text>
         <Text style={styles.inputLabel}>Número de serie: {formData.numeroSerie}</Text>
       </View>
+      {/* Firma en PDF */}
+      <View style={styles.block}>
+        <Text style={styles.inputLabel}>Firma:</Text>
+        {firmaBase64 && (
+          <Image src={firmaBase64} style={{ width: 150, height: 50 }} />
+        )}
+
+      </View>
     </Page>
   </Document>
 )
@@ -138,9 +212,23 @@ const ActaDeLlegada = () => {
   })
   const signaturePad = useRef(null)
 
+  const [firmaBase64, setFirmaBase64] = useState(null)
+
+  const signaturePadRef = useRef<any>(null) // Refs para el signature pad
+
   const handleInputChange = (e) => {
     const { name, value } = e.target
     setFormData((prevData) => ({ ...prevData, [name]: value }))
+  }
+
+  const clearSignature = () => {
+    signaturePadRef.current.clear()
+    setFirmaBase64(null)
+  }
+
+  const saveSignature = () => {
+    const dataUrl = signaturePadRef.current.toDataURL()
+    setFirmaBase64(dataUrl)
   }
 
   return (
@@ -150,96 +238,132 @@ const ActaDeLlegada = () => {
           <div style={{ padding: '20px' }}>
             <h1>Acta de Llegada</h1>
 
-            <h2>Fecha y Verificación</h2>
-            <label>Fecha: </label>
-            <Input type='date' name='fecha' value={formData.fecha} onChange={handleInputChange} />
+            {/* Formulario con campos de entrada */}
+            <h2 />
 
-            <label>Inicio de verificación: </label>
-            <Input type='text' name='inicioVerificacion' value={formData.inicioVerificacion} onChange={handleInputChange} />
+            <Accordion type='single' collapsible>
+              <AccordionItem value='item-1'>
+                <AccordionTrigger>Fecha y Verificación</AccordionTrigger>
+                <AccordionContent>
+                  <label>Fecha: </label>
+                  <Input type='date' name='fecha' value={formData.fecha} onChange={handleInputChange} />
+                  <label>Inicio de verificación: </label>
+                  <Input type='text' name='inicioVerificacion' value={formData.inicioVerificacion} onChange={handleInputChange} />
+                  <label>Término de verificación: </label>
+                  <Input type='text' name='terminoVerificacion' value={formData.terminoVerificacion} onChange={handleInputChange} />
+                  <label>O.C.: </label>
+                  <Input type='text' name='oc' value={formData.oc} onChange={handleInputChange} />
 
-            <label>Término de verificación: </label>
-            <Input type='text' name='terminoVerificacion' value={formData.terminoVerificacion} onChange={handleInputChange} />
+                  <label>Proveedor: </label>
+                  <Input type='text' name='proveedor' value={formData.proveedor} onChange={handleInputChange} />
 
-            <label>O.C.: </label>
-            <Input type='text' name='oc' value={formData.oc} onChange={handleInputChange} />
+                  <label>Especie: </label>
+                  <Input type='text' name='especie' value={formData.especie} onChange={handleInputChange} />
 
-            <label>Proveedor: </label>
-            <Input type='text' name='proveedor' value={formData.proveedor} onChange={handleInputChange} />
+                  <label>Variedades: </label>
+                  <Input type='text' name='variedades' value={formData.variedades} onChange={handleInputChange} />
 
-            <label>Especie: </label>
-            <Input type='text' name='especie' value={formData.especie} onChange={handleInputChange} />
+                  <label>Frío de descarga: </label>
+                  <Input type='text' name='frioDescarga' value={formData.frioDescarga} onChange={handleInputChange} />
 
-            <label>Variedades: </label>
-            <Input type='text' name='variedades' value={formData.variedades} onChange={handleInputChange} />
+                  <label>Cajas recibidas: </label>
+                  <Input type='text' name='cajasRecibidas' value={formData.cajasRecibidas} onChange={handleInputChange} />
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
 
-            <label>Frío de descarga: </label>
-            <Input type='text' name='frioDescarga' value={formData.frioDescarga} onChange={handleInputChange} />
+            <Accordion type='single' collapsible>
+              <AccordionItem value='item-2'>
+                <AccordionTrigger>Transporte</AccordionTrigger>
+                <AccordionContent>
+                  <label>Línea transportista: </label>
+                  <Input type='text' name='lineaTransportista' value={formData.lineaTransportista} onChange={handleInputChange} />
 
-            <label>Cajas recibidas: </label>
-            <Input type='text' name='cajasRecibidas' value={formData.cajasRecibidas} onChange={handleInputChange} />
+                  <label>Número de contenedor: </label>
+                  <Input type='text' name='numeroContenedor' value={formData.numeroContenedor} onChange={handleInputChange} />
 
-            <h2>Transporte</h2>
-            <label>Línea transportista: </label>
-            <Input type='text' name='lineaTransportista' value={formData.lineaTransportista} onChange={handleInputChange} />
+                  <label>Placas camión: </label>
+                  <Input type='text' name='placasCamion' value={formData.placasCamion} onChange={handleInputChange} />
 
-            <label>Número de contenedor: </label>
-            <Input type='text' name='numeroContenedor' value={formData.numeroContenedor} onChange={handleInputChange} />
+                  <label>Placas caja: </label>
+                  <Input type='text' name='placasCaja' value={formData.placasCaja} onChange={handleInputChange} />
 
-            <label>Placas camión: </label>
-            <Input type='text' name='placasCamion' value={formData.placasCamion} onChange={handleInputChange} />
+                  <label>Chofer: </label>
+                  <Input type='text' name='chofer' value={formData.chofer} onChange={handleInputChange} />
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
 
-            <label>Placas caja: </label>
-            <Input type='text' name='placasCaja' value={formData.placasCaja} onChange={handleInputChange} />
+            <Accordion type='single' collapsible>
+              <AccordionItem value='item-2'>
+                <AccordionTrigger>Condiciones de Transporte</AccordionTrigger>
+                <AccordionContent>
+                  <label>Temperatura de set point: </label>
+                  <Input type='text' name='tempSetPoint' value={formData.tempSetPoint} onChange={handleInputChange} />
 
-            <label>Chofer: </label>
-            <Input type='text' name='chofer' value={formData.chofer} onChange={handleInputChange} />
+                  <label>Observaciones set point: </label>
+                  <Input type='text' name='observacionesSetPoint' value={formData.observacionesSetPoint} onChange={handleInputChange} />
 
-            <h2>Condiciones de Transporte</h2>
-            <label>Temperatura de set point: </label>
-            <Input type='text' name='tempSetPoint' value={formData.tempSetPoint} onChange={handleInputChange} />
+                  <label>Temperatura de pantalla: </label>
+                  <Input type='text' name='tempPantalla' value={formData.tempPantalla} onChange={handleInputChange} />
 
-            <label>Observaciones set point: </label>
-            <Input type='text' name='observacionesSetPoint' value={formData.observacionesSetPoint} onChange={handleInputChange} />
+                  <label>Observaciones pantalla: </label>
+                  <Input type='text' name='observacionesPantalla' value={formData.observacionesPantalla} onChange={handleInputChange} />
 
-            <label>Temperatura de pantalla: </label>
-            <Input type='text' name='tempPantalla' value={formData.tempPantalla} onChange={handleInputChange} />
+                  <label>Termógrafo: </label>
+                  <Input type='text' name='termografo' value={formData.termografo} onChange={handleInputChange} />
 
-            <label>Observaciones pantalla: </label>
-            <Input type='text' name='observacionesPantalla' value={formData.observacionesPantalla} onChange={handleInputChange} />
+                  <label>Temperatura de origen: </label>
+                  <Input type='text' name='tempOrigen' value={formData.tempOrigen} onChange={handleInputChange} />
 
-            <label>Termógrafo: </label>
-            <Input type='text' name='termografo' value={formData.termografo} onChange={handleInputChange} />
+                  <label>Temperatura de destino: </label>
+                  <Input type='text' name='tempDestino' value={formData.tempDestino} onChange={handleInputChange} />
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
 
-            <label>Temperatura de origen: </label>
-            <Input type='text' name='tempOrigen' value={formData.tempOrigen} onChange={handleInputChange} />
+            <Accordion type='single' collapsible>
+              <AccordionItem value='item-2'>
+                <AccordionTrigger>Inspección de Transporte</AccordionTrigger>
+                <AccordionContent>
+                  <label>Limpio, libre de malos olores: </label>
+                  <Input type='text' name='limpio' value={formData.limpio} onChange={handleInputChange} />
 
-            <label>Temperatura de destino: </label>
-            <Input type='text' name='tempDestino' value={formData.tempDestino} onChange={handleInputChange} />
+                  <label>Caja cerrada, en buen estado: </label>
+                  <Input type='text' name='cajaCerrada' value={formData.cajaCerrada} onChange={handleInputChange} />
 
-            <h2>Inspección de Transporte</h2>
-            <label>Limpio, libre de malos olores: </label>
-            <Input type='text' name='limpio' value={formData.limpio} onChange={handleInputChange} />
+                  <label>Lona en buen estado: </label>
+                  <Input type='text' name='lona' value={formData.lona} onChange={handleInputChange} />
 
-            <label>Caja cerrada, en buen estado: </label>
-            <Input type='text' name='cajaCerrada' value={formData.cajaCerrada} onChange={handleInputChange} />
+                  <label>Libre de fauna nociva: </label>
+                  <Input type='text' name='fauna' value={formData.fauna} onChange={handleInputChange} />
 
-            <label>Lona en buen estado: </label>
-            <Input type='text' name='lona' value={formData.lona} onChange={handleInputChange} />
+                  <label>Carga en buen estado: </label>
+                  <Input type='text' name='carga' value={formData.carga} onChange={handleInputChange} />
 
-            <label>Libre de fauna nociva: </label>
-            <Input type='text' name='fauna' value={formData.fauna} onChange={handleInputChange} />
+                  <label>Seguridad de carga: </label>
+                  <Input type='text' name='seguridadCarga' value={formData.seguridadCarga} onChange={handleInputChange} />
 
-            <label>Carga en buen estado: </label>
-            <Input type='text' name='carga' value={formData.carga} onChange={handleInputChange} />
+                  <label>Sellado: </label>
+                  <Input type='text' name='sellado' value={formData.sellado} onChange={handleInputChange} />
 
-            <label>Seguridad de carga: </label>
-            <Input type='text' name='seguridadCarga' value={formData.seguridadCarga} onChange={handleInputChange} />
+                  <label>Número de serie: </label>
+                  <Input type='text' name='numeroSerie' value={formData.numeroSerie} onChange={handleInputChange} />
 
-            <label>Sellado: </label>
-            <Input type='text' name='sellado' value={formData.sellado} onChange={handleInputChange} />
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
 
-            <label>Número de serie: </label>
-            <Input type='text' name='numeroSerie' value={formData.numeroSerie} onChange={handleInputChange} />
+            <h2>Firma del Responsable</h2>
+            <div className={styles.signatureCanvasContainer}>
+              <SignatureCanvas
+                ref={signaturePadRef}
+                penColor='black'
+                canvasProps={{ width: 500, height: 200, className: 'signature-canvas' }}
+              />
+            </div>
+            <Button onClick={clearSignature}>Limpiar Firma</Button>
+            <Button onClick={saveSignature}>Guardar Firma</Button>
           </div>
         </ResizablePanel>
 
@@ -248,10 +372,10 @@ const ActaDeLlegada = () => {
         <ResizablePanel>
           <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
             <PDFViewer width='100%' height='100%'>
-              <ActaPDF formData={formData} />
+              <ActaPDF formData={formData} firmaBase64={firmaBase64} />
             </PDFViewer>
             <div style={{ padding: '10px', display: 'flex', justifyContent: 'center' }}>
-              <PDFDownloadLink document={<ActaPDF formData={formData} />} fileName='acta_de_llegada.pdf'>
+              <PDFDownloadLink document={<ActaPDF formData={formData} firmaBase64={firmaBase64} />} fileName='acta_de_llegada.pdf'>
                 <Button variant='primary'>Descargar PDF</Button>
               </PDFDownloadLink>
             </div>

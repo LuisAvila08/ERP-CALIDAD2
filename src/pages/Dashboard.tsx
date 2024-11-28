@@ -23,7 +23,7 @@ const Content = (): ReactNode => {
           <CardContent>
             <h1 className='mb-4 text-2xl'>Digitalizaciones</h1>
             <div className='grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3'>
-              <Link to='/proyects' className='flex flex-col justify-between p-6 font-semibold text-center transition-all border rounded-lg shadow-lg bg-muted/25 hover:bg-muted/50'>
+              <Link to='/receipt' className='flex flex-col justify-between p-6 font-semibold text-center transition-all border rounded-lg shadow-lg bg-muted/25 hover:bg-muted/50'>
                 <div className='mx-auto'>
                   <IconFileCertificate size={64} stroke={2} />
                 </div>

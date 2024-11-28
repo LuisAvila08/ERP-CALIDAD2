@@ -35,28 +35,43 @@ const styles = StyleSheet.create({
   inputLabel: { fontSize: 12, fontWeight: 'bold' },
   signatureCanvasContainer: { border: '1px solid #ccc', padding: '10px', marginTop: '20px' },
   table: {
+    marginBottom: 15,
     display: 'table',
     width: '100%',
-    borderWidth: 1,
+    borderWidth: 2,
+    borderRadius: 8,
     borderColor: '#000'
   },
   tableRow: {
     flexDirection: 'row'
   },
+  tableColumn:{
+    flexDirection: 'column'
+  },
   cellLabel: {
-    flex: 1,
+    flex: 0.5,
     backgroundColor: '#ccc',
     borderWidth: 1,
     borderColor: '#000',
-    padding: 5,
-    fontSize: 10
-  },
+    borderRadius: 3,
+    fontSize: 7,
+    paddingVertical: 10,
+    fontWeight: 'bold',
+    flexWrap: 'wrap',   // Permite que el texto se ajuste a varias líneas si es necesario
+    width: '100%', // Asegura que el contenedor ocupe el ancho disponible
+    paddingHorizontal:5
+    },
   cellValue: {
-    flex: 3,
+    flex: 2,
     borderWidth: 1,
     borderColor: '#000',
     padding: 5,
-    fontSize: 10
+    fontSize: 8,
+    paddingVertical: 7,
+    textAlign: 'center', // Alinea el texto horizontalmente
+    justifyContent: 'center', // Centra el contenido verticalmente
+    alignItems: 'center', // Centra el contenido verticalmente
+    
   }
 
 })
@@ -77,24 +92,44 @@ const ActaPDF = ({ formData, firmaBase64 }) => (
         </View>
       </View>
 
-      <View style={styles.block}>
+      <View style={styles.table}>
 
-        <View style={styles.row}>
-          <Text style={styles.inputLabel}>Fecha: {formData.fecha}</Text>
-          <Text style={styles.inputLabel}>Inicio de verificación: {formData.inicioVerificacion}</Text>
-          <Text style={styles.inputLabel}>Término de verificación: {formData.terminoVerificacion}</Text>
+
+
+        <View style={styles.tableRow}>
+          <Text style={styles.cellLabel}>Fecha: </Text>
+          <Text style={styles.cellValue}>{formData.fecha || ''}</Text>
+          <Text style={[styles.cellLabel, { flex: 1.5 }]}>Inicio de verificación:</Text>
+          <Text style={styles.cellValue}>{formData.inicioVerificacion || ''}</Text>
+          <Text style={[styles.cellLabel, { flex: 1.5 }]}>Término de verificación:</Text>
+          <Text style={styles.cellValue}>{formData.terminoVerificacion || ''}</Text>
+          <Text style={styles.cellLabel}>O.C.: </Text>
+          <Text style={styles.cellValue}>{formData.oc || ''}</Text>
         </View>
-        <View style={styles.row}>
-          <Text style={styles.inputLabel}>Proveedor: {formData.proveedor}</Text>
-          <Text style={styles.inputLabel}>O.C.: {formData.oc}</Text>
-          <Text style={styles.inputLabel}>Factura: </Text>
+        <View style={styles.tableRow}>
+          <Text style={[styles.cellLabel, { flex: 0.6 }]}>Proveedor:</Text>
+          <Text style={styles.cellValue}>{formData.proveedor || ''}</Text>
+          <Text style={styles.cellLabel}>Origen:</Text>
+          <Text style={styles.cellValue}>{formData.origen || ''}</Text>
+          <Text style={styles.cellLabel}>Factura: </Text>
+          <Text style={styles.cellValue}>{formData.factura || ''}</Text>
 
         </View>
-        <Text style={styles.inputLabel}>Especie: {formData.especie}</Text>
-        <Text style={styles.inputLabel}>Variedades: {formData.variedades}</Text>
-        <View style={styles.row}>
-          <Text style={styles.inputLabel}>Frío de descarga: {formData.frioDescarga}</Text>
-          <Text style={styles.inputLabel}>Cajas recibidas: {formData.cajasRecibidas}</Text>
+        <View style={styles.tableRow}>
+        <Text style={styles.cellLabel}>Especie:</Text>
+        <Text style={styles.cellValue}>{formData.especie || ''}</Text>
+        </View>
+        <View style={styles.tableRow}>
+        <Text style={[styles.cellLabel, { flex: 0.2 }]}>Variedades:</Text>
+        <Text style={styles.cellValue}>{formData.variedades || ''}</Text>
+        </View>
+
+
+        <View style={styles.tableRow}>
+          <Text style={styles.cellLabel}>Frío de descarga: {formData.frioDescarga}</Text>
+          <Text style={styles.cellValue}>{formData.frioDescarga || ''}</Text>
+          <Text style={styles.cellLabel}>Cajas recibidas: {formData.cajasRecibidas}</Text>
+          <Text style={styles.cellValue}>{formData.cajasRecibidas || ''}</Text>
         </View>
       </View>
 
@@ -128,18 +163,6 @@ const ActaPDF = ({ formData, firmaBase64 }) => (
       </View>
 
       <View style={styles.block}>
-        <View style={styles.row}>
-          <Text style={styles.inputLabel}>Línea transportista: {formData.lineaTransportista}</Text>
-          <Text style={styles.inputLabel}>Número de contenedor: {formData.numeroContenedor}</Text>
-        </View>
-        <View style={styles.row}>
-          <Text style={styles.inputLabel}>Placas camión: {formData.placasCamion}</Text>
-          <Text style={styles.inputLabel}>Placas caja: {formData.placasCaja}</Text>
-          <Text style={styles.inputLabel}>Chofer: {formData.chofer}</Text>
-        </View>
-      </View>
-
-      <View style={styles.block}>
         <Text style={styles.inputLabel}>Condiciones de Transporte</Text>
         <View style={styles.row}>
           <Text style={styles.inputLabel}>Temperatura de set point: {formData.tempSetPoint}</Text>
@@ -164,8 +187,68 @@ const ActaPDF = ({ formData, firmaBase64 }) => (
         <Text style={styles.inputLabel}>Carga en buen estado: {formData.carga}</Text>
         <Text style={styles.inputLabel}>Seguridad de carga: {formData.seguridadCarga}</Text>
         <Text style={styles.inputLabel}>Sellado: {formData.sellado}</Text>
-        <Text style={styles.inputLabel}>Número de serie: {formData.numeroSerie}</Text>
+        <Text style={styles.inputLabel}>Número de serie:{'\n\n\n\n\n\n\n'} {formData.numeroSerie}</Text>
       </View>
+
+      <View style={[styles.tableRow, {marginBottom:15, width:'100%' }]}>
+        <View style={[styles.tableHeaderCell, {width:'25%' } ]}>
+          <Text style={styles.cellLabel}>TEMPERATURA DE PULPA</Text>
+          <Text style={styles.cellValue }>A</Text>
+          <Text style={styles.cellValue}>M</Text>
+          <Text style={styles.cellValue}>B</Text>
+        </View>
+        <View style={[styles.tableHeaderCell, {width:'10%' } ]}>
+          <Text style={styles.cellLabel}>PUERTA</Text>
+          <Text style={styles.cellValue}>{formData.puertaA}</Text>
+          <Text style={styles.cellValue}>{formData.puertaM}</Text>
+          <Text style={styles.cellValue}>{formData.puertaB}</Text>
+        </View>
+        <View style={[styles.tableHeaderCell, {width:'10%' } ]}>
+          <Text style={styles.cellLabel}>MEDIO</Text>
+          <Text style={styles.cellValue}>{formData.medioA}</Text>
+          <Text style={styles.cellValue}>{formData.medioM}</Text>
+          <Text style={styles.cellValue}>{formData.medioB}</Text>
+        </View>
+        <View style={[styles.tableHeaderCell, {width:'10%' } ]}>
+          <Text style={styles.cellLabel}>FONDO</Text>
+          <Text style={styles.cellValue}>{formData.fondoA}</Text>
+          <Text style={styles.cellValue}>{formData.fondoM}</Text>
+          <Text style={styles.cellValue}>{formData.fondoB}</Text>
+        </View>
+        <View style={[styles.tableHeaderCell, {width:'30%' } ]}>
+          <Text style={styles.cellLabel}>RANGO DE TEMPERATURA</Text>
+          <View style={styles.tableRow}>
+            <Text style={styles.cellValue}>Min:{formData.fondoM}</Text>
+            <Text style={styles.cellValue}>Max:{formData.fondoB}</Text>
+          </View>
+       
+        </View>
+        <View style={[styles.tableHeaderCell, {width:'30%' } ]}>
+          <Text style={styles.cellLabel}>IDEAL</Text>
+          <Text style={styles.cellValue}>Limpio</Text>
+        </View>
+      </View>
+
+      <View >
+        <Text style={[styles.cellLabel, { fontSize: 10, fontWeight: 'bold' }]}>Hago constar que estoy de acuerdo con lo verificado y registrado en el presente documento</Text>
+        <View >
+         
+        </View>
+      </View>
+
+    
+      <View style={[styles.tableRow, {marginBottom:15 }]}>
+        {/* Parte en negritas y más grande */}
+        <Text style={[styles.cellLabel, {flex:0.85, fontSize: 11, fontWeight: 'bold' }]}>
+          Resultados de la Investigación{'\n'}
+         
+          <Text style={{ fontSize: 6 }}>
+            (PRODUCTO DAÑADO DESEMPLEADO SE ENVIAN A PISO O SE ARREGLAN)
+          </Text>
+        </Text>
+        <Text style={styles.cellValue}>{formData.resultadosInv || ''}</Text>
+      </View>
+ 
       {/* Firma en PDF */}
       <View style={styles.block}>
         <Text style={styles.inputLabel}>Firma:</Text>
@@ -208,7 +291,8 @@ const ActaDeLlegada = () => {
     carga: '',
     seguridadCarga: '',
     sellado: '',
-    numeroSerie: ''
+    numeroSerie: '',
+    resultadosInv:''
   })
   const signaturePad = useRef(null)
 
@@ -353,6 +437,9 @@ const ActaDeLlegada = () => {
                 </AccordionContent>
               </AccordionItem>
             </Accordion>
+
+            <label>Resultados de la Investigación: </label>
+            <Input type='text' name='resultadosInv' value={formData.resultadosInv} onChange={handleInputChange} />
 
             <h2>Firma del Responsable</h2>
             <div className={styles.signatureCanvasContainer}>

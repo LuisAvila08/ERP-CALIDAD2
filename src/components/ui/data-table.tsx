@@ -1,4 +1,5 @@
 import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { IconChevronLeft, IconChevronRight, IconChevronsLeft, IconChevronsRight } from '@tabler/icons-react'
 import { ColumnDef, ColumnFiltersState, PaginationState, flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, useReactTable } from '@tanstack/react-table'
@@ -31,6 +32,21 @@ export function DataTable<TData, TValue> ({ columns, data }: DataTableProps<TDat
 
   return (
     <>
+      {/*
+      <div className='flex items-center py-2 md:pb-4'>
+        <Input
+          id='search'
+          placeholder='Buscar...'
+          value={(table.getColumn('location')?.getFilterValue() as string) ?? ''}
+          onChange={(event) => {
+            useFilterValue.setState({ value: event.target.value })
+            table.getColumn('location')?.setFilterValue(event.target.value)
+          }}
+          className='max-w-sm'
+        />
+      </div>
+      */}
+
       <div className='border rounded-md'>
         <Table className='relative w-full h-10 overflow-clip' divClassName='max-h-[64vh] md:max-h-[75vh] overflow-y-auto'>
           <TableHeader className='sticky top-0 w-full h-10 bg-background'>

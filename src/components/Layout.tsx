@@ -28,7 +28,7 @@ const Layout = ({ children }: LayoutProps): JSX.Element => {
             <img
               src='src/assets/images/favicon.png'
               alt='Icono'
-              className='w-8 h-8 transition-all group-hover:scale-110 rounded'
+              className='w-8 h-8 transition-all rounded group-hover:scale-110'
             />
             <span className='sr-only'>Calidad Tarahumara</span>
           </Link>
@@ -51,12 +51,12 @@ const Layout = ({ children }: LayoutProps): JSX.Element => {
                 className='flex items-center justify-center transition-colors rounded-lg h-9 w-9 text-muted-foreground hover:text-foreground md:h-8 md:w-8'
               >
                 <IconFileCertificate className='w-5 h-5' />
-                <span className='sr-only'>Dashboard</span>
+                <span className='sr-only'>Acta de Descarga</span>
               </Link>
             </TooltipTrigger>
-            <TooltipContent side='right'>Dashboard</TooltipContent>
+            <TooltipContent side='right'>Acta de Descarga</TooltipContent>
           </Tooltip>
-          
+
         </nav>
         <nav className='flex flex-col items-center gap-4 px-2 mt-auto sm:py-4'>
           <Tooltip>

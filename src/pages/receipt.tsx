@@ -50,91 +50,53 @@ const styles = StyleSheet.create({
     backgroundColor: '#ccc',
     borderWidth: 1,
     borderColor: '#000',
-    padding: 5,
-    fontSize: 10,
+    borderRadius: 3,
+    fontSize: 7,
+    paddingVertical: 10,
+    paddingHorizontal: 1,
+    width: '100%',
     fontWeight: 'bold',
-    textAlign: 'center'
-  },
-  cellLabel2: {
-    flex: 1,
-    backgroundColor: '#FFFFFF',
-    borderWidth: 1,
-    borderColor: '#000',
-    padding: 5,
-    fontSize: 10,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    width: '100%'
-
-  },
-  cellLabel3: {
-    flex: 1,
-    backgroundColor: '#FFFFFF',
-    borderWidth: 1,
-    borderColor: '#000',
-    padding: 30,
-    fontSize: 10,
-    fontWeight: 'bold',
-    textAlign: 'center'
-  },
+    flexWrap: 'wrap'   // Permite que el texto se ajuste a varias líneas si es necesario
+    },
   cellValue: {
-    flex: 1,
+    flex: 2,
     borderWidth: 1,
     borderColor: '#000',
     padding: 5,
-    fontSize: 10,
-    textAlign: 'center'
+    fontSize: 8,
+    paddingVertical: 7,
+    textAlign: 'center', // Alinea el texto horizontalmente
+    justifyContent: 'center', // Centra el contenido verticalmente
+    alignItems: 'center', // Centra el contenido verticalmente
+    width: '100%' //
+    
   },
-  sectionTitle: {
-    fontSize: 14,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    marginBottom: 10,
-    paddingVertical: 5,
-    backgroundColor: '#ddd'
+  cellLabelWhite: {
+    backgroundColor: '#FFFFFF', // Fondo blanco
+    borderWidth: 1, // Borde de 1px
+    borderColor: '#000', // Borde negro
+    borderRadius: 3, // Bordes redondeados
+    fontSize: 7, // Aumenté el tamaño de la fuente
+    paddingVertical: 6, // Relleno vertical para darle espacio al texto
+    paddingHorizontal: 20, // Relleno horizontal para
+    fontWeight: 'bold', // Texto en negrita
+
+    textAlign: 'center', // Centra el texto dentro de la celda
+    flexWrap: 'wrap'           // Permite que el texto se ajuste a varias líneas si es necesario
   },
-  input: {
-    borderWidth: 1,
-    borderColor: '#ccc',
-    padding: 8,
-    fontSize: 12,
-    marginVertical: 5
-  },
-  checkboxRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center'
-  },
-  checkboxText: {
-    fontSize: 12,
-    textAlign: 'center'
-  },
-  optionCell: {
-    minWidth: 50, // Puedes ajustar este valor según el tamaño que desees
-    width: 'auto', // Asegura que no se comprima demasiado
-    padding: 10, // Agrega más espacio dentro de la celda
-    fontSize: 12, // Aumenta el tamaño de la fuente si es necesario
-    textAlign: 'center'
-  },
-  conditions: {
-    flex: 1,
+  cellLabelOptimizade: {
+    flex: 0.3,
     backgroundColor: '#ccc',
-    minWidth: 100, // Garantiza que la celda tenga al menos este ancho
-    minHeight: 40, // Garantiza que la celda tenga al menos esta altura
     borderWidth: 1,
     borderColor: '#000',
-    padding: 10,
-    fontSize: 12,
+    borderRadius: 3,
+    fontSize: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 1,
+    width: '50%',
     fontWeight: 'bold',
-    textAlign: 'left'
-  },
-  columnContainer: {
-    flexDirection: 'column', // Organiza los elementos verticalmente
-    justifyContent: 'center',
-    alignItems: 'center',
-    flex: 1,
-    padding: 5
-  }
+    flexWrap: 'wrap'   // Permite que el texto se ajuste a varias líneas si es necesario
+    }
 
 })
 
@@ -155,12 +117,16 @@ const ActaPDF = ({ formData, firmaBase64 }) => (
         </View>
       </View>
 
-      <View style={styles.block}>
-
-        <View style={styles.row}>
-          <Text style={styles.inputLabel}>Fecha: {formData.fecha}</Text>
-          <Text style={styles.inputLabel}>Inicio de verificación: {formData.inicioVerificacion}</Text>
-          <Text style={styles.inputLabel}>Término de verificación: {formData.terminoVerificacion}</Text>
+      <View style={styles.table}>
+        <View style={styles.tableRow}>
+          <Text style={styles.cellLabel}>Fecha: </Text>
+          <Text style={styles.cellValue}>{formData.fecha || ''}</Text>
+          <Text style={[styles.cellLabel, { flex: 1.5 }]}>Inicio de verificación:</Text>
+          <Text style={styles.cellValue}>{formData.inicioVerificacion || ''}</Text>
+          <Text style={[styles.cellLabel, { flex: 1.5 }]}>Término de verificación:</Text>
+          <Text style={styles.cellValue}>{formData.terminoVerificacion || ''}</Text>
+          <Text style={styles.cellLabel}>O.C.: </Text>
+          <Text style={styles.cellValue}>{formData.oc || ''}</Text>
         </View>
         <View style={styles.row}>
           <Text style={styles.inputLabel}>Proveedor: {formData.proveedor}</Text>
@@ -262,8 +228,82 @@ const ActaPDF = ({ formData, firmaBase64 }) => (
         </View>
       </View>
 
-      <View style={styles.block}>
-        <Text style={styles.inputLabel}>Condiciones de Transporte</Text>
+      <View style={styles.table}>
+        {/*view del apartado 1 */}
+        <View style={styles.tableRow}>
+
+        <Text style={styles.cellLabelOptimizade}>Condiciones de Transporte</Text>
+        <View>
+
+          <View style={styles.tableRow}>
+            <Text style={styles.cellLabelWhite}>hay tarimas danadas </Text>
+            <Text style={styles.cellValue}>{formData.chofer || ''}</Text>
+            <Text style={styles.cellValue}>{formData.chofer || ''}</Text>
+          </View>
+
+          <View style={styles.tableColumn}>
+            <View style={styles.tableRow}>
+                <Text style={styles.cellLabelWhite}>cajas identificadas </Text>
+                <Text style={styles.cellValue}>{formData.chofer || ''}SI</Text>
+                <Text style={styles.cellValue}>{formData.chofer || ''}NO</Text>
+              </View>
+
+            <View style={styles.tableRow}>
+                <Text style={styles.cellLabelWhite}>Termografo </Text>\
+                <View />
+                <View style={styles.tableRow}>
+                       <Text style={styles.cellValue}>{formData.chofer || ''}SI</Text>
+                       <Text style={styles.cellValue}>{formData.chofer || ''}NO</Text>
+                       <View style={styles.tableColumn}>
+                              <Text style={styles.cellValue}>{formData.chofer || ''}NO</Text>
+
+                            </View>
+                     </View>
+
+              </View>
+
+          </View>
+        </View>
+
+      </View>
+        {/*view del apartado 2 */}
+
+        <View style={styles.tableRow}>
+          <Text style={styles.cellLabelOptimizade}>Condiciones de Transporte</Text>
+
+          <View>
+                <View style={styles.tableRow}>
+                  <Text style={styles.cellLabelWhite}>hay tarimas danadas </Text>
+                  <Text style={styles.cellValue}>{formData.chofer || ''}</Text>
+                  <Text style={styles.cellValue}>{formData.chofer || ''}</Text>
+
+                </View>
+                <View style={styles.tableColumn}>
+                <View style={styles.tableRow}>
+                    <Text style={styles.cellLabelWhite}>cajas identificadas </Text>
+                    <Text style={styles.cellValue}>{formData.chofer || ''}SI</Text>
+                    <Text style={styles.cellValue}>{formData.chofer || ''}NO</Text>
+                    <Text style={styles.cellValue}>{formData.chofer || ''}#</Text>
+
+                  </View>
+
+              </View>
+                <View style={styles.tableColumn}>
+                  <View style={styles.tableRow}>
+                      <Text style={styles.cellLabelWhite}>cajas identificadas </Text>
+                      <Text style={styles.cellValue}>{formData.chofer || ''}SI</Text>
+                      <Text style={styles.cellValue}>{formData.chofer || ''}NO</Text>
+                      <Text style={styles.cellValue}>{formData.chofer || ''}#</Text>
+
+                    </View>
+
+                </View>
+
+              </View>
+
+        </View>
+
+
         <View style={styles.row}>
           <Text style={styles.inputLabel}>Temperatura de set point: {formData.tempSetPoint}</Text>
           <Text style={styles.inputLabel}>Observaciones: {formData.observacionesSetPoint}</Text>

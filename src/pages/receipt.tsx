@@ -55,6 +55,8 @@ const styles = StyleSheet.create({
     borderColor: '#000',
     borderRadius: 3,
     fontSize: 7,
+    textAlign:'center',
+    justifyContent: 'center',
     paddingVertical: 10,
     paddingHorizontal: 1,
     width: '100%',
@@ -68,7 +70,7 @@ const styles = StyleSheet.create({
     padding: 5,
     fontSize: 8,
     paddingVertical: 7,
-    textAlign: 'center', // Alinea el texto horizontalmente
+
     justifyContent: 'center', // Centra el contenido verticalmente
     alignItems: 'center', // Centra el contenido verticalmente
     width: '100%' //
@@ -326,11 +328,6 @@ const ActaPDF = ({ formData, firmaBase64 }) => (
         </View>
       </View>
 
-      <View>
-        <Text style={[styles.cellLabel, { fontSize: 10, fontWeight: 'bold' }]}>Hago constar que estoy de acuerdo con lo verificado y registrado en el presente documento</Text>
-        <View />
-      </View>
-
       <View style={[styles.tableRow, { marginBottom: 15 }]}>
         {/* Parte en negritas y más grande */}
         <Text style={[styles.cellLabel, { flex: 0.85, fontSize: 11, fontWeight: 'bold' }]}>
@@ -343,14 +340,43 @@ const ActaPDF = ({ formData, firmaBase64 }) => (
         <Text style={styles.cellValue}>{formData.resultadosInv || ''}</Text>
       </View>
 
-      {/* Firma en PDF */}
-      <View style={styles.block}>
-        <Text style={styles.inputLabel}>Firma:</Text>
-        {firmaBase64 && (
-          <Image src={firmaBase64} style={{ width: 150, height: 50 }} />
-        )}
+      <View style={[styles.tableRow, { marginBottom: 15, width: '100%'  }]}>
+        
+        <View style={[styles.tableHeaderCell, { width: '100%' }]}>
 
+        <Text style={[styles.cellLabel, { fontSize: 10, fontWeight: 'bold', paddingVertical:20 }]}>Hago constar que estoy de acuerdo con lo verificado y registrado en el presente documento</Text>
+          
+
+            <View style={styles.tableRow}>
+                <Text style={[styles.cellLabel,{width:'12%',textAlign:'center', fontSize:10, height:200 }]}> Verifico descarga{'\n'} (Inspector de Calidad)</Text>
+                <View style={{width:'38%'}}> 
+                  <Text style={[styles.cellValue,{flex:0.3} ]}>Nombre:{}</Text>
+                  
+                  <View style={[styles.cellValue,{} ]}>
+                    <Text style={[styles.inputLabel,{paddingBottom:10} ]}>Firma:</Text>
+                    {firmaBase64 && (
+                      <Image src={firmaBase64} style={{ width: 200, height: 150 }} />
+                    )}
+
+                  </View>
+                </View>
+                <Text style={[styles.cellLabel,{width:'12%', fontSize:10} ]}> Chofer</Text>
+                <View style={{width:'38%'} }> 
+                  <Text style={[styles.cellValue,{flex:0.3} ]}>Nombre:{formData.fondoM}</Text>
+                  <View style={[styles.cellValue,{}]}>
+                    <Text style={[styles.inputLabel,{paddingBottom:10} ]}>Firma:</Text>
+                    {firmaBase64 && (
+                      <Image src={firmaBase64} style={{ width: 200, height: 150  }} />
+                    )}
+
+                  </View>
+                </View>
+            </View>
+        </View>
       </View>
+
+
+
     </Page>
   </Document>
 )

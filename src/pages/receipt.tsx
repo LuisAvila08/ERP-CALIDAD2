@@ -42,8 +42,10 @@ const styles = StyleSheet.create({
     marginTop: 15 // Adding space between tables
   },
   tableRow: {
-    flexDirection: 'row',
-    width: '100%'
+    flexDirection: 'row'
+  },
+  tableColumn: {
+    flexDirection: 'column'
   },
   cellLabel: {
     flex: 1,
@@ -56,8 +58,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 1,
     width: '100%',
     fontWeight: 'bold',
-    flexWrap: 'wrap'   // Permite que el texto se ajuste a varias líneas si es necesario
-    },
+    flexWrap: 'wrap' // Permite que el texto se ajuste a varias líneas si es necesario
+  },
   cellValue: {
     flex: 2,
     borderWidth: 1,
@@ -69,7 +71,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center', // Centra el contenido verticalmente
     alignItems: 'center', // Centra el contenido verticalmente
     width: '100%' //
-    
   },
   cellLabelWhite: {
     backgroundColor: '#FFFFFF', // Fondo blanco
@@ -82,7 +83,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold', // Texto en negrita
 
     textAlign: 'center', // Centra el texto dentro de la celda
-    flexWrap: 'wrap'           // Permite que el texto se ajuste a varias líneas si es necesario
+    flexWrap: 'wrap' // Permite que el texto se ajuste a varias líneas si es necesario
   },
   cellLabelOptimizade: {
     flex: 0.3,
@@ -95,8 +96,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 1,
     width: '50%',
     fontWeight: 'bold',
-    flexWrap: 'wrap'   // Permite que el texto se ajuste a varias líneas si es necesario
-    }
+    flexWrap: 'wrap' // Permite que el texto se ajuste a varias líneas si es necesario
+  }
 
 })
 
@@ -106,14 +107,15 @@ const ActaPDF = ({ formData, firmaBase64 }) => (
       <View style={styles.logoSection}>
         {/* image */}
         <Image
-          style={styles.logo}
-          src='../../src/assets/images/favicon.png'
+          style={[styles.logo, { height: 60, width: 150 }]} // Ajusta el tamaño de la imagen según sea necesario
+          src='/src/assets/images/LOGO.jpg'
         />
-
-        <Text style={{ fontSize: 30 }}>ACTA DE DESCARGA</Text>
-        <View style={{ fontSize: 10 }}>
-          <Text>F-I-CAL-02-01</Text>
-          <Text>Rev.7 (08-12-2024)</Text>
+        <View style={{ alignItems: 'center' }}> {/* Centra los textos */}
+          <Text style={{ fontSize: 24, fontWeight: 'bold' }}>ACTA DE DESCARGA</Text>
+          <View style={{ alignItems: 'center', marginTop: 5 }}>
+            <Text style={{ fontSize: 14 }}>F-I-CAL-02-01</Text>
+            <Text style={{ fontSize: 14 }}>Rev.7 (08-12-2024)</Text>
+          </View>
         </View>
       </View>
 
@@ -134,11 +136,20 @@ const ActaPDF = ({ formData, firmaBase64 }) => (
           <Text style={styles.inputLabel}>Factura: </Text>
 
         </View>
-        <Text style={styles.inputLabel}>Especie: {formData.especie}</Text>
-        <Text style={styles.inputLabel}>Variedades: {formData.variedades}</Text>
-        <View style={styles.row}>
-          <Text style={styles.inputLabel}>Frío de descarga: {formData.frioDescarga}</Text>
-          <Text style={styles.inputLabel}>Cajas recibidas: {formData.cajasRecibidas}</Text>
+        <View style={styles.tableRow}>
+          <Text style={styles.cellLabel}>Especie:</Text>
+          <Text style={styles.cellValue}>{formData.especie || ''}</Text>
+        </View>
+        <View style={styles.tableRow}>
+          <Text style={[styles.cellLabel, { flex: 0.2 }]}>Variedades:</Text>
+          <Text style={styles.cellValue}>{formData.variedades || ''}</Text>
+        </View>
+
+        <View style={styles.tableRow}>
+          <Text style={styles.cellLabel}>Frío de descarga: {formData.frioDescarga}</Text>
+          <Text style={styles.cellValue}>{formData.frioDescarga || ''}</Text>
+          <Text style={styles.cellLabel}>Cajas recibidas: {formData.cajasRecibidas}</Text>
+          <Text style={styles.cellValue}>{formData.cajasRecibidas || ''}</Text>
         </View>
       </View>
 
@@ -229,80 +240,79 @@ const ActaPDF = ({ formData, firmaBase64 }) => (
       </View>
 
       <View style={styles.table}>
-        {/*view del apartado 1 */}
+        {/* view del apartado 1 */}
         <View style={styles.tableRow}>
 
-        <Text style={styles.cellLabelOptimizade}>Condiciones de Transporte</Text>
-        <View>
+          <Text style={styles.cellLabelOptimizade}>Condiciones de Transporte</Text>
+          <View>
 
-          <View style={styles.tableRow}>
-            <Text style={styles.cellLabelWhite}>hay tarimas danadas </Text>
-            <Text style={styles.cellValue}>{formData.chofer || ''}</Text>
-            <Text style={styles.cellValue}>{formData.chofer || ''}</Text>
-          </View>
-
-          <View style={styles.tableColumn}>
             <View style={styles.tableRow}>
+              <Text style={styles.cellLabelWhite}>hay tarimas danadas </Text>
+              <Text style={styles.cellValue}>{formData.chofer || ''}</Text>
+              <Text style={styles.cellValue}>{formData.chofer || ''}</Text>
+            </View>
+
+            <View style={styles.tableColumn}>
+              <View style={styles.tableRow}>
                 <Text style={styles.cellLabelWhite}>cajas identificadas </Text>
                 <Text style={styles.cellValue}>{formData.chofer || ''}SI</Text>
                 <Text style={styles.cellValue}>{formData.chofer || ''}NO</Text>
               </View>
 
-            <View style={styles.tableRow}>
+              <View style={styles.tableRow}>
                 <Text style={styles.cellLabelWhite}>Termografo </Text>\
                 <View />
                 <View style={styles.tableRow}>
-                       <Text style={styles.cellValue}>{formData.chofer || ''}SI</Text>
-                       <Text style={styles.cellValue}>{formData.chofer || ''}NO</Text>
-                       <View style={styles.tableColumn}>
-                              <Text style={styles.cellValue}>{formData.chofer || ''}NO</Text>
+                  <Text style={styles.cellValue}>{formData.chofer || ''}SI</Text>
+                  <Text style={styles.cellValue}>{formData.chofer || ''}NO</Text>
+                  <View style={styles.tableColumn}>
+                    <Text style={styles.cellValue}>{formData.chofer || ''}NO</Text>
 
-                            </View>
-                     </View>
+                  </View>
+                </View>
 
               </View>
 
+            </View>
           </View>
-        </View>
 
-      </View>
-        {/*view del apartado 2 */}
+        </View>
+        {/* view del apartado 2 */}
 
         <View style={styles.tableRow}>
           <Text style={styles.cellLabelOptimizade}>Condiciones de Transporte</Text>
 
           <View>
-                <View style={styles.tableRow}>
-                  <Text style={styles.cellLabelWhite}>hay tarimas danadas </Text>
-                  <Text style={styles.cellValue}>{formData.chofer || ''}</Text>
-                  <Text style={styles.cellValue}>{formData.chofer || ''}</Text>
+            <View style={styles.tableRow}>
+              <Text style={styles.cellLabelWhite}>hay tarimas danadas </Text>
+              <Text style={styles.cellValue}>{formData.chofer || ''}</Text>
+              <Text style={styles.cellValue}>{formData.chofer || ''}</Text>
 
-                </View>
-                <View style={styles.tableColumn}>
-                <View style={styles.tableRow}>
-                    <Text style={styles.cellLabelWhite}>cajas identificadas </Text>
-                    <Text style={styles.cellValue}>{formData.chofer || ''}SI</Text>
-                    <Text style={styles.cellValue}>{formData.chofer || ''}NO</Text>
-                    <Text style={styles.cellValue}>{formData.chofer || ''}#</Text>
-
-                  </View>
+            </View>
+            <View style={styles.tableColumn}>
+              <View style={styles.tableRow}>
+                <Text style={styles.cellLabelWhite}>cajas identificadas </Text>
+                <Text style={styles.cellValue}>{formData.chofer || ''}SI</Text>
+                <Text style={styles.cellValue}>{formData.chofer || ''}NO</Text>
+                <Text style={styles.cellValue}>{formData.chofer || ''}#</Text>
 
               </View>
-                <View style={styles.tableColumn}>
-                  <View style={styles.tableRow}>
-                      <Text style={styles.cellLabelWhite}>cajas identificadas </Text>
-                      <Text style={styles.cellValue}>{formData.chofer || ''}SI</Text>
-                      <Text style={styles.cellValue}>{formData.chofer || ''}NO</Text>
-                      <Text style={styles.cellValue}>{formData.chofer || ''}#</Text>
 
-                    </View>
-
-                </View>
+            </View>
+            <View style={styles.tableColumn}>
+              <View style={styles.tableRow}>
+                <Text style={styles.cellLabelWhite}>cajas identificadas </Text>
+                <Text style={styles.cellValue}>{formData.chofer || ''}SI</Text>
+                <Text style={styles.cellValue}>{formData.chofer || ''}NO</Text>
+                <Text style={styles.cellValue}>{formData.chofer || ''}#</Text>
 
               </View>
+
+            </View>
+
+          </View>
 
         </View>
-
 
         <View style={styles.row}>
           <Text style={styles.inputLabel}>Temperatura de set point: {formData.tempSetPoint}</Text>
@@ -329,6 +339,63 @@ const ActaPDF = ({ formData, firmaBase64 }) => (
         <Text style={styles.inputLabel}>Sellado: {formData.sellado}</Text>
         <Text style={styles.inputLabel}>Número de serie: {formData.numeroSerie}</Text>
       </View>
+
+      <View style={[styles.tableRow, { marginBottom: 15, width: '100%' }]}>
+        <View style={[styles.tableHeaderCell, { width: '25%' }]}>
+          <Text style={styles.cellLabel}>TEMPERATURA DE PULPA</Text>
+          <Text style={styles.cellValue}>A</Text>
+          <Text style={styles.cellValue}>M</Text>
+          <Text style={styles.cellValue}>B</Text>
+        </View>
+        <View style={[styles.tableHeaderCell, { width: '10%' }]}>
+          <Text style={styles.cellLabel}>PUERTA</Text>
+          <Text style={styles.cellValue}>{formData.puertaA}</Text>
+          <Text style={styles.cellValue}>{formData.puertaM}</Text>
+          <Text style={styles.cellValue}>{formData.puertaB}</Text>
+        </View>
+        <View style={[styles.tableHeaderCell, { width: '10%' }]}>
+          <Text style={styles.cellLabel}>MEDIO</Text>
+          <Text style={styles.cellValue}>{formData.medioA}</Text>
+          <Text style={styles.cellValue}>{formData.medioM}</Text>
+          <Text style={styles.cellValue}>{formData.medioB}</Text>
+        </View>
+        <View style={[styles.tableHeaderCell, { width: '10%' }]}>
+          <Text style={styles.cellLabel}>FONDO</Text>
+          <Text style={styles.cellValue}>{formData.fondoA}</Text>
+          <Text style={styles.cellValue}>{formData.fondoM}</Text>
+          <Text style={styles.cellValue}>{formData.fondoB}</Text>
+        </View>
+        <View style={[styles.tableHeaderCell, { width: '30%' }]}>
+          <Text style={styles.cellLabel}>RANGO DE TEMPERATURA</Text>
+          <View style={styles.tableRow}>
+            <Text style={styles.cellValue}>Min:{formData.fondoM}</Text>
+            <Text style={styles.cellValue}>Max:{formData.fondoB}</Text>
+          </View>
+
+        </View>
+        <View style={[styles.tableHeaderCell, { width: '30%' }]}>
+          <Text style={styles.cellLabel}>IDEAL</Text>
+          <Text style={styles.cellValue}>Limpio</Text>
+        </View>
+      </View>
+
+      <View>
+        <Text style={[styles.cellLabel, { fontSize: 10, fontWeight: 'bold' }]}>Hago constar que estoy de acuerdo con lo verificado y registrado en el presente documento</Text>
+        <View />
+      </View>
+
+      <View style={[styles.tableRow, { marginBottom: 15 }]}>
+        {/* Parte en negritas y más grande */}
+        <Text style={[styles.cellLabel, { flex: 0.85, fontSize: 11, fontWeight: 'bold' }]}>
+          Resultados de la Investigación{'\n'}
+
+          <Text style={{ fontSize: 6 }}>
+            (PRODUCTO DAÑADO DESEMPLEADO SE ENVIAN A PISO O SE ARREGLAN)
+          </Text>
+        </Text>
+        <Text style={styles.cellValue}>{formData.resultadosInv || ''}</Text>
+      </View>
+
       {/* Firma en PDF */}
       <View style={styles.block}>
         <Text style={styles.inputLabel}>Firma:</Text>
@@ -371,7 +438,8 @@ const ActaDeLlegada = () => {
     carga: '',
     seguridadCarga: '',
     sellado: '',
-    numeroSerie: ''
+    numeroSerie: '',
+    resultadosInv: ''
   })
   const signaturePad = useRef(null)
 

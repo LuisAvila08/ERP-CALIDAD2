@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input'
 import Layout from '../components/Layout'
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable'
 import SignatureCanvas from 'react-signature-canvas' // Importa SignatureCanvas
+import { IconCheck } from '@tabler/icons-react'
 import {
   Accordion,
   AccordionContent,
@@ -341,7 +342,8 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer }) => (
               </View>
               <View style={styles.tableRow}> 
                 <Text style={[styles.cellLabelWhite,{flex:0.7} ]}>Cajas dañadas por maniobra:</Text>
-                <Text style={[styles.cellLabelWhite,{flex:0.4} ]}>SI</Text>
+                <Text style={[styles.cellLabelWhite,{flex:0.4} ]}> ✔️ </Text>
+                
                         <Text style={[styles.cellLabelWhite,{flex:0.4} ]}>NO</Text>
                         <Text style={[styles.cellLabelWhite,{flex:1.3} ]}>#</Text>
 
@@ -582,7 +584,7 @@ const ActaDeLlegada = () => {
                 <AccordionContent>
                   <label>Fecha: </label>
                   <Input type='date' name='fecha' value={formData.fecha} onChange={handleInputChange} />
-                  <label>Inicio de verificación: </label>
+                  <label>Inicio de verificación:  </label>
                   <Input type='text' name='inicioVerificacion' value={formData.inicioVerificacion} onChange={handleInputChange} />
                   <label>Término de verificación: </label>
                   <Input type='text' name='terminoVerificacion' value={formData.terminoVerificacion} onChange={handleInputChange} />

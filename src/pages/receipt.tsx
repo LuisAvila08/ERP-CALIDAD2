@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef,useEffect  } from 'react'
 import { Page, Text, View, Document, StyleSheet, PDFViewer, PDFDownloadLink, Image } from '@react-pdf/renderer'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
 
 })
 
-const ActaPDF = ({ formData, firmaBase64 }) => (
+const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer }) => (
   <Document>
     <Page style={styles.page}>
       <View style={styles.logoSection}>
@@ -147,10 +147,13 @@ const ActaPDF = ({ formData, firmaBase64 }) => (
           <Text style={styles.cellLabel}>O.C.: </Text>
           <Text style={styles.cellValue}>{formData.oc || ''}</Text>
         </View>
-        <View style={styles.row}>
-          <Text style={styles.inputLabel}>Proveedor: {formData.proveedor}</Text>
-          <Text style={styles.inputLabel}>O.C.: {formData.oc}</Text>
-          <Text style={styles.inputLabel}>Factura: </Text>
+        <View style={styles.tableRow}>
+          <Text style={[styles.cellLabel, { flex: 0.6 }]}>Proveedor:</Text>
+          <Text style={styles.cellValue}>{formData.proveedor || ''}</Text>
+          <Text style={styles.cellLabel}>Origen:</Text>
+          <Text style={styles.cellValue}>{formData.origen || ''}</Text>
+          <Text style={styles.cellLabel}>Factura: </Text>
+          <Text style={styles.cellValue}>{formData.factura || ''}</Text>
 
         </View>
         <View style={styles.tableRow}>
@@ -358,33 +361,33 @@ const ActaPDF = ({ formData, firmaBase64 }) => (
         </View>
         <View style={[styles.tableHeaderCell, { width: '10%' }]}>
           <Text style={styles.cellLabel}>PUERTA</Text>
-          <Text style={styles.cellValue}>{formData.puertaA}</Text>
-          <Text style={styles.cellValue}>{formData.puertaM}</Text>
-          <Text style={styles.cellValue}>{formData.puertaB}</Text>
+          <Text style={styles.cellValue}>{formData.tempAPuerta}</Text>
+          <Text style={styles.cellValue}>{formData.tempMPuerta}</Text>
+          <Text style={styles.cellValue}>{formData.tempBPuerta}</Text>
         </View>
         <View style={[styles.tableHeaderCell, { width: '10%' }]}>
           <Text style={styles.cellLabel}>MEDIO</Text>
-          <Text style={styles.cellValue}>{formData.medioA}</Text>
-          <Text style={styles.cellValue}>{formData.medioM}</Text>
-          <Text style={styles.cellValue}>{formData.medioB}</Text>
+          <Text style={styles.cellValue}>{formData.tempAMedio}</Text>
+          <Text style={styles.cellValue}>{formData.tempMMedio}</Text>
+          <Text style={styles.cellValue}>{formData.tempBMedio}</Text>
         </View>
         <View style={[styles.tableHeaderCell, { width: '10%' }]}>
           <Text style={styles.cellLabel}>FONDO</Text>
-          <Text style={styles.cellValue}>{formData.fondoA}</Text>
-          <Text style={styles.cellValue}>{formData.fondoM}</Text>
-          <Text style={styles.cellValue}>{formData.fondoB}</Text>
+          <Text style={styles.cellValue}>{formData.tempAFondo}</Text>
+          <Text style={styles.cellValue}>{formData.tempMFondo}</Text>
+          <Text style={styles.cellValue}>{formData.tempBFondo}</Text>
         </View>
         <View style={[styles.tableHeaderCell, { width: '30%' }]}>
           <Text style={styles.cellLabel}>RANGO DE TEMPERATURA</Text>
           <View style={styles.tableRow}>
-            <Text style={styles.cellValue}>Min:{formData.fondoM}</Text>
-            <Text style={styles.cellValue}>Max:{formData.fondoB}</Text>
+            <Text style={styles.cellValue}>Min:{formData.tempMin}</Text>
+            <Text style={styles.cellValue}>Max:{formData.tempMax}</Text>
           </View>
 
         </View>
         <View style={[styles.tableHeaderCell, { width: '30%' }]}>
           <Text style={styles.cellLabel}>IDEAL</Text>
-          <Text style={styles.cellValue}>Limpio</Text>
+          <Text style={styles.cellValue}> {formData.tempIdeal} </Text>
         </View>
       </View>
 
@@ -410,23 +413,23 @@ const ActaPDF = ({ formData, firmaBase64 }) => (
             <View style={styles.tableRow}>
                 <Text style={[styles.cellLabel,{width:'12%',textAlign:'center', fontSize:10, height:200 }]}> Verifico descarga{'\n'} (Inspector de Calidad)</Text>
                 <View style={{width:'38%'}}> 
-                  <Text style={[styles.cellValue,{flex:0.3} ]}>Nombre:{}</Text>
+                  <Text style={[styles.cellValue,{flex:0.3} ]}>Nombre:{formData.nombreInspector}</Text>
                   
                   <View style={[styles.cellValue,{} ]}>
                     <Text style={[styles.inputLabel,{paddingBottom:10} ]}>Firma:</Text>
-                    {firmaBase64 && (
-                      <Image src={firmaBase64} style={{ width: 200, height: 150 }} />
+                    {firmaBase64Inspector && (
+                      <Image src={firmaBase64Inspector} style={{ width: 200, height: 150 }} />
                     )}
 
                   </View>
                 </View>
                 <Text style={[styles.cellLabel,{width:'12%', fontSize:10} ]}> Chofer</Text>
                 <View style={{width:'38%'} }> 
-                  <Text style={[styles.cellValue,{flex:0.3} ]}>Nombre:{formData.fondoM}</Text>
+                  <Text style={[styles.cellValue,{flex:0.3} ]}>Nombre:{formData.nombreChofer}</Text>
                   <View style={[styles.cellValue,{}]}>
                     <Text style={[styles.inputLabel,{paddingBottom:10} ]}>Firma:</Text>
-                    {firmaBase64 && (
-                      <Image src={firmaBase64} style={{ width: 200, height: 150  }} />
+                    {firmaBase64Chofer && (
+                      <Image src={firmaBase64Chofer} style={{ width: 200, height: 150  }} />
                     )}
 
                   </View>
@@ -472,28 +475,96 @@ const ActaDeLlegada = () => {
     seguridadCarga: '',
     sellado: '',
     numeroSerie: '',
-    resultadosInv: ''
+    resultadosInv: '',
+    tempAPuerta:'',
+    tempAMedio:'',
+    tempAFondo:'',
+    tempMPuerta:'',
+    tempMMedio:'',
+    tempMFondo:'',
+    tempBPuerta:'',
+    tempBMedio:'',
+    tempBFondo:'',
+    tempMax:'',
+    tempMin:'',
+    tempIdeal:'',
+    nombreInspector:'',
+    nombreChofer:''
   })
-  const signaturePad = useRef(null)
 
-  const [firmaBase64, setFirmaBase64] = useState(null)
 
-  const signaturePadRef = useRef<any>(null) // Refs para el signature pad
+
+  const [firmaBase64Inspector, setFirmaBase64Inspector] = useState(null)
+  const [firmaBase64Chofer, setFirmaBase64Chofer] = useState(null)
+
+  const [temperatureRange, setTemperatureRange] = useState(null);
+
+
+  const signaturePadInspector = useRef<any>(null) // Refs para el signature pad
+  const signaturePadChofer = useRef<any>(null)
 
   const handleInputChange = (e) => {
     const { name, value } = e.target
     setFormData((prevData) => ({ ...prevData, [name]: value }))
   }
 
-  const clearSignature = () => {
-    signaturePadRef.current.clear()
-    setFirmaBase64(null)
-  }
+    useEffect(() => {
+      const allTemperatures = [
+        formData.tempAPuerta, formData.tempAMedio, formData.tempAFondo,
+        formData.tempMPuerta, formData.tempMMedio, formData.tempMFondo,
+        formData.tempBPuerta, formData.tempBMedio, formData.tempBFondo,
+      ].map(temp => Number(temp) || null) // Convierte a número o `null` si no es un número
+      .filter(temp => temp !== null); /// Aseguramos que sean números válidos
+    
+      // Si no hay temperaturas válidas, no hacer nada
+      if (allTemperatures.length === 0) return;
+    
+      const maxTemp = Math.max(...allTemperatures);
+      const minTemp = Math.min(...allTemperatures);
+    
+      // Actualizar el estado con los valores de tempMax y tempMin
+      setFormData(prevData => ({
+        ...prevData,
+        tempMax: maxTemp,
+        tempMin: minTemp,
+      }));
+    
+      // Actualizar el rango
+      setTemperatureRange({ max: maxTemp, min: minTemp });
+    
+    }, [
+      formData.tempAPuerta, formData.tempAMedio, formData.tempAFondo,
+      formData.tempMPuerta, formData.tempMMedio, formData.tempMFondo,
+      formData.tempBPuerta, formData.tempBMedio, formData.tempBFondo
+    ]);
+    
+  
 
-  const saveSignature = () => {
-    const dataUrl = signaturePadRef.current.toDataURL()
-    setFirmaBase64(dataUrl)
-  }
+    // Función para limpiar ambas firmas
+    const clearSignature = () => {
+      if (signaturePadInspector.current) {
+        signaturePadInspector.current.clear()
+      }
+      setFirmaBase64Inspector(null) // Estado para la firma del inspector
+      
+      if (signaturePadChofer.current) {
+        signaturePadChofer.current.clear()
+      }
+      setFirmaBase64Chofer(null) // Estado para la firma del chofer
+    }
+
+    // Función para guardar ambas firmas
+    const saveSignature = () => {
+      if (signaturePadInspector.current) {
+        const dataUrlInspector = signaturePadInspector.current.toDataURL()
+        setFirmaBase64Inspector(dataUrlInspector) // Guarda la firma del inspector
+      }
+
+      if (signaturePadChofer.current) {
+        const dataUrlChofer = signaturePadChofer.current.toDataURL()
+        setFirmaBase64Chofer(dataUrlChofer) // Guarda la firma del chofer
+      }
+    }
 
   return (
     <Layout>
@@ -618,10 +689,66 @@ const ActaDeLlegada = () => {
               </AccordionItem>
             </Accordion>
 
-            <h2>Firma del Responsable</h2>
+            <Accordion type='single' collapsible>
+              <AccordionItem value='item-2'>
+                <AccordionTrigger>Temperatura de Pulpa</AccordionTrigger>
+                <AccordionContent>
+                  <h3>Ubicación A</h3>
+                  <label>Puerta: </label>
+                  <Input type='number' name='tempAPuerta' value={formData.tempAPuerta} onChange={(e) => { handleInputChange(e); calculateTemperatureRange(); }} />
+                  <label>Medio: </label>
+                  <Input type='number' name='tempAMedio' value={formData.tempAMedio} onChange={(e) => { handleInputChange(e); calculateTemperatureRange(); }}  />
+                  <label>Fondo: </label>
+                  <Input type='number' name='tempAFondo' value={formData.tempAFondo} onChange={(e) => { handleInputChange(e); calculateTemperatureRange(); }}  />
+
+                  <h3>Ubicación M</h3>
+                  <label>Puerta: </label>
+                  <Input type='number' name='tempMPuerta' value={formData.tempMPuerta} onChange={(e) => { handleInputChange(e); calculateTemperatureRange(); }}  />
+                  <label>Medio: </label>
+                  <Input type='number' name='tempMMedio' value={formData.tempMMedio} onChange={(e) => { handleInputChange(e); calculateTemperatureRange(); }} />
+                  <label>Fondo: </label>
+                  <Input type='number' name='tempMFondo' value={formData.tempMFondo} onChange={(e) => { handleInputChange(e); calculateTemperatureRange(); }}  />
+
+                  <h3>Ubicación B</h3>
+                  <label>Puerta: </label>
+                  <Input type='number' name='tempBPuerta' value={formData.tempBPuerta} onChange={(e) => { handleInputChange(e); calculateTemperatureRange(); }} />
+                  <label>Medio: </label>
+                  <Input type='number' name='tempBMedio' value={formData.tempBMedio} onChange={(e) => { handleInputChange(e); calculateTemperatureRange(); }} />
+                  <label>Fondo: </label>
+                  <Input type='number' name='tempBFondo' value={formData.tempBFondo} onChange={(e) => { handleInputChange(e); calculateTemperatureRange(); }}  />
+
+                  <h3>Temperatura Ideal</h3>
+                  <Input type='number' name='tempIdeal' value={formData.tempIdeal} onChange={handleInputChange} />
+                  {temperatureRange && (
+                    <div>
+                      <p>Temperatura Máxima: {temperatureRange.max}°C</p>
+                      <p>Temperatura Mínima: {temperatureRange.min}°C</p>
+                    </div>
+                  )}
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
+
+            <h2>Resultados de la Investigación</h2>
+            <Input type='text' name='resultadosInv' value={formData.resultadosInv} onChange={handleInputChange} />
+                
+            <label>Nombre Inspector de Calidad: </label>
+            <Input type='text' name='nombreInspector' value={formData.nombreInspector} onChange={handleInputChange} />
+            <h2>Firma Inspector de Calidad</h2>
             <div className={styles.signatureCanvasContainer}>
               <SignatureCanvas
-                ref={signaturePadRef}
+                ref={signaturePadInspector}
+                penColor='black'
+                canvasProps={{ width: 500, height: 200, className: 'signature-canvas' }}
+              />
+            </div>
+                
+            <label>Nombre Chofer: </label>
+            <Input type='text' name='nombreChofer' value={formData.nombreChofer} onChange={handleInputChange} />
+            <h2>Firma del Chofer</h2>
+            <div className={styles.signatureCanvasContainer}>
+              <SignatureCanvas
+                ref={signaturePadChofer}
                 penColor='black'
                 canvasProps={{ width: 500, height: 200, className: 'signature-canvas' }}
               />
@@ -636,10 +763,10 @@ const ActaDeLlegada = () => {
         <ResizablePanel>
           <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
             <PDFViewer width='100%' height='100%'>
-              <ActaPDF formData={formData} firmaBase64={firmaBase64} />
+              <ActaPDF formData={formData} firmaBase64Inspector={firmaBase64Inspector} firmaBase64Chofer={firmaBase64Chofer}/>
             </PDFViewer>
             <div style={{ padding: '10px', display: 'flex', justifyContent: 'center' }}>
-              <PDFDownloadLink document={<ActaPDF formData={formData} firmaBase64={firmaBase64} />} fileName='acta_de_llegada.pdf'>
+              <PDFDownloadLink document={<ActaPDF formData={formData} firmaBase64Inspector={firmaBase64Inspector} />} fileName='acta_de_llegada.pdf'>
                 <Button variant='primary'>Descargar PDF</Button>
               </PDFDownloadLink>
             </div>

@@ -64,6 +64,7 @@ const styles = StyleSheet.create({
     fontSize: 10,
     fontWeight: 'bold',
     textAlign: 'center',
+    width: '100%'
 
   },
   cellLabel3: {
@@ -220,27 +221,29 @@ const ActaPDF = ({ formData, firmaBase64 }) => (
           </View>
 
         </View>
-            <View style={styles.tableRow}>
-              <Text style={[styles.conditions]}>Condiciones del transporte</Text>
-              <View style={styles.table}>
+        <View style={styles.tableRow}>
 
-                
+          <Text style={styles.conditions}>Condiciones del transporte</Text>
+          <View>
             <View style={styles.tableRow}>
+
               <Text style={styles.cellLabel2}>Temperatura de set point</Text>
               <Text style={styles.cellLabel2}>SI</Text>
               <Text style={styles.cellLabel2}>NO</Text>
+
               <Text style={styles.cellValue}>{formData.chofer || ''}</Text>
-        </View>
+            </View>
 
-          {/* Fila 2 de condiciones */}
-        <View style={styles.tableRow}>
-          <Text style={styles.cellLabel2}>Temperatura de set point</Text>
-          <Text style={styles.cellLabel2}>SI</Text>
-          <Text style={styles.cellLabel2}>NO</Text>
-          <Text style={styles.cellValue}>{formData.chofer || ''}</Text>
-        </View>
-      </View>
+            <View style={styles.tableRow}>
 
+              <Text style={styles.cellLabel2}>Temperatura de set point</Text>
+              <Text style={styles.cellLabel2}>SI</Text>
+              <Text style={styles.cellLabel2}>NO</Text>
+
+              <Text style={styles.cellValue}>{formData.chofer || ''}</Text>
+            </View>
+
+          </View>
 
         </View>
 

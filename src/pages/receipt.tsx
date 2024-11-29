@@ -96,15 +96,15 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap' // Permite que el texto se ajuste a varias líneas si es necesario
   },
   cellLabelOptimizade: {
-    flex: 0.3,
+    flex: 1.3,
     backgroundColor: '#ccc',
     borderWidth: 1,
     borderColor: '#000',
     borderRadius: 3,
     fontSize: 10,
-    paddingVertical: 10,
+    paddingVertical: 1,
     paddingHorizontal: 1,
-    width: '50%',
+    width: '70%',
     fontWeight: 'bold',
     flexWrap: 'wrap' // Permite que el texto se ajuste a varias líneas si es necesario
   },
@@ -204,8 +204,6 @@ const ActaPDF = ({ formData, firmaBase64 }) => (
 
       <View style={{ marginBottom: 20 }} />
 
-      
-
       <View style={{ width: '100%' }}>
       <View style={styles.tableRow}>
                    <Text ></Text>
@@ -236,89 +234,85 @@ const ActaPDF = ({ formData, firmaBase64 }) => (
                   <Text style={styles.cellLabelWhite}></Text>
 
                 </View>
+                <View style={styles.tableRow}>
+                  <Text style={[styles.cellLabel,{flex:0.20} ]}></Text>
+                  <Text style={[styles.cellLabel,{flex:0.20} ]}>cumple</Text>
+                  <Text style={[styles.cellLabel,{flex:0.20} ]}>no cumple</Text>
+                  
+                  <Text style={[styles.cellLabel,{flex:0.40} ]}>observaciones</Text>
+
+                </View>
                 {/*concatenacion*/}
                 <View style={styles.tableRow}>
-                    <Text style={styles.cellLabelWhite}>hola:</Text>
+                    <Text style={[styles.cellLabelWhite,{flex:1.5} ]}>Termografo:</Text>
 
                     <View style={{flex:2}}>
-                        <Text style={styles.cellLabelWhite}>hola:</Text>
-                        <Text style={styles.cellLabelWhite}>Placas caja:</Text>
-                        
+                        <Text style={styles.cellLabelWhite}></Text>
+                        <Text style={styles.cellLabelWhite}></Text>
+                    </View>
+                    <View style={{flex:2}}>
+                        <Text style={styles.cellLabelWhite}></Text>
+                        <Text style={styles.cellLabelWhite}></Text>
                     </View>
                     
 
                     <View style={{flex:2}}>
-                    <Text style={styles.cellLabelWhite}>Placas caja:</Text>
-                    <Text style={styles.cellLabelWhite}>Placas caja:</Text>
+                    <Text style={styles.cellLabelWhite}>Origen</Text>
+                    <Text style={styles.cellLabelWhite}>Destino:</Text>
                     
 
                     </View>
                       <View style={{flex:2}}>
-                        <Text style={styles.cellLabelWhite}>Lectura origen:</Text>
-                        <Text style={styles.cellLabelWhite}>Lectura Destino:</Text>
+                        <Text style={styles.cellLabelWhite}></Text>
+                        <Text style={styles.cellLabelWhite}></Text>
                       </View>
                     </View>
 
                     <View style={styles.tableRow}>
-                        <Text style={styles.cellLabelWhite}>Temperatura del set point:</Text>
-                        <Text style={styles.cellLabelWhite}></Text>
-                        <Text style={styles.cellLabelWhite}></Text>
-                        <Text style={styles.cellLabelWhite}></Text>
+                        <Text style={[styles.cellLabelWhite,{flex:0.7} ]}>Limpio,libre de malos olores:</Text>
+                        <Text style={[styles.cellLabelWhite,{flex:0.4} ]}></Text>
+                        <Text style={[styles.cellLabelWhite,{flex:0.4} ]}></Text>
+                        <Text style={[styles.cellLabelWhite,{flex:1.3} ]}></Text>
                     </View>
                     <View style={styles.tableRow}>
-                        <Text style={styles.cellLabelWhite}>Temperatura de pantalla:</Text>
-                        <Text style={styles.cellLabelWhite}></Text>
-                        <Text style={styles.cellLabelWhite}></Text>
-                        <Text style={styles.cellLabelWhite}></Text>
+                        <Text style={[styles.cellLabelWhite,{flex:0.7} ]}>Caja cerrada , en buen estado(sin hoyos o endiduras ):</Text>
+                        <Text style={[styles.cellLabelWhite,{flex:0.4} ]}></Text>
+                        <Text style={[styles.cellLabelWhite,{flex:0.4} ]}></Text>
+                        <Text style={[styles.cellLabelWhite,{flex:1.3} ]}></Text>
+                    </View>
+                    
+                    <View style={styles.tableRow}>
+                        <Text style={[styles.cellLabelWhite,{flex:0.7} ]}>Lona en buen estado:</Text>
+                        <Text style={[styles.cellLabelWhite,{flex:0.4} ]}></Text>
+                        <Text style={[styles.cellLabelWhite,{flex:0.4} ]}></Text>
+                        <Text style={[styles.cellLabelWhite,{flex:1.3} ]}></Text>
                     </View>
                     <View style={styles.tableRow}>
-                        <Text style={styles.cellLabelWhite}>Placas caja:</Text>
-                        <Text style={styles.cellLabelWhite}>Placas caja:</Text>
-                        <Text style={styles.cellLabelWhite}>Placas caja:</Text>
-                        <Text style={styles.cellLabelWhite}>Placas caja:</Text>
+                        <Text style={[styles.cellLabelWhite,{flex:0.7} ]}>Libre de fauna nociva:</Text>
+                        <Text style={[styles.cellLabelWhite,{flex:0.4} ]}></Text>
+                        <Text style={[styles.cellLabelWhite,{flex:0.4} ]}></Text>
+                        <Text style={[styles.cellLabelWhite,{flex:1.3} ]}></Text>
                     </View>
                     <View style={styles.tableRow}>
-                        <Text style={styles.cellLabelWhite}>Placas caja:</Text>
-                        <Text style={styles.cellLabelWhite}>Placas caja:</Text>
-                        <Text style={styles.cellLabelWhite}>Placas caja:</Text>
-                        <Text style={styles.cellLabelWhite}>Placas caja:</Text>
+                        <Text style={[styles.cellLabelWhite,{flex:0.7} ]}>Carga en buen estado:</Text>
+                        <Text style={[styles.cellLabelWhite,{flex:0.4} ]}></Text>
+                        <Text style={[styles.cellLabelWhite,{flex:0.4} ]}></Text>
+                        <Text style={[styles.cellLabelWhite,{flex:1.3} ]}></Text>
                     </View>
                     <View style={styles.tableRow}>
-                        <Text style={styles.cellLabelWhite}>Placas caja:</Text>
-                        <Text style={styles.cellLabelWhite}>Placas caja:</Text>
-                        <Text style={styles.cellLabelWhite}>Placas caja:</Text>
-                        <Text style={styles.cellLabelWhite}>Placas caja:</Text>
+                        <Text style={[styles.cellLabelWhite,{flex:0.7} ]}>seguridad de carga</Text>
+                        <Text style={[styles.cellLabelWhite,{flex:0.4} ]}></Text>
+                        <Text style={[styles.cellLabelWhite,{flex:0.4} ]}></Text>
+                        <Text style={[styles.cellLabelWhite,{flex:1.3} ]}></Text>
                     </View>
                     <View style={styles.tableRow}>
-                        <Text style={styles.cellLabelWhite}>Placas caja:</Text>
-                        <Text style={styles.cellLabelWhite}>Placas caja:</Text>
-                        <Text style={styles.cellLabelWhite}>Placas caja:</Text>
-                        <Text style={styles.cellLabelWhite}>Placas caja:</Text>
+                        <Text style={[styles.cellLabelWhite,{flex:0.7} ]}>sellado:</Text>
+                        <Text style={[styles.cellLabelWhite,{flex:0.4} ]}></Text>
+                        <Text style={[styles.cellLabelWhite,{flex:0.4} ]}></Text>
+                        <Text style={[styles.cellLabelWhite,{flex:1.3} ]}></Text>
                     </View>
-                    <View style={styles.tableRow}>
-                        <Text style={styles.cellLabelWhite}>Placas caja:</Text>
-                        <Text style={styles.cellLabelWhite}>Placas caja:</Text>
-                        <Text style={styles.cellLabelWhite}>Placas caja:</Text>
-                        <Text style={styles.cellLabelWhite}>Placas caja:</Text>
-                    </View>
-                    <View style={styles.tableRow}>
-                        <Text style={styles.cellLabelWhite}>Placas caja:</Text>
-                        <Text style={styles.cellLabelWhite}>Placas caja:</Text>
-                        <Text style={styles.cellLabelWhite}>Placas caja:</Text>
-                        <Text style={styles.cellLabelWhite}>Placas caja:</Text>
-                    </View>
-                    <View style={styles.tableRow}>
-                        <Text style={styles.cellLabelWhite}>Placas caja:</Text>
-                        <Text style={styles.cellLabelWhite}>Placas caja:</Text>
-                        <Text style={styles.cellLabelWhite}>Placas caja:</Text>
-                        <Text style={styles.cellLabelWhite}>Placas caja:</Text>
-                    </View>
-                    <View style={styles.tableRow}>
-                        <Text style={styles.cellLabelWhite}>Placas caja:</Text>
-                        <Text style={styles.cellLabelWhite}>Placas caja:</Text>
-                        <Text style={styles.cellLabelWhite}>Placas caja:</Text>
-                        <Text style={styles.cellLabelWhite}>Placas caja:</Text>
-                    </View>
+                   
+                 
                      </View>
                     </View>
            
@@ -329,30 +323,31 @@ const ActaPDF = ({ formData, firmaBase64 }) => (
           <Text style={styles.cellLabel}>Placas caja:</Text>
           <View style={{ width: '70%' }}>
               <View style={styles.tableRow}> 
-                <Text style={styles.cellLabelWhite}>Placas caja:</Text>
-                <Text style={styles.cellLabelWhite}>Placas caja:</Text>
-                <Text style={styles.cellLabelWhite}>Placas caja:</Text>
-                <Text style={styles.cellLabelWhite}>Placas caja:</Text>
+                <Text style={[styles.cellLabelWhite,{flex:0.7} ]}>Hay tarimas dañadas :</Text>
+                <Text style={[styles.cellLabelWhite,{flex:0.4} ]}>SI</Text>
+                        <Text style={[styles.cellLabelWhite,{flex:0.4} ]}>NO</Text>
+                        <Text style={[styles.cellLabelWhite,{flex:1.3} ]}>#</Text>
 
               </View>
               <View style={styles.tableRow}> 
-                <Text style={styles.cellLabelWhite}>Placas caja:</Text>
-                <Text style={styles.cellLabelWhite}>Placas caja:</Text>
-                <Text style={styles.cellLabelWhite}>Placas caja:</Text>
-                <Text style={styles.cellLabelWhite}>Placas caja:</Text>
+                <Text style={[styles.cellLabelWhite,{flex:0.7} ]}>Cajas identificadas :</Text>
+                <Text style={[styles.cellLabelWhite,{flex:0.4} ]}>SI</Text>
+                        <Text style={[styles.cellLabelWhite,{flex:0.4} ]}>NO</Text>
+                        <Text style={[styles.cellLabelWhite,{flex:1.3} ]}>#</Text>
 
               </View>
               <View style={styles.tableRow}> 
-                <Text style={styles.cellLabelWhite}>Placas caja:</Text>
-                <Text style={styles.cellLabelWhite}>Placas caja:</Text>
-                <Text style={styles.cellLabelWhite}>Placas caja:</Text>
-                <Text style={styles.cellLabelWhite}>Placas caja:</Text>
+                <Text style={[styles.cellLabelWhite,{flex:0.7} ]}>Cajas dañadas por maniobra:</Text>
+                <Text style={[styles.cellLabelWhite,{flex:0.4} ]}>SI</Text>
+                        <Text style={[styles.cellLabelWhite,{flex:0.4} ]}>NO</Text>
+                        <Text style={[styles.cellLabelWhite,{flex:1.3} ]}>#</Text>
 
               </View>
           </View>
       
         </View>
       </View>
+      <View style={{ marginBottom: 20 }} />
 
       <View style={[styles.tableRow, { marginBottom: 15, width: '100%' }]}>
         <View style={[styles.tableHeaderCell, { width: '25%' }]}>
@@ -405,9 +400,6 @@ const ActaPDF = ({ formData, firmaBase64 }) => (
         <Text style={styles.cellValue}>{formData.resultadosInv || ''}</Text>
       </View>
 
-<<<<<<< HEAD
-    
-=======
       <View style={[styles.tableRow, { marginBottom: 15, width: '100%'  }]}>
         
         <View style={[styles.tableHeaderCell, { width: '100%' }]}>
@@ -445,7 +437,6 @@ const ActaPDF = ({ formData, firmaBase64 }) => (
 
 
 
->>>>>>> 879263eef0aecc428d139fdb0bc040767db4071f
     </Page>
   </Document>
 )

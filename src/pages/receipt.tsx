@@ -56,10 +56,10 @@ const styles = StyleSheet.create({
     borderRadius: 3,
     fontSize: 7,
     paddingVertical: 10,
+    paddingHorizontal: 1,
+    width: '100%',
     fontWeight: 'bold',
-    flexWrap: 'wrap', // Permite que el texto se ajuste a varias líneas si es necesario
-    width: '100%', // Asegura que el contenedor ocupe el ancho disponible
-    paddingHorizontal: 5
+    flexWrap: 'wrap' // Permite que el texto se ajuste a varias líneas si es necesario
   },
   cellValue: {
     flex: 2,
@@ -70,8 +70,35 @@ const styles = StyleSheet.create({
     paddingVertical: 7,
     textAlign: 'center', // Alinea el texto horizontalmente
     justifyContent: 'center', // Centra el contenido verticalmente
-    alignItems: 'center' // Centra el contenido verticalmente
+    alignItems: 'center', // Centra el contenido verticalmente
+    width: '100%' //
 
+  },
+  cellLabelWhite: {
+    backgroundColor: '#FFFFFF', // Fondo blanco
+    borderWidth: 1, // Borde de 1px
+    borderColor: '#000', // Borde negro
+    borderRadius: 3, // Bordes redondeados
+    fontSize: 7, // Aumenté el tamaño de la fuente
+    paddingVertical: 6, // Relleno vertical para darle espacio al texto
+    paddingHorizontal: 20, // Relleno horizontal para
+    fontWeight: 'bold', // Texto en negrita
+
+    textAlign: 'center', // Centra el texto dentro de la celda
+    flexWrap: 'wrap' // Permite que el texto se ajuste a varias líneas si es necesario
+  },
+  cellLabelOptimizade: {
+    flex: 0.3,
+    backgroundColor: '#ccc',
+    borderWidth: 1,
+    borderColor: '#000',
+    borderRadius: 3,
+    fontSize: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 1,
+    width: '50%',
+    fontWeight: 'bold',
+    flexWrap: 'wrap' // Permite que el texto se ajuste a varias líneas si es necesario
   }
 
 })
@@ -94,7 +121,6 @@ const ActaPDF = ({ formData, firmaBase64 }) => (
       </View>
 
       <View style={styles.table}>
-
         <View style={styles.tableRow}>
           <Text style={styles.cellLabel}>Fecha: </Text>
           <Text style={styles.cellValue}>{formData.fecha || ''}</Text>
@@ -160,8 +186,81 @@ const ActaPDF = ({ formData, firmaBase64 }) => (
         </View>
       </View>
 
-      <View style={styles.block}>
-        <Text style={styles.inputLabel}>Condiciones de Transporte</Text>
+      <View style={styles.table}>
+        {/* view del apartado 1 */}
+        <View style={styles.tableRow}>
+
+          <Text style={styles.cellLabelOptimizade}>Condiciones de Transporte</Text>
+          <View>
+
+            <View style={styles.tableRow}>
+              <Text style={styles.cellLabelWhite}>hay tarimas danadas </Text>
+              <Text style={styles.cellValue}>{formData.chofer || ''}</Text>
+              <Text style={styles.cellValue}>{formData.chofer || ''}</Text>
+            </View>
+
+            <View style={styles.tableColumn}>
+              <View style={styles.tableRow}>
+                <Text style={styles.cellLabelWhite}>cajas identificadas </Text>
+                <Text style={styles.cellValue}>{formData.chofer || ''}SI</Text>
+                <Text style={styles.cellValue}>{formData.chofer || ''}NO</Text>
+              </View>
+
+              <View style={styles.tableRow}>
+                <Text style={styles.cellLabelWhite}>Termografo </Text>\
+                <View />
+                <View style={styles.tableRow}>
+                  <Text style={styles.cellValue}>{formData.chofer || ''}SI</Text>
+                  <Text style={styles.cellValue}>{formData.chofer || ''}NO</Text>
+                  <View style={styles.tableColumn}>
+                    <Text style={styles.cellValue}>{formData.chofer || ''}NO</Text>
+
+                  </View>
+                </View>
+
+              </View>
+
+            </View>
+          </View>
+
+        </View>
+        {/* view del apartado 2 */}
+
+        <View style={styles.tableRow}>
+          <Text style={styles.cellLabelOptimizade}>Condiciones de Transporte</Text>
+
+          <View>
+            <View style={styles.tableRow}>
+              <Text style={styles.cellLabelWhite}>hay tarimas danadas </Text>
+              <Text style={styles.cellValue}>{formData.chofer || ''}</Text>
+              <Text style={styles.cellValue}>{formData.chofer || ''}</Text>
+
+            </View>
+            <View style={styles.tableColumn}>
+              <View style={styles.tableRow}>
+                <Text style={styles.cellLabelWhite}>cajas identificadas </Text>
+                <Text style={styles.cellValue}>{formData.chofer || ''}SI</Text>
+                <Text style={styles.cellValue}>{formData.chofer || ''}NO</Text>
+                <Text style={styles.cellValue}>{formData.chofer || ''}#</Text>
+
+              </View>
+
+            </View>
+            <View style={styles.tableColumn}>
+              <View style={styles.tableRow}>
+                <Text style={styles.cellLabelWhite}>cajas identificadas </Text>
+                <Text style={styles.cellValue}>{formData.chofer || ''}SI</Text>
+                <Text style={styles.cellValue}>{formData.chofer || ''}NO</Text>
+                <Text style={styles.cellValue}>{formData.chofer || ''}#</Text>
+
+              </View>
+
+            </View>
+
+          </View>
+
+        </View>
+
         <View style={styles.row}>
           <Text style={styles.inputLabel}>Temperatura de set point: {formData.tempSetPoint}</Text>
           <Text style={styles.inputLabel}>Observaciones: {formData.observacionesSetPoint}</Text>

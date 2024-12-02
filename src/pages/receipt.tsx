@@ -1,4 +1,4 @@
-import React, { useState, useRef,useEffect  } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { Page, Text, View, Document, StyleSheet, PDFViewer, PDFDownloadLink, Image } from '@react-pdf/renderer'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -14,9 +14,8 @@ import {
 } from '@/components/ui/accordion'
 import { Bold } from 'lucide-react'
 import { WidthIcon } from '@radix-ui/react-icons'
-import Select from '@mui/material/Select';
-
-
+import Select from '@mui/material/Select'
+import { formatDate } from 'date-fns'
 
 const styles = StyleSheet.create({
   page: { padding: 30 },
@@ -57,7 +56,7 @@ const styles = StyleSheet.create({
   },
   tableColumn: {
     flexDirection: 'column',
-    flex:1
+    flex: 1
   },
   cellLabel: {
     flex: 1,
@@ -66,7 +65,7 @@ const styles = StyleSheet.create({
     borderColor: '#000',
     borderRadius: 3,
     fontSize: 7,
-    textAlign:'center',
+    textAlign: 'center',
     justifyContent: 'center',
     paddingVertical: 10,
     paddingHorizontal: 1,
@@ -212,151 +211,152 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer }) => (
       <View style={{ marginBottom: 20 }} />
 
       <View style={{ width: '100%' }}>
-      <View style={styles.tableRow}>
-                   <Text ></Text>
-                   <Text style={{width:'53.5%'}}></Text>
-                   
-                   <Text style={styles.cellLabelWhite}>Observaciones</Text>
-                   
-                </View>
+       
 
-        <View style={styles.tableRow}>
-          
           <Text style={[styles.cellLabel, { width: '100%' }]}>Condiciones de transporte:</Text>
-          <View style={{ width: '70%' }}>
+          
+          <View style={styles.tableRow}>
+          <Text />
+          <Text style={{ width: '24%' }} />
+
+          <Text style={styles.cellLabelWhite}>Observaciones</Text>
+
+        </View>
+          <View style={{ width: '100%' }}>
 
             <View style={styles.tableRow}>
-            <View style={{flex:1}}>
-          
+              <View style={{ flex: 1 }}>
+
                 <View style={styles.tableRow}>
-                   <Text style={styles.cellLabelWhite}>Temperatura del set point:</Text>
-                   <Text style={styles.cellValue}>{formData.tempSetPoint|| ''}</Text>
-                   
-                   <Text style={styles.cellLabelWhite}>{formData.observacionesSetPoint||''}</Text>
-                   
-                </View>
-                <View style={styles.tableRow}>
-                  <Text style={styles.cellLabelWhite}>Temperatura de pantallat:</Text>
-                  <Text style={styles.cellLabelWhite}>{formData.tempPantalla||''}</Text>
-                  <Text style={styles.cellLabelWhite}>{formData.observacionesPantalla||''}</Text>
+                  <Text style={[styles.cellLabelWhite, { flex: 0.20}]}>Temperatura del set point:</Text>
+                  <Text style={[styles.cellValue, { flex: 0.40}]}>{formData.tempSetPoint || ''}</Text>
+
+                  <Text style={[styles.cellLabelWhite, { flex: 0.40}]}>{formData.observacionesSetPoint || ''}</Text>
 
                 </View>
                 <View style={styles.tableRow}>
-                  <Text style={[styles.cellLabel,{flex:0.20} ]}></Text>
-                  <Text style={[styles.cellLabel,{flex:0.20} ]}>cumple</Text>
-                  <Text style={[styles.cellLabel,{flex:0.20} ]}>no cumple</Text>
-                  
-                  <Text style={[styles.cellLabel,{flex:0.40} ]}>observaciones</Text>
+                  <Text style={[styles.cellLabelWhite, { flex: 0.20}]}>Temperatura de pantallat:</Text>
+                  <Text style={[styles.cellValue, { flex: 0.40}]}>{formData.tempPantalla || ''}</Text>
+                  <Text style={[styles.cellLabelWhite, { flex: 0.40}]}>{formData.observacionesPantalla || ''}</Text>
 
                 </View>
-                {/*concatenacion*/}
                 <View style={styles.tableRow}>
-                    <Text style={[styles.cellLabelWhite,{flex:1.5} ]}>Termografo:</Text>
+                  <Text style={[styles.cellLabel, { flex: 0.25}]} />
+                  <Text style={[styles.cellLabel, { flex: 0.17 }]}>cumple</Text>
+                  <Text style={[styles.cellLabel, { flex: 0.18 }]}>no cumple</Text>
 
-                    <View style={{flex:2}}>
-                      
-                        <Text style={styles.cellLabelWhite}>
-                       
-                        </Text>
-                        <Text style={styles.cellLabelWhite}></Text>
-                    </View>
-                    <View style={{flex:2}}>
-                        <Text style={styles.cellLabelWhite}>{formData.option=='Si'?"hf":"he"}</Text>
-                        <Text style={styles.cellLabelWhite}></Text>
-                    </View>
-                    
+                  <Text style={[styles.cellLabel, { flex: 0.40 }]}>observaciones</Text>
 
-                    <View style={{flex:2}}>
+                </View>
+                {/* concatenacion */}
+                <View style={styles.tableRow}>
+                  <Text style={[styles.cellLabelWhite, { flex: 1.7 }]}>Termografo:</Text>
+
+                  <View style={{ flex: 1.8 }}>
+
+                  <Text style={styles.cellLabelWhite}>{formData.option === 'Si' ? 'SI' : ''}</Text>
+                    <Text style={styles.cellLabelWhite} >{formData.option2 === 'Si' ? 'SI' : ''}</Text>
+                  </View>
+                  <View style={{ flex: 1.8 }}>
+                    <Text style={styles.cellLabelWhite}>{formData.option === 'Si' ? 'Si ' : ''}</Text>
+                    <Text style={styles.cellLabelWhite}>{formData.option2 === 'No' ? 'No' : ''}</Text>
+                    {formData.imageUri && (
+    <Image
+      source={{ uri: formData.imageUri }} // Aquí se pasa la URL de la imagen
+      style={styles.image}
+    />
+  )}
+                  </View>
+
+                  <View style={{ flex: 2 }}>
                     <Text style={styles.cellLabelWhite}>Origen</Text>
+       
                     <Text style={styles.cellLabelWhite}>Destino:</Text>
-                    
 
-                    </View>
-                      <View style={{flex:2}}>
-                        <Text style={styles.cellLabelWhite}></Text>
-                        <Text style={styles.cellLabelWhite}></Text>
-                      </View>
-                    </View>
+                  </View>
+                  <View style={{ flex: 2 }}>
+                    <Text style={styles.cellLabelWhite}>{formData.tempOrigen || ''}</Text>
+                    <Text style={styles.cellLabelWhite}>{formData.tempDestino || ''}</Text>
+                  </View>
+                </View>
 
-                    <View style={styles.tableRow}>
-                        <Text style={[styles.cellLabelWhite,{flex:0.7} ]}>Limpio,libre de malos olores:</Text>
-                        <Text style={[styles.cellLabelWhite,{flex:0.4} ]}></Text>
-                        <Text style={[styles.cellLabelWhite,{flex:0.4} ]}></Text>
-                        <Text style={[styles.cellLabelWhite,{flex:1.3} ]}></Text>
-                    </View>
-                    <View style={styles.tableRow}>
-                        <Text style={[styles.cellLabelWhite,{flex:0.7} ]}>Caja cerrada , en buen estado(sin hoyos o endiduras ):</Text>
-                        <Text style={[styles.cellLabelWhite,{flex:0.4} ]}></Text>
-                        <Text style={[styles.cellLabelWhite,{flex:0.4} ]}></Text>
-                        <Text style={[styles.cellLabelWhite,{flex:1.3} ]}></Text>
-                    </View>
-                    
-                    <View style={styles.tableRow}>
-                        <Text style={[styles.cellLabelWhite,{flex:0.7} ]}>Lona en buen estado:</Text>
-                        <Text style={[styles.cellLabelWhite,{flex:0.4} ]}></Text>
-                        <Text style={[styles.cellLabelWhite,{flex:0.4} ]}></Text>
-                        <Text style={[styles.cellLabelWhite,{flex:1.3} ]}></Text>
-                    </View>
-                    <View style={styles.tableRow}>
-                        <Text style={[styles.cellLabelWhite,{flex:0.7} ]}>Libre de fauna nociva:</Text>
-                        <Text style={[styles.cellLabelWhite,{flex:0.4} ]}></Text>
-                        <Text style={[styles.cellLabelWhite,{flex:0.4} ]}></Text>
-                        <Text style={[styles.cellLabelWhite,{flex:1.3} ]}></Text>
-                    </View>
-                    <View style={styles.tableRow}>
-                        <Text style={[styles.cellLabelWhite,{flex:0.7} ]}>Carga en buen estado:</Text>
-                        <Text style={[styles.cellLabelWhite,{flex:0.4} ]}></Text>
-                        <Text style={[styles.cellLabelWhite,{flex:0.4} ]}></Text>
-                        <Text style={[styles.cellLabelWhite,{flex:1.3} ]}></Text>
-                    </View>
-                    <View style={styles.tableRow}>
-                        <Text style={[styles.cellLabelWhite,{flex:0.7} ]}>seguridad de carga</Text>
-                        <Text style={[styles.cellLabelWhite,{flex:0.4} ]}></Text>
-                        <Text style={[styles.cellLabelWhite,{flex:0.4} ]}></Text>
-                        <Text style={[styles.cellLabelWhite,{flex:1.3} ]}></Text>
-                    </View>
-                    <View style={styles.tableRow}>
-                        <Text style={[styles.cellLabelWhite,{flex:0.7} ]}>sellado:</Text>
-                        <Text style={[styles.cellLabelWhite,{flex:0.4} ]}></Text>
-                        <Text style={[styles.cellLabelWhite,{flex:0.4} ]}></Text>
-                        <Text style={[styles.cellLabelWhite,{flex:1.3} ]}></Text>
-                    </View>
-                   
-                 
-                     </View>
-                    </View>
-           
+                <View style={styles.tableRow}>
+                  <Text style={[styles.cellLabelWhite, { flex: 0.7 }]}>Limpio,libre de malos olores:</Text>
+                  <Text style={[styles.cellLabelWhite, { flex: 0.4 }]} >{formData.optionLimpio==='Si'?"Si":""}</Text>
+                  <Text style={[styles.cellLabelWhite, { flex: 0.4 }]} >{formData.optionLimpio==='No'?"No":""}</Text>
+                  <Text style={[styles.cellLabelWhite, { flex: 1.3 }]} > {formData.limpio|| '' }</Text>
+                </View>
+                <View style={styles.tableRow}>
+                  <Text style={[styles.cellLabelWhite, { flex: 0.7 }]}>Caja cerrada , en buen estado(sin hoyos o endiduras ):</Text>
+                  <Text style={[styles.cellLabelWhite, { flex: 0.4 }]} >{formData.optionCaja==='Si'?"Si":""}</Text>
+                  <Text style={[styles.cellLabelWhite, { flex: 0.4 }]} >{formData.optionCaja==='No'?"No":""}</Text>
+                  <Text style={[styles.cellLabelWhite, { flex: 1.3 }]} >{formData.cajaCerrada|| ''}</Text>
+                </View>
 
-          </View>
-        </View>
-        <View style={styles.tableRow}>
-          <Text style={styles.cellLabel}>Placas caja:</Text>
-          <View style={{ width: '70%' }}>
-              <View style={styles.tableRow}> 
-                <Text style={[styles.cellLabelWhite,{flex:0.7} ]}>Hay tarimas dañadas :</Text>
-                <Text style={[styles.cellLabelWhite,{flex:0.4} ]}>SI</Text>
-                        <Text style={[styles.cellLabelWhite,{flex:0.4} ]}>NO</Text>
-                        <Text style={[styles.cellLabelWhite,{flex:1.3} ]}>#</Text>
+                <View style={styles.tableRow}>
+                  <Text style={[styles.cellLabelWhite, { flex: 0.7 }]}>Lona en buen estado:</Text>
+                  <Text style={[styles.cellLabelWhite, { flex: 0.4 }]} >{formData.optionLona==='Si'?"Si":""}</Text>
+                  <Text style={[styles.cellLabelWhite, { flex: 0.4 }]} >{formData.optionLona==='No'?"No":""}</Text>
+                  <Text style={[styles.cellLabelWhite, { flex: 1.3 }]} >{formData.lona|| '' }</Text>
+                </View>
+                <View style={styles.tableRow}>
+                  <Text style={[styles.cellLabelWhite, { flex: 0.7 }]}>Libre de fauna nociva:</Text>
+                  <Text style={[styles.cellLabelWhite, { flex: 0.4 }]} >{formData.optionLibre==='Si'?"Si":""}</Text>
+                  <Text style={[styles.cellLabelWhite, { flex: 0.4 }]} >{formData.optionLibre==='No'?"No":""}</Text>
+                  <Text style={[styles.cellLabelWhite, { flex: 1.3 }]} >{formData.fauna|| '' }</Text>
+                </View>
+                <View style={styles.tableRow}>
+                  <Text style={[styles.cellLabelWhite, { flex: 0.7 }]}>Carga en buen estado:</Text>
+                  <Text style={[styles.cellLabelWhite, { flex: 0.4 }]} >{formData.optionCarga==='Si'?"Si":""}</Text>
+                  <Text style={[styles.cellLabelWhite, { flex: 0.4 }]} >{formData.optionCarga==='No'?"No":""}</Text>
+                  <Text style={[styles.cellLabelWhite, { flex: 1.3 }]} >{formData.carga|| '' }</Text>
+                </View>
+                <View style={styles.tableRow}>
+                  <Text style={[styles.cellLabelWhite, { flex: 0.7 }]}>seguridad de carga</Text>
+                  <Text style={[styles.cellLabelWhite, { flex: 0.4 }]} >{formData.optionSeguridad==='Si'?"Si":""}</Text>
+                  <Text style={[styles.cellLabelWhite, { flex: 0.4 }]} >{formData.optionSeguridad==='No'?"No":""}</Text>
+                  <Text style={[styles.cellLabelWhite, { flex: 1.3 }]} >{formData.seguridadCarga|| '' }</Text>
+                </View>
+                <View style={styles.tableRow}>
+                  <Text style={[styles.cellLabelWhite, { flex: 0.7 }]}>sellado:</Text>
+                  <Text style={[styles.cellLabelWhite, { flex: 0.4 }]} >{formData.optionSellado==='Si'?"Si":""}</Text>
+                  <Text style={[styles.cellLabelWhite, { flex: 0.4 }]} >{formData.optionSellado==='No'?"No":""}</Text>
+                  <Text style={[styles.cellLabelWhite, { flex: 1.3 }]} >{formData.sellado|| '' }</Text>
+                </View>
 
               </View>
-              <View style={styles.tableRow}> 
-                <Text style={[styles.cellLabelWhite,{flex:0.7} ]}>Cajas identificadas :</Text>
-                <Text style={[styles.cellLabelWhite,{flex:0.4} ]}>SI</Text>
-                        <Text style={[styles.cellLabelWhite,{flex:0.4} ]}>NO</Text>
-                        <Text style={[styles.cellLabelWhite,{flex:1.3} ]}>#</Text>
+            </View>
 
-              </View>
-              <View style={styles.tableRow}> 
-                <Text style={[styles.cellLabelWhite,{flex:0.7} ]}>Cajas dañadas por maniobra:</Text>
-                <Text style={[styles.cellLabelWhite,{flex:0.4} ]}> ✔️ </Text>
-                
-                        <Text style={[styles.cellLabelWhite,{flex:0.4} ]}>NO</Text>
-                        <Text style={[styles.cellLabelWhite,{flex:1.3} ]}>#</Text>
-
-              </View>
           </View>
       
-        </View>
+      
+          <Text style={styles.cellLabel}>Placas caja:</Text>
+          <View style={{ width: '100%' }}>
+            <View style={styles.tableRow}>
+              <Text style={[styles.cellLabelWhite, { flex: 0.7 }]}>Hay tarimas dañadas :</Text>
+              <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>SI</Text>
+              <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>NO</Text>
+              <Text style={[styles.cellLabelWhite, { flex: 1.3 }]}>#</Text>
+
+            </View>
+            <View style={styles.tableRow}>
+              <Text style={[styles.cellLabelWhite, { flex: 0.7 }]}>Cajas identificadas :</Text>
+              <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>SI</Text>
+              <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>NO</Text>
+              <Text style={[styles.cellLabelWhite, { flex: 1.3 }]}>#</Text>
+
+            </View>
+            <View style={styles.tableRow}>
+              <Text style={[styles.cellLabelWhite, { flex: 0.7 }]}>Cajas dañadas por maniobra:</Text>
+              <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}> ✔️ </Text>
+
+              <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>NO</Text>
+              <Text style={[styles.cellLabelWhite, { flex: 1.3 }]}>#</Text>
+
+            </View>
+          </View>
+
+     
       </View>
       <View style={{ marginBottom: 20 }} />
 
@@ -411,42 +411,39 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer }) => (
         <Text style={styles.cellValue}>{formData.resultadosInv || ''}</Text>
       </View>
 
-      <View style={[styles.tableRow, { marginBottom: 15, width: '100%'  }]}>
-        
+      <View style={[styles.tableRow, { marginBottom: 15, width: '100%' }]}>
+
         <View style={[styles.tableHeaderCell, { width: '100%' }]}>
 
-        <Text style={[styles.cellLabel, { fontSize: 10, fontWeight: 'bold', paddingVertical:20 }]}>Hago constar que estoy de acuerdo con lo verificado y registrado en el presente documento</Text>
-          
+          <Text style={[styles.cellLabel, { fontSize: 10, fontWeight: 'bold', paddingVertical: 20 }]}>Hago constar que estoy de acuerdo con lo verificado y registrado en el presente documento</Text>
 
-            <View style={styles.tableRow}>
-                <Text style={[styles.cellLabel,{width:'12%',textAlign:'center', fontSize:10, height:200 }]}> Verifico descarga{'\n'} (Inspector de Calidad)</Text>
-                <View style={{width:'38%'}}> 
-                  <Text style={[styles.cellValue,{flex:0.3} ]}>Nombre:{formData.nombreInspector}</Text>
-                  
-                  <View style={[styles.cellValue,{} ]}>
-                    <Text style={[styles.inputLabel,{paddingBottom:10} ]}>Firma:</Text>
-                    {firmaBase64Inspector && (
-                      <Image src={firmaBase64Inspector} style={{ width: 200, height: 150 }} />
-                    )}
+          <View style={styles.tableRow}>
+            <Text style={[styles.cellLabel, { width: '12%', textAlign: 'center', fontSize: 10, height: 200 }]}> Verifico descarga{'\n'} (Inspector de Calidad)</Text>
+            <View style={{ width: '38%' }}>
+              <Text style={[styles.cellValue, { flex: 0.3 }]}>Nombre:{formData.nombreInspector}</Text>
 
-                  </View>
-                </View>
-                <Text style={[styles.cellLabel,{width:'12%', fontSize:10} ]}> Chofer</Text>
-                <View style={{width:'38%'} }> 
-                  <Text style={[styles.cellValue,{flex:0.3} ]}>Nombre:{formData.nombreChofer}</Text>
-                  <View style={[styles.cellValue,{}]}>
-                    <Text style={[styles.inputLabel,{paddingBottom:10} ]}>Firma:</Text>
-                    {firmaBase64Chofer && (
-                      <Image src={firmaBase64Chofer} style={{ width: 200, height: 150  }} />
-                    )}
+              <View style={[styles.cellValue, {}]}>
+                <Text style={[styles.inputLabel, { paddingBottom: 10 }]}>Firma:</Text>
+                {firmaBase64Inspector && (
+                  <Image src={firmaBase64Inspector} style={{ width: 200, height: 150 }} />
+                )}
 
-                  </View>
-                </View>
+              </View>
             </View>
+            <Text style={[styles.cellLabel, { width: '12%', fontSize: 10 }]}> Chofer</Text>
+            <View style={{ width: '38%' }}>
+              <Text style={[styles.cellValue, { flex: 0.3 }]}>Nombre:{formData.nombreChofer}</Text>
+              <View style={[styles.cellValue, {}]}>
+                <Text style={[styles.inputLabel, { paddingBottom: 10 }]}>Firma:</Text>
+                {firmaBase64Chofer && (
+                  <Image src={firmaBase64Chofer} style={{ width: 200, height: 150 }} />
+                )}
+
+              </View>
+            </View>
+          </View>
         </View>
       </View>
-
-
 
     </Page>
   </Document>
@@ -484,98 +481,111 @@ const ActaDeLlegada = () => {
     sellado: '',
     numeroSerie: '',
     resultadosInv: '',
-    tempAPuerta:'',
-    tempAMedio:'',
-    tempAFondo:'',
-    tempMPuerta:'',
-    tempMMedio:'',
-    tempMFondo:'',
-    tempBPuerta:'',
-    tempBMedio:'',
-    tempBFondo:'',
-    tempMax:'',
-    tempMin:'',
-    tempIdeal:'',
-    nombreInspector:'',
-    nombreChofer:'',
-    option:''
+    tempAPuerta: '',
+    tempAMedio: '',
+    tempAFondo: '',
+    tempMPuerta: '',
+    tempMMedio: '',
+    tempMFondo: '',
+    tempBPuerta: '',
+    tempBMedio: '',
+    tempBFondo: '',
+    tempMax: '',
+    tempMin: '',
+    tempIdeal: '',
+    nombreInspector: '',
+    nombreChofer: '',
+    option: '',
+    option2:'',
+    optionLimpio:'',
+    optionCaja:'',
+    optionLona:'',
+    optionLibre:'',
+    optionCarga:'',
+    optionSeguridad:'',
+    optionSellado:'',
+    imageUri:''
   })
-
-
 
   const [firmaBase64Inspector, setFirmaBase64Inspector] = useState(null)
   const [firmaBase64Chofer, setFirmaBase64Chofer] = useState(null)
 
-  const [temperatureRange, setTemperatureRange] = useState(null);
-
+  const [temperatureRange, setTemperatureRange] = useState(null)
 
   const signaturePadInspector = useRef<any>(null) // Refs para el signature pad
   const signaturePadChofer = useRef<any>(null)
-
-
+  const [image, setImage] = useState(null);
+  
 
   const handleInputChange = (e) => {
     const { name, value } = e.target
     setFormData((prevData) => ({ ...prevData, [name]: value }))
   }
+  const handleFileChange = (e) => {
+    const file = e.target.files[0]; // Obtener el primer archivo seleccionado
+    if (file) {
+      // Crear una URL temporal para el archivo seleccionado
+      var  imageUrl = URL.createObjectURL(file);
+      setImage(imageUrl);
+      formData.imageUri=imageUrl // Guardar la URL temporal de la imagen en el estado
+    }
+  };
+  
 
-    useEffect(() => {
-      const allTemperatures = [
-        formData.tempAPuerta, formData.tempAMedio, formData.tempAFondo,
-        formData.tempMPuerta, formData.tempMMedio, formData.tempMFondo,
-        formData.tempBPuerta, formData.tempBMedio, formData.tempBFondo,
-      ].map(temp => Number(temp) || null) // Convierte a número o `null` si no es un número
-      .filter(temp => temp !== null); /// Aseguramos que sean números válidos
-    
-      // Si no hay temperaturas válidas, no hacer nada
-      if (allTemperatures.length === 0) return;
-    
-      const maxTemp = Math.max(...allTemperatures);
-      const minTemp = Math.min(...allTemperatures);
-    
-      // Actualizar el estado con los valores de tempMax y tempMin
-      setFormData(prevData => ({
-        ...prevData,
-        tempMax: maxTemp,
-        tempMin: minTemp,
-      }));
-    
-      // Actualizar el rango
-      setTemperatureRange({ max: maxTemp, min: minTemp });
-    
-    }, [
+  useEffect(() => {
+    const allTemperatures = [
       formData.tempAPuerta, formData.tempAMedio, formData.tempAFondo,
       formData.tempMPuerta, formData.tempMMedio, formData.tempMFondo,
       formData.tempBPuerta, formData.tempBMedio, formData.tempBFondo
-    ]);
-    
-  
+    ].map(temp => Number(temp) || null) // Convierte a número o `null` si no es un número
+      .filter(temp => temp !== null) /// Aseguramos que sean números válidos
 
-    // Función para limpiar ambas firmas
-    const clearSignature = () => {
-      if (signaturePadInspector.current) {
-        signaturePadInspector.current.clear()
-      }
-      setFirmaBase64Inspector(null) // Estado para la firma del inspector
-      
-      if (signaturePadChofer.current) {
-        signaturePadChofer.current.clear()
-      }
-      setFirmaBase64Chofer(null) // Estado para la firma del chofer
+    // Si no hay temperaturas válidas, no hacer nada
+    if (allTemperatures.length === 0) return
+
+    const maxTemp = Math.max(...allTemperatures)
+    const minTemp = Math.min(...allTemperatures)
+
+    // Actualizar el estado con los valores de tempMax y tempMin
+    setFormData(prevData => ({
+      ...prevData,
+      tempMax: maxTemp,
+      tempMin: minTemp
+    }))
+
+    // Actualizar el rango
+    setTemperatureRange({ max: maxTemp, min: minTemp })
+  }, [
+    formData.tempAPuerta, formData.tempAMedio, formData.tempAFondo,
+    formData.tempMPuerta, formData.tempMMedio, formData.tempMFondo,
+    formData.tempBPuerta, formData.tempBMedio, formData.tempBFondo
+  ])
+
+  // Función para limpiar ambas firmas
+  const clearSignature = () => {
+    if (signaturePadInspector.current) {
+      signaturePadInspector.current.clear()
+    }
+    setFirmaBase64Inspector(null) // Estado para la firma del inspector
+
+    if (signaturePadChofer.current) {
+      signaturePadChofer.current.clear()
+    }
+    setFirmaBase64Chofer(null) // Estado para la firma del chofer
+  }
+
+  // Función para guardar ambas firmas
+  const saveSignature = () => {
+    if (signaturePadInspector.current) {
+      const dataUrlInspector = signaturePadInspector.current.toDataURL()
+      setFirmaBase64Inspector(dataUrlInspector) // Guarda la firma del inspector
     }
 
-    // Función para guardar ambas firmas
-    const saveSignature = () => {
-      if (signaturePadInspector.current) {
-        const dataUrlInspector = signaturePadInspector.current.toDataURL()
-        setFirmaBase64Inspector(dataUrlInspector) // Guarda la firma del inspector
-      }
-
-      if (signaturePadChofer.current) {
-        const dataUrlChofer = signaturePadChofer.current.toDataURL()
-        setFirmaBase64Chofer(dataUrlChofer) // Guarda la firma del chofer
-      }
+    if (signaturePadChofer.current) {
+      const dataUrlChofer = signaturePadChofer.current.toDataURL()
+      setFirmaBase64Chofer(dataUrlChofer) // Guarda la firma del chofer
     }
+  }
 
   return (
     <Layout>
@@ -643,6 +653,7 @@ const ActaDeLlegada = () => {
             <Accordion type='single' collapsible>
               <AccordionItem value='item-2'>
                 <AccordionTrigger>Condiciones de Transporte</AccordionTrigger>
+                
                 <AccordionContent>
                   <label>Temperatura de set point: </label>
                   <Input type='text' name='tempSetPoint' value={formData.tempSetPoint} onChange={handleInputChange} />
@@ -652,69 +663,157 @@ const ActaDeLlegada = () => {
 
                   <label>Temperatura de pantalla: </label>
                   <Input type='text' name='tempPantalla' value={formData.tempPantalla} onChange={handleInputChange} />
-                 
+
                   <label>Observaciones pantalla: </label>
                   <Input type='text' name='observacionesPantalla' value={formData.observacionesPantalla} onChange={handleInputChange} />
 
                   <div style={{ marginBottom: 10 }}>
-  <label>Termógrafo: </label>
-  <Input type='text' name='termografo' value={formData.termografo} onChange={handleInputChange} />
-</div>
+                    <label>Termógrafo: </label>
+                    <Input type='text' name='termografo' value={formData.termografo} onChange={handleInputChange} />
+                  </div>
 
-<div style={{ marginBottom: 10 }}>
-  <label>Termógrafdo: </label>
-  <select
-    id="dropdown"
-    name="option"
-    value={formData.option}
-    onChange={handleInputChange}
-  >
-    <option value="" disabled>Selecciona...</option>
-    <option value="Si">Sí</option>
-    <option value="No">No</option>
-  </select>
-</div>
+                  <div style={{ marginBottom: 30 }}>
+                    <label>Cumple termografo  </label>
 
-<div style={{ marginBottom: 10 }}>
-  <label>Temperatura de origen: </label>
-  <Input type='text' name='tempOrigen' value={formData.tempOrigen} onChange={handleInputChange} />
-</div>
+                    <div style={{ marginBottom: 20 }}>
+                 
+                    <Button  style={{ flex: 5, marginRight: "10px" }} name="option" value="Si"onClick={handleInputChange}>
+                      Sí
+                    </Button>
+                    <Button   name="option" value="No"onClick={handleInputChange}>
+                      No
+                    </Button>
+                  </div>
+                  </div>
 
+                  <div style={{ marginBottom: 30 }}>
+                    <label>Cumple termografo2  </label>
+
+                    <div style={{ marginBottom: 20 }}>
+                 
+                    <Button  style={{ flex: 5, marginRight: "10px" }} name="option2" value="Si"onClick={handleInputChange}>
+                      Sí
+                    </Button>
+                    <Button   name="option2" value="No"onClick={handleInputChange}>
+                      No
+                    </Button>
+                  </div>
+                  </div>
+
+                  <div style={{ marginBottom: 10 }}>
+                    <label>Temperatura de origen: </label>
+                    <Input type='text' name='tempOrigen' value={formData.tempOrigen} onChange={handleInputChange} />
+                  </div>
 
                   <label>Temperatura de destino: </label>
                   <Input type='text' name='tempDestino' value={formData.tempDestino} onChange={handleInputChange} />
                 </AccordionContent>
               </AccordionItem>
             </Accordion>
-            
 
             <Accordion type='single' collapsible>
               <AccordionItem value='item-2'>
                 <AccordionTrigger>Inspección de Transporte</AccordionTrigger>
                 <AccordionContent>
-                  <label>Limpio, libre de malos olores: </label>
+                <div style={{ marginBottom: 30 }}>
+                    <label>Cumple termografo  </label>
+                    <div style={{ marginBottom: 20 }}>
+                    <Button  style={{ flex: 5, marginRight: "10px" }} name="optionLimpio" value="Si"onClick={handleInputChange}> Sí </Button>
+                    <Button   name="optionLimpio" value="No"onClick={handleInputChange}>  No </Button>
+                  </div>
+                 </div>
+
+                  <label>Descripcion: </label>
+                  
                   <Input type='text' name='limpio' value={formData.limpio} onChange={handleInputChange} />
 
-                  <label>Caja cerrada, en buen estado: </label>
+                  <div style={{ marginBottom: 30 }}>
+                    <label>Caja cerrada, en buen estado  </label>
+                    <div style={{ marginBottom: 20 }}>
+                    <Button  style={{ flex: 5, marginRight: "10px" }} name="optionCaja" value="Si"onClick={handleInputChange}> Sí </Button>
+                    <Button   name="optionCaja" value="No"onClick={handleInputChange}>  No </Button>
+                  </div>
+                 </div>
+
+
+                  <label>DEscription</label>
                   <Input type='text' name='cajaCerrada' value={formData.cajaCerrada} onChange={handleInputChange} />
 
-                  <label>Lona en buen estado: </label>
+                  <div style={{ marginBottom: 30 }}>
+                    <label>Lona en buen estado:   </label>
+                    <div style={{ marginBottom: 20 }}>
+                    <Button  style={{ flex: 5, marginRight: "10px" }} name="optionLona" value="Si"onClick={handleInputChange}> Sí </Button>
+                    <Button   name="optionLona" value="No"onClick={handleInputChange}>  No </Button>
+                  </div>
+                 </div>
+
+                  <label>Descripcion</label>
                   <Input type='text' name='lona' value={formData.lona} onChange={handleInputChange} />
 
-                  <label>Libre de fauna nociva: </label>
-                  <Input type='text' name='fauna' value={formData.fauna} onChange={handleInputChange} />
+                  <div style={{ marginBottom: 30 }}>
+                    <label>Libre de fauna nociva:   </label>
+                    <div style={{ marginBottom: 20 }}>
+                    <Button  style={{ flex: 5, marginRight: "10px" }} name="optionLibre" value="Si"onClick={handleInputChange}> Sí </Button>
+                    <Button   name="optionLibre" value="No"onClick={handleInputChange}>  No </Button>
+                  </div>
+                 </div>
+                  
+                  
 
-                  <label>Carga en buen estado: </label>
+                  <label>DEscripcion: </label>
+                  <Input type='text' name='fauna' value={formData.fauna} onChange={handleInputChange} />
+                  
+                  <div style={{ marginBottom: 30 }}>
+                    <label>Carga en buen estado:  </label>
+                    <div style={{ marginBottom: 20 }}>
+                    <Button  style={{ flex: 5, marginRight: "10px" }} name="optionCarga" value="Si"onClick={handleInputChange}> Sí </Button>
+                    <Button   name="optionCarga" value="No"onClick={handleInputChange}>  No </Button>
+                  </div>
+                 </div>
+                  
+
+                  <label>DEscripcion: </label>
                   <Input type='text' name='carga' value={formData.carga} onChange={handleInputChange} />
 
-                  <label>Seguridad de carga: </label>
+                  <div style={{ marginBottom: 30 }}>
+                    <label>Seguridad de carga:  </label>
+                    <div style={{ marginBottom: 20 }}>
+                    <Button  style={{ flex: 5, marginRight: "10px" }} name="optionSeguridad" value="Si"onClick={handleInputChange}> Sí </Button>
+                    <Button   name="optionSeguridad" value="No"onClick={handleInputChange}>  No </Button>
+                  </div>
+                 </div>
+                  
+
+                  <label>Descripcion: </label>
                   <Input type='text' name='seguridadCarga' value={formData.seguridadCarga} onChange={handleInputChange} />
+         
 
-                  <label>Sellado: </label>
-                  <Input type='text' name='sellado' value={formData.sellado} onChange={handleInputChange} />
+                  <div style={{ marginBottom: 30 }}>
+                    <label>Sellado:  </label>
+                    <div style={{ marginBottom: 20 }}>
+                    <Button  style={{ flex: 5, marginRight: "10px" }} name="optionSellado" value="Si"onClick={handleInputChange}> Sí </Button>
+                    <Button   name="optionSellado" value="No"onClick={handleInputChange}>  No </Button>
+                  </div>
+                 </div> 
+                 <label>Descripcion: </label>
+                 <Input type='text' name='sellado' value={formData.sellado} onChange={handleInputChange} />
 
-                  <label>Número de serie: </label>
-                  <Input type='text' name='numeroSerie' value={formData.numeroSerie} onChange={handleInputChange} />
+                 <div>
+      <Button>
+        <label htmlFor="file-input" style={{ cursor: 'pointer' }}>
+          Seleccionar Imagen
+        </label>
+      </Button>
+      <input
+        type="file"
+        id="file-input"
+        accept="image/*" // Solo imágenes
+        style={{ display: 'none' }} // Ocultar el input real
+        onChange={handleFileChange}
+      />
+      
+      {image && <img src={image} alt="Selected" style={{ width: '300px', marginTop: '20px' }} />}
+    </div>
 
                 </AccordionContent>
               </AccordionItem>
@@ -726,27 +825,27 @@ const ActaDeLlegada = () => {
                 <AccordionContent>
                   <h3>Ubicación A</h3>
                   <label>Puerta: </label>
-                  <Input type='number' name='tempAPuerta' value={formData.tempAPuerta} onChange={(e) => { handleInputChange(e); calculateTemperatureRange(); }} />
+                  <Input type='number' name='tempAPuerta' value={formData.tempAPuerta} onChange={(e) => { handleInputChange(e); calculateTemperatureRange() }} />
                   <label>Medio: </label>
-                  <Input type='number' name='tempAMedio' value={formData.tempAMedio} onChange={(e) => { handleInputChange(e); calculateTemperatureRange(); }}  />
+                  <Input type='number' name='tempAMedio' value={formData.tempAMedio} onChange={(e) => { handleInputChange(e); calculateTemperatureRange() }} />
                   <label>Fondo: </label>
-                  <Input type='number' name='tempAFondo' value={formData.tempAFondo} onChange={(e) => { handleInputChange(e); calculateTemperatureRange(); }}  />
+                  <Input type='number' name='tempAFondo' value={formData.tempAFondo} onChange={(e) => { handleInputChange(e); calculateTemperatureRange() }} />
 
                   <h3>Ubicación M</h3>
                   <label>Puerta: </label>
-                  <Input type='number' name='tempMPuerta' value={formData.tempMPuerta} onChange={(e) => { handleInputChange(e); calculateTemperatureRange(); }}  />
+                  <Input type='number' name='tempMPuerta' value={formData.tempMPuerta} onChange={(e) => { handleInputChange(e); calculateTemperatureRange() }} />
                   <label>Medio: </label>
-                  <Input type='number' name='tempMMedio' value={formData.tempMMedio} onChange={(e) => { handleInputChange(e); calculateTemperatureRange(); }} />
+                  <Input type='number' name='tempMMedio' value={formData.tempMMedio} onChange={(e) => { handleInputChange(e); calculateTemperatureRange() }} />
                   <label>Fondo: </label>
-                  <Input type='number' name='tempMFondo' value={formData.tempMFondo} onChange={(e) => { handleInputChange(e); calculateTemperatureRange(); }}  />
+                  <Input type='number' name='tempMFondo' value={formData.tempMFondo} onChange={(e) => { handleInputChange(e); calculateTemperatureRange() }} />
 
                   <h3>Ubicación B</h3>
                   <label>Puerta: </label>
-                  <Input type='number' name='tempBPuerta' value={formData.tempBPuerta} onChange={(e) => { handleInputChange(e); calculateTemperatureRange(); }} />
+                  <Input type='number' name='tempBPuerta' value={formData.tempBPuerta} onChange={(e) => { handleInputChange(e); calculateTemperatureRange() }} />
                   <label>Medio: </label>
-                  <Input type='number' name='tempBMedio' value={formData.tempBMedio} onChange={(e) => { handleInputChange(e); calculateTemperatureRange(); }} />
+                  <Input type='number' name='tempBMedio' value={formData.tempBMedio} onChange={(e) => { handleInputChange(e); calculateTemperatureRange() }} />
                   <label>Fondo: </label>
-                  <Input type='number' name='tempBFondo' value={formData.tempBFondo} onChange={(e) => { handleInputChange(e); calculateTemperatureRange(); }}  />
+                  <Input type='number' name='tempBFondo' value={formData.tempBFondo} onChange={(e) => { handleInputChange(e); calculateTemperatureRange() }} />
 
                   <h3>Temperatura Ideal</h3>
                   <Input type='number' name='tempIdeal' value={formData.tempIdeal} onChange={handleInputChange} />
@@ -762,7 +861,7 @@ const ActaDeLlegada = () => {
 
             <h2>Resultados de la Investigación</h2>
             <Input type='text' name='resultadosInv' value={formData.resultadosInv} onChange={handleInputChange} />
-                
+
             <label>Nombre Inspector de Calidad: </label>
             <Input type='text' name='nombreInspector' value={formData.nombreInspector} onChange={handleInputChange} />
             <h2>Firma Inspector de Calidad</h2>
@@ -773,7 +872,7 @@ const ActaDeLlegada = () => {
                 canvasProps={{ width: 500, height: 200, className: 'signature-canvas' }}
               />
             </div>
-                
+
             <label>Nombre Chofer: </label>
             <Input type='text' name='nombreChofer' value={formData.nombreChofer} onChange={handleInputChange} />
             <h2>Firma del Chofer</h2>
@@ -794,7 +893,7 @@ const ActaDeLlegada = () => {
         <ResizablePanel>
           <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
             <PDFViewer width='100%' height='100%'>
-              <ActaPDF formData={formData} firmaBase64Inspector={firmaBase64Inspector} firmaBase64Chofer={firmaBase64Chofer}/>
+              <ActaPDF formData={formData} firmaBase64Inspector={firmaBase64Inspector} firmaBase64Chofer={firmaBase64Chofer} />
             </PDFViewer>
             <div style={{ padding: '10px', display: 'flex', justifyContent: 'center' }}>
               <PDFDownloadLink document={<ActaPDF formData={formData} firmaBase64Inspector={firmaBase64Inspector} />} fileName='acta_de_llegada.pdf'>

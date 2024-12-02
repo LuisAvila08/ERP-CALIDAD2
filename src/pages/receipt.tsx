@@ -14,6 +14,9 @@ import {
 } from '@/components/ui/accordion'
 import { Bold } from 'lucide-react'
 import { WidthIcon } from '@radix-ui/react-icons'
+import Select from '@mui/material/Select';
+
+
 
 const styles = StyleSheet.create({
   page: { padding: 30 },
@@ -227,15 +230,15 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer }) => (
           
                 <View style={styles.tableRow}>
                    <Text style={styles.cellLabelWhite}>Temperatura del set point:</Text>
-                   <Text style={styles.cellLabelWhite}></Text>
+                   <Text style={styles.cellValue}>{formData.tempSetPoint|| ''}</Text>
                    
-                   <Text style={styles.cellLabelWhite}></Text>
+                   <Text style={styles.cellLabelWhite}>{formData.observacionesSetPoint||''}</Text>
                    
                 </View>
                 <View style={styles.tableRow}>
                   <Text style={styles.cellLabelWhite}>Temperatura de pantallat:</Text>
-                  <Text style={styles.cellLabelWhite}></Text>
-                  <Text style={styles.cellLabelWhite}></Text>
+                  <Text style={styles.cellLabelWhite}>{formData.tempPantalla||''}</Text>
+                  <Text style={styles.cellLabelWhite}>{formData.observacionesPantalla||''}</Text>
 
                 </View>
                 <View style={styles.tableRow}>
@@ -251,11 +254,14 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer }) => (
                     <Text style={[styles.cellLabelWhite,{flex:1.5} ]}>Termografo:</Text>
 
                     <View style={{flex:2}}>
-                        <Text style={styles.cellLabelWhite}></Text>
+                      
+                        <Text style={styles.cellLabelWhite}>
+                       
+                        </Text>
                         <Text style={styles.cellLabelWhite}></Text>
                     </View>
                     <View style={{flex:2}}>
-                        <Text style={styles.cellLabelWhite}></Text>
+                        <Text style={styles.cellLabelWhite}>{formData.option=='Si'?"hf":"he"}</Text>
                         <Text style={styles.cellLabelWhite}></Text>
                     </View>
                     
@@ -491,7 +497,8 @@ const ActaDeLlegada = () => {
     tempMin:'',
     tempIdeal:'',
     nombreInspector:'',
-    nombreChofer:''
+    nombreChofer:'',
+    option:''
   })
 
 
@@ -504,6 +511,8 @@ const ActaDeLlegada = () => {
 
   const signaturePadInspector = useRef<any>(null) // Refs para el signature pad
   const signaturePadChofer = useRef<any>(null)
+
+
 
   const handleInputChange = (e) => {
     const { name, value } = e.target
@@ -643,21 +652,41 @@ const ActaDeLlegada = () => {
 
                   <label>Temperatura de pantalla: </label>
                   <Input type='text' name='tempPantalla' value={formData.tempPantalla} onChange={handleInputChange} />
-
+                 
                   <label>Observaciones pantalla: </label>
                   <Input type='text' name='observacionesPantalla' value={formData.observacionesPantalla} onChange={handleInputChange} />
 
-                  <label>Termógrafo: </label>
-                  <Input type='text' name='termografo' value={formData.termografo} onChange={handleInputChange} />
+                  <div style={{ marginBottom: 10 }}>
+  <label>Termógrafo: </label>
+  <Input type='text' name='termografo' value={formData.termografo} onChange={handleInputChange} />
+</div>
 
-                  <label>Temperatura de origen: </label>
-                  <Input type='text' name='tempOrigen' value={formData.tempOrigen} onChange={handleInputChange} />
+<div style={{ marginBottom: 10 }}>
+  <label>Termógrafdo: </label>
+  <select
+    id="dropdown"
+    name="option"
+    value={formData.option}
+    onChange={handleInputChange}
+  >
+    <option value="" disabled>Selecciona...</option>
+    <option value="Si">Sí</option>
+    <option value="No">No</option>
+  </select>
+</div>
+
+<div style={{ marginBottom: 10 }}>
+  <label>Temperatura de origen: </label>
+  <Input type='text' name='tempOrigen' value={formData.tempOrigen} onChange={handleInputChange} />
+</div>
+
 
                   <label>Temperatura de destino: </label>
                   <Input type='text' name='tempDestino' value={formData.tempDestino} onChange={handleInputChange} />
                 </AccordionContent>
               </AccordionItem>
             </Accordion>
+            
 
             <Accordion type='single' collapsible>
               <AccordionItem value='item-2'>

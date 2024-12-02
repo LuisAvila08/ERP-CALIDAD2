@@ -413,43 +413,37 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer }) => (
 
       <Text style={[styles.cellLabel, {flex:0.15, fontSize:14}]}>Hago constar que estoy de acuerdo con lo verificado y registrado en el presente{'\n'}documento</Text>
       
-        <View >
-        
+      <View >
       
-            <View style={styles.tableRow}>
-                <Text style={[styles.cellLabel,{width:'12%',textAlign:'center', fontSize:10, height:200 }]}> Verifico descarga{'\n'} (Inspector de Calidad)</Text>
-                <View style={{width:'38%'}}> 
-                  <Text style={[styles.cellValue,{flex:0.3} ]}>Nombre:{formData.nombreInspector}</Text>
-                  
-                  <View style={[styles.cellValue,{} ]}>
-                    <Text style={[styles.inputLabel,{paddingBottom:10} ]}>Firma:</Text>
-                    {firmaBase64Inspector && (
-                      <Image src={firmaBase64Inspector} style={{ width: 200, height: 150 }} />
-                    )}
+    
+          <View style={styles.tableRow}>
+              <Text style={[styles.cellLabel,{width:'12%',textAlign:'center', fontSize:10, height:200 }]}> Verifico descarga{'\n'} (Inspector de Calidad)</Text>
+              <View style={{width:'38%'}}> 
+                <Text style={[styles.cellValue,{flex:0.3} ]}>Nombre:{formData.nombreInspector}</Text>
+                
+                <View style={[styles.cellValue,{} ]}>
+                  <Text style={[styles.inputLabel,{paddingBottom:10} ]}>Firma:</Text>
+                  {firmaBase64Inspector && (
+                    <Image src={firmaBase64Inspector} style={{ width: 200, height: 150 }} />
+                  )}
 
-              <View style={[styles.cellValue, {}]}>
-                <Text style={[styles.inputLabel, { paddingBottom: 10 }]}>Firma:</Text>
-                {firmaBase64Inspector && (
-                  <Image src={firmaBase64Inspector} style={{ width: 200, height: 150 }} />
-                )}
-
+                </View>
               </View>
-            </View>
-            <Text style={[styles.cellLabel, { width: '12%', fontSize: 10 }]}> Chofer</Text>
-            <View style={{ width: '38%' }}>
-              <Text style={[styles.cellValue, { flex: 0.3 }]}>Nombre:{formData.nombreChofer}</Text>
-              <View style={[styles.cellValue, {}]}>
-                <Text style={[styles.inputLabel, { paddingBottom: 10 }]}>Firma:</Text>
-                {firmaBase64Chofer && (
-                  <Image src={firmaBase64Chofer} style={{ width: 200, height: 150 }} />
-                )}
+              <Text style={[styles.cellLabel,{width:'12%', fontSize:10} ]}> Chofer</Text>
+              <View style={{width:'38%'} }> 
+                <Text style={[styles.cellValue,{flex:0.3} ]}>Nombre:{formData.nombreChofer}</Text>
+                <View style={[styles.cellValue,{}]}>
+                  <Text style={[styles.inputLabel,{paddingBottom:10} ]}>Firma:</Text>
+                  {firmaBase64Chofer && (
+                    <Image src={firmaBase64Chofer} style={{ width: 200, height: 150  }} />
+                  )}
 
+                </View>
               </View>
-            </View>
           </View>
-        </View>
-        
       </View>
+
+
       <Text style={[styles.cellLabelWhite, { flex: 0.1}]}>Limpio,libre de malos olores:</Text>
       {formData.image1 && (
     <Image

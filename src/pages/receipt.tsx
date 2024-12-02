@@ -1,27 +1,30 @@
 import React, { useState, useRef,useEffect  } from 'react'
-import { Page, Text, View, Document, StyleSheet, PDFViewer, PDFDownloadLink, Image } from '@react-pdf/renderer'
+import { Page, Text, View, Document, StyleSheet, PDFViewer, PDFDownloadLink, Image, Font } from '@react-pdf/renderer'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import Layout from '../components/Layout'
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable'
-import SignatureCanvas from 'react-signature-canvas' // Importa SignatureCanvas
+import SignatureCanvas from 'react-signature-canvas' 
 import { IconCheck } from '@tabler/icons-react'
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger
-} from '@/components/ui/accordion'
+import { Accordion,  AccordionContent,  AccordionItem,  AccordionTrigger} from '@/components/ui/accordion'
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
 import { Bold } from 'lucide-react'
 import { WidthIcon } from '@radix-ui/react-icons'
-import Select from '@mui/material/Select';
 
+import GothamNarrowMedium from '../../public/fonts/GothamNarrow-Medium.otf'
 
+// import { InputNumber } from 'primereact/inputnumber';
+// import '../App.css';
+
+Font.register({
+  family: 'GothamNarrow',
+  src: GothamNarrowMedium,
+});
 
 const styles = StyleSheet.create({
   page: { padding: 30 },
   logoSection: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 20 },
-  title: { textAlign: 'center', fontSize: 20, marginBottom: 10 },
+
   block: {
     marginBottom: 15,
     padding: 10,
@@ -37,7 +40,7 @@ const styles = StyleSheet.create({
     marginVertical: 10
   },
   row: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 5 },
-  inputLabel: { fontSize: 12, fontWeight: 'bold' },
+  inputLabel: { fontSize: 12, fontWeight: 'bold',fontFamily:'GothamNarrow'  },
   signatureCanvasContainer: { border: '1px solid #ccc', padding: '10px', marginTop: '20px' },
   table: {
     display: 'table',
@@ -65,39 +68,39 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#000',
     borderRadius: 3,
-    fontSize: 7,
-    textAlign:'center',
+    fontSize: 12,
+    textAlign: 'center',
     justifyContent: 'center',
-    paddingVertical: 10,
     paddingHorizontal: 1,
-    width: '100%',
-    fontWeight: 'bold',
-    flexWrap: 'wrap' // Permite que el texto se ajuste a varias líneas si es necesario
+    paddingVertical: 1,  // Ajuste para mejor separación
+    width: '100%',       // Asegura que ocupe el 100% del espacio disponible
+    fontFamily: 'GothamNarrow',
+    flexWrap: 'wrap',    // Permite que el texto se envuelva si no cabe
+    overflow: 'hidden',  // Evita que el texto desborde el contenedor
   },
   cellValue: {
     flex: 1,
     borderWidth: 1,
     borderColor: '#000',
     padding: 5,
-    fontSize: 8,
-    paddingVertical: 7,
+    fontSize: 10,
 
     justifyContent: 'center', // Centra el contenido verticalmente
-    alignItems: 'center' // Centra el contenido verticalmente
+    alignItems: 'center',fontFamily:'GothamNarrow'  // Centra el contenido verticalmente
   },
   cellLabelWhite: {
     backgroundColor: '#FFFFFF', // Fondo blanco
     borderWidth: 1, // Borde de 1px
     borderColor: '#000', // Borde negro
     borderRadius: 3, // Bordes redondeados
-    fontSize: 7, // Aumenté el tamaño de la fuente
-    paddingVertical: 6, // Relleno vertical para darle espacio al texto
+    fontSize: 10, // Aumenté el tamaño de la fuente
+ // Relleno vertical para darle espacio al texto
     paddingHorizontal: 20, // Relleno horizontal para
     fontWeight: 'bold', // Texto en negrita
     flex: 1,
 
     textAlign: 'center', // Centra el texto dentro de la celda
-    flexWrap: 'wrap' // Permite que el texto se ajuste a varias líneas si es necesario
+    flexWrap: 'wrap',fontFamily:'GothamNarrow'  // Permite que el texto se ajuste a varias líneas si es necesario
   },
   cellLabelOptimizade: {
     flex: 1.3,
@@ -110,13 +113,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 1,
     width: '70%',
     fontWeight: 'bold',
-    flexWrap: 'wrap' // Permite que el texto se ajuste a varias líneas si es necesario
+    flexWrap: 'wrap',fontFamily:'GothamNarrow'  // Permite que el texto se ajuste a varias líneas si es necesario
   },
   newTableRow: {
     flexDirection: 'row', // Asegura que las celdas estén en línea
     justifyContent: 'space-between', // Espacia las celdas equitativamente
     alignItems: 'center', // Centra verticalmente los elementos en la fila
-    marginVertical: 5 // Agrega separación entre filas
+    marginVertical: 5 ,
+    fontFamily:'GothamNarrow' // Agrega separación entre filas
 
   }
 
@@ -132,10 +136,10 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer }) => (
           src='/src/assets/images/LOGO.jpg'
         />
         <View style={{ alignItems: 'center' }}> {/* Centra los textos */}
-          <Text style={{ fontSize: 24, fontWeight: 'bold' }}>ACTA DE DESCARGA</Text>
+          <Text style={{ fontSize: 24, fontWeight: 'bold',fontFamily:'GothamNarrow' }}>ACTA DE DESCARGA</Text>
           <View style={{ alignItems: 'center', marginTop: 5 }}>
-            <Text style={{ fontSize: 14 }}>F-I-CAL-02-01</Text>
-            <Text style={{ fontSize: 14 }}>Rev.7 (08-12-2024)</Text>
+            <Text style={{ fontSize: 14,fontFamily:'GothamNarrow'  }}>F-I-CAL-02-01</Text>
+            <Text style={{ fontSize: 14,fontFamily:'GothamNarrow'  }}>Rev.7 (08-12-2024)</Text>
           </View>
         </View>
       </View>
@@ -144,7 +148,7 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer }) => (
         <View style={styles.tableRow}>
           <Text style={styles.cellLabel}>Fecha: </Text>
           <Text style={styles.cellValue}>{formData.fecha || ''}</Text>
-          <Text style={[styles.cellLabel, { flex: 1.5 }]}>Inicio de verificación:</Text>
+          <Text style={[styles.cellLabel, { flex: 1.5 }]}>Inicio de{'\n'}verificación:</Text>
           <Text style={styles.cellValue}>{formData.inicioVerificacion || ''}</Text>
           <Text style={[styles.cellLabel, { flex: 1.5 }]}>Término de verificación:</Text>
           <Text style={styles.cellValue}>{formData.terminoVerificacion || ''}</Text>
@@ -152,7 +156,7 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer }) => (
           <Text style={styles.cellValue}>{formData.oc || ''}</Text>
         </View>
         <View style={styles.tableRow}>
-          <Text style={[styles.cellLabel, { flex: 0.6 }]}>Proveedor:</Text>
+          <Text style={[styles.cellLabel, { flex: 0.8 }]}>Proveedor:</Text>
           <Text style={styles.cellValue}>{formData.proveedor || ''}</Text>
           <Text style={styles.cellLabel}>Origen:</Text>
           <Text style={styles.cellValue}>{formData.origen || ''}</Text>
@@ -161,7 +165,7 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer }) => (
 
         </View>
         <View style={styles.tableRow}>
-          <Text style={styles.cellLabel}>Especie:</Text>
+          <Text style={[styles.cellLabel, { flex: 0.2 }]}>Especie:</Text>
           <Text style={styles.cellValue}>{formData.especie || ''}</Text>
         </View>
         <View style={styles.tableRow}>
@@ -181,35 +185,33 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer }) => (
       <View style={styles.table}>
         {/* Fila 1 */}
         <View style={styles.tableRow}>
-          <Text style={styles.cellLabel}>LÍNEA TRANSPORTISTA</Text>
+          <Text style={[styles.cellLabel, { flex: 0.35 }]}>Línea Transportista</Text>
           <Text style={styles.cellValue}>{formData.lineaTransportista || ''}</Text>
         </View>
         {/* Fila 2 */}
         <View style={styles.tableRow}>
-          <Text style={styles.cellLabel}>No. DE CONTENEDOR</Text>
+          <Text style={[styles.cellLabel, { flex: 0.35 }]}>No. de Contenedor</Text>
           <Text style={styles.cellValue}>{formData.numeroContenedor || ''}</Text>
         </View>
         {/* Fila 3 */}
         <View style={styles.tableRow}>
-          <Text style={styles.cellLabel}>PLACAS CAMIÓN</Text>
+          <Text style={[styles.cellLabel, { flex: 0.35 }]}>Placas de Camión</Text>
           <Text style={styles.cellValue}>{formData.placasCamion || ''}</Text>
         </View>
         {/* Fila 4 */}
         <View style={styles.tableRow}>
-          <Text style={styles.cellLabel}>PLACAS CAJA</Text>
+          <Text style={[styles.cellLabel, { flex: 0.35 }]}>Placas Caja</Text>
           <Text style={styles.cellValue}>{formData.placasCaja || ''}</Text>
         </View>
         {/* Fila 5 */}
         <View style={styles.tableRow}>
-          <Text style={styles.cellLabel}>CHOFER</Text>
+          <Text style={[styles.cellLabel, { flex: 0.35 }]}>Chofer</Text>
           <Text style={styles.cellValue}>{formData.chofer || ''}</Text>
         </View>
       </View>
       <View style={{ marginBottom: 20 }} />
 
-      {/* Tabla */}
-
-      <View style={{ marginBottom: 20 }} />
+      
 
       <View style={{ width: '100%' }}>
       <View style={styles.tableRow}>
@@ -361,48 +363,48 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer }) => (
       <View style={{ marginBottom: 20 }} />
 
       <View style={[styles.tableRow, { marginBottom: 15, width: '100%' }]}>
-        <View style={[styles.tableHeaderCell, { width: '25%' }]}>
-          <Text style={styles.cellLabel}>TEMPERATURA DE PULPA</Text>
+        <View style={[ {height:100, width: '26%' }]}>
+          <Text style={[styles.cellLabel,{} ] }>Temperatura de pulpa</Text>
           <Text style={styles.cellValue}>A</Text>
           <Text style={styles.cellValue}>M</Text>
           <Text style={styles.cellValue}>B</Text>
         </View>
-        <View style={[styles.tableHeaderCell, { width: '10%' }]}>
-          <Text style={styles.cellLabel}>PUERTA</Text>
+        <View style={[ { width: '10%' }]}>
+          <Text style={[styles.cellLabel,{height:20} ] }>Puerta</Text>
           <Text style={styles.cellValue}>{formData.tempAPuerta}</Text>
           <Text style={styles.cellValue}>{formData.tempMPuerta}</Text>
           <Text style={styles.cellValue}>{formData.tempBPuerta}</Text>
         </View>
-        <View style={[styles.tableHeaderCell, { width: '10%' }]}>
-          <Text style={styles.cellLabel}>MEDIO</Text>
+        <View style={[ { width: '10%' }]}>
+          <Text style={[styles.cellLabel,{height:20} ] }>Medio</Text>
           <Text style={styles.cellValue}>{formData.tempAMedio}</Text>
           <Text style={styles.cellValue}>{formData.tempMMedio}</Text>
           <Text style={styles.cellValue}>{formData.tempBMedio}</Text>
         </View>
-        <View style={[styles.tableHeaderCell, { width: '10%' }]}>
-          <Text style={styles.cellLabel}>FONDO</Text>
+        <View style={[ { width: '10%' }]}>
+          <Text style={[styles.cellLabel,{height:20} ] }>Fondo</Text>
           <Text style={styles.cellValue}>{formData.tempAFondo}</Text>
           <Text style={styles.cellValue}>{formData.tempMFondo}</Text>
           <Text style={styles.cellValue}>{formData.tempBFondo}</Text>
         </View>
-        <View style={[styles.tableHeaderCell, { width: '30%' }]}>
-          <Text style={styles.cellLabel}>RANGO DE TEMPERATURA</Text>
+        <View style={[ { width: '30%' }]}>
+          <Text style={[styles.cellLabel,{height:20} ] }>Rango de Temperatura</Text>
           <View style={styles.tableRow}>
             <Text style={styles.cellValue}>Min:{formData.tempMin}</Text>
             <Text style={styles.cellValue}>Max:{formData.tempMax}</Text>
           </View>
 
         </View>
-        <View style={[styles.tableHeaderCell, { width: '30%' }]}>
-          <Text style={styles.cellLabel}>IDEAL</Text>
-          <Text style={styles.cellValue}> {formData.tempIdeal} </Text>
+        <View style={[ { width: '30%' }]}>
+          <Text style={styles.cellLabel}>Ideal</Text>
+          <Text style={styles.cellValue}> {formData.tempIdeal}°C </Text>
         </View>
       </View>
 
       <View style={[styles.tableRow, { marginBottom: 15 }]}>
         {/* Parte en negritas y más grande */}
-        <Text style={[styles.cellLabel, { flex: 0.85, fontSize: 11, fontWeight: 'bold' }]}>
-          Resultados de la Investigación{'\n'}
+        <Text style={[styles.cellLabel, { flex: 0.35, fontSize: 11, fontWeight: 'bold' }]}>
+          Resultados de la {'\n'}Investigación{'\n'}
 
           <Text style={{ fontSize: 6 }}>
             (PRODUCTO DAÑADO DESEMPLEADO SE ENVIAN A PISO O SE ARREGLAN)
@@ -411,13 +413,11 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer }) => (
         <Text style={styles.cellValue}>{formData.resultadosInv || ''}</Text>
       </View>
 
-      <View style={[styles.tableRow, { marginBottom: 15, width: '100%'  }]}>
+      <Text style={[styles.cellLabel, {flex:0.15, fontSize:14}]}>Hago constar que estoy de acuerdo con lo verificado y registrado en el presente{'\n'}documento</Text>
+      
+        <View >
         
-        <View style={[styles.tableHeaderCell, { width: '100%' }]}>
-
-        <Text style={[styles.cellLabel, { fontSize: 10, fontWeight: 'bold', paddingVertical:20 }]}>Hago constar que estoy de acuerdo con lo verificado y registrado en el presente documento</Text>
-          
-
+      
             <View style={styles.tableRow}>
                 <Text style={[styles.cellLabel,{width:'12%',textAlign:'center', fontSize:10, height:200 }]}> Verifico descarga{'\n'} (Inspector de Calidad)</Text>
                 <View style={{width:'38%'}}> 
@@ -444,7 +444,6 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer }) => (
                 </View>
             </View>
         </View>
-      </View>
 
 
 
@@ -657,28 +656,28 @@ const ActaDeLlegada = () => {
                   <Input type='text' name='observacionesPantalla' value={formData.observacionesPantalla} onChange={handleInputChange} />
 
                   <div style={{ marginBottom: 10 }}>
-  <label>Termógrafo: </label>
-  <Input type='text' name='termografo' value={formData.termografo} onChange={handleInputChange} />
-</div>
+                    <label>Termógrafo: </label>
+                    <Input type='text' name='termografo' value={formData.termografo} onChange={handleInputChange} />
+                  </div>
 
-<div style={{ marginBottom: 10 }}>
-  <label>Termógrafdo: </label>
-  <select
-    id="dropdown"
-    name="option"
-    value={formData.option}
-    onChange={handleInputChange}
-  >
-    <option value="" disabled>Selecciona...</option>
-    <option value="Si">Sí</option>
-    <option value="No">No</option>
-  </select>
-</div>
+                  <div style={{ marginBottom: 10 }}>
+                    <label>Termógrafdo: </label>
+                    <select
+                      id="dropdown"
+                      name="option"
+                      value={formData.option}
+                      onChange={handleInputChange}
+                    >
+                      <option value="" disabled>Selecciona...</option>
+                      <option value="Si">Sí</option>
+                      <option value="No">No</option>
+                    </select>
+                  </div>
 
-<div style={{ marginBottom: 10 }}>
-  <label>Temperatura de origen: </label>
-  <Input type='text' name='tempOrigen' value={formData.tempOrigen} onChange={handleInputChange} />
-</div>
+                  <div style={{ marginBottom: 10 }}>
+                    <label>Temperatura de origen: </label>
+                    <Input type='text' name='tempOrigen' value={formData.tempOrigen} onChange={handleInputChange} />
+                  </div>
 
 
                   <label>Temperatura de destino: </label>
@@ -724,38 +723,54 @@ const ActaDeLlegada = () => {
               <AccordionItem value='item-2'>
                 <AccordionTrigger>Temperatura de Pulpa</AccordionTrigger>
                 <AccordionContent>
-                  <h3>Ubicación A</h3>
-                  <label>Puerta: </label>
-                  <Input type='number' name='tempAPuerta' value={formData.tempAPuerta} onChange={(e) => { handleInputChange(e); calculateTemperatureRange(); }} />
-                  <label>Medio: </label>
-                  <Input type='number' name='tempAMedio' value={formData.tempAMedio} onChange={(e) => { handleInputChange(e); calculateTemperatureRange(); }}  />
-                  <label>Fondo: </label>
-                  <Input type='number' name='tempAFondo' value={formData.tempAFondo} onChange={(e) => { handleInputChange(e); calculateTemperatureRange(); }}  />
+                <table>
+                <thead>
+                  <tr>
+                    <th colspan="2"><h3>Puerta</h3></th>
+                    <th ><h3>Medio</h3></th>
+                    <th ><h3>Fondo</h3></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><label>A   </label></td>
+                    {/* <td><InputNumber value={formData.tempAPuerta} prefix="&uarr; " suffix="℃" min={0} max={40} /></td> */}
+                    <td><Input type='number' name='tempAPuerta' value={formData.tempAPuerta} onChange={(e) => { handleInputChange(e); calculateTemperatureRange(); }} /></td>
+                    <td><Input type='number' name='tempAMedio' value={formData.tempAMedio} onChange={(e) => { handleInputChange(e); calculateTemperatureRange(); }} /></td>
+                    <td><Input type='number' name='tempAFondo' value={formData.tempAFondo} onChange={(e) => { handleInputChange(e); calculateTemperatureRange(); }} /></td>
+                  </tr>
+                  <tr>
+                    <td><label>M   </label></td>
+                    <td><Input type='number' name='tempMPuerta' value={formData.tempMPuerta} onChange={(e) => { handleInputChange(e); calculateTemperatureRange(); }} /></td>
+                    <td><Input type='number' name='tempMMedio' value={formData.tempMMedio} onChange={(e) => { handleInputChange(e); calculateTemperatureRange(); }} /></td>
+                    <td><Input type='number' name='tempMFondo' value={formData.tempMFondo} onChange={(e) => { handleInputChange(e); calculateTemperatureRange(); }} /></td>
+                  </tr>
+                  <tr>
+                    <td><label>B   </label></td>
+                    <td><Input type='number' name='tempBPuerta' value={formData.tempBPuerta} onChange={(e) => { handleInputChange(e); calculateTemperatureRange(); }} /></td>
+                    <td><Input type='number' name='tempBMedio' value={formData.tempBMedio} onChange={(e) => { handleInputChange(e); calculateTemperatureRange(); }} /></td>
+                    <td><Input type='number' name='tempBFondo' value={formData.tempBFondo} onChange={(e) => { handleInputChange(e); calculateTemperatureRange(); }} /></td>
+                  </tr>
+                </tbody>
+              </table>
+              <div style={{paddingTop:10}}>
 
-                  <h3>Ubicación M</h3>
-                  <label>Puerta: </label>
-                  <Input type='number' name='tempMPuerta' value={formData.tempMPuerta} onChange={(e) => { handleInputChange(e); calculateTemperatureRange(); }}  />
-                  <label>Medio: </label>
-                  <Input type='number' name='tempMMedio' value={formData.tempMMedio} onChange={(e) => { handleInputChange(e); calculateTemperatureRange(); }} />
-                  <label>Fondo: </label>
-                  <Input type='number' name='tempMFondo' value={formData.tempMFondo} onChange={(e) => { handleInputChange(e); calculateTemperatureRange(); }}  />
+              <h3> <strong>Temperatura Ideal</strong></h3>
+              <Select name="tempIdeal" onValueChange={(value) => handleInputChange({ target: { name: 'tempIdeal', value } })}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Selecciona una fruta" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="4">Manzanas (4°C)</SelectItem>
+                  <SelectItem value="7">Plátanos (7°C)</SelectItem>
+                  <SelectItem value="1">Uvas (1°C)</SelectItem>
+                  <SelectItem value="0">Fresas (0°C)</SelectItem>
+                  <SelectItem value="-1">Mango (-1°C)</SelectItem>
+                </SelectContent>
+              </Select>
+              </div>
+              
 
-                  <h3>Ubicación B</h3>
-                  <label>Puerta: </label>
-                  <Input type='number' name='tempBPuerta' value={formData.tempBPuerta} onChange={(e) => { handleInputChange(e); calculateTemperatureRange(); }} />
-                  <label>Medio: </label>
-                  <Input type='number' name='tempBMedio' value={formData.tempBMedio} onChange={(e) => { handleInputChange(e); calculateTemperatureRange(); }} />
-                  <label>Fondo: </label>
-                  <Input type='number' name='tempBFondo' value={formData.tempBFondo} onChange={(e) => { handleInputChange(e); calculateTemperatureRange(); }}  />
-
-                  <h3>Temperatura Ideal</h3>
-                  <Input type='number' name='tempIdeal' value={formData.tempIdeal} onChange={handleInputChange} />
-                  {temperatureRange && (
-                    <div>
-                      <p>Temperatura Máxima: {temperatureRange.max}°C</p>
-                      <p>Temperatura Mínima: {temperatureRange.min}°C</p>
-                    </div>
-                  )}
                 </AccordionContent>
               </AccordionItem>
             </Accordion>

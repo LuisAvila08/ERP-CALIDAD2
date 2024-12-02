@@ -126,6 +126,7 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer }) => (
     <Page style={styles.page}>
       <View style={styles.logoSection}>
         {/* image */}
+        
         <Image
           style={[styles.logo, { height: 60, width: 150 }]} // Ajusta el tamaño de la imagen según sea necesario
           src='/src/assets/images/LOGO.jpg'
@@ -260,12 +261,6 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer }) => (
                   <View style={{ flex: 1.8 }}>
                     <Text style={styles.cellLabelWhite}>{formData.option === 'Si' ? 'Si ' : ''}</Text>
                     <Text style={styles.cellLabelWhite}>{formData.option2 === 'No' ? 'No' : ''}</Text>
-                    {formData.imageUri && (
-    <Image
-      source={{ uri: formData.imageUri }} // Aquí se pasa la URL de la imagen
-      style={styles.image}
-    />
-  )}
                   </View>
 
                   <View style={{ flex: 2 }}>
@@ -409,6 +404,7 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer }) => (
           </Text>
         </Text>
         <Text style={styles.cellValue}>{formData.resultadosInv || ''}</Text>
+      
       </View>
 
       <View style={[styles.tableRow, { marginBottom: 15, width: '100%' }]}>
@@ -443,9 +439,18 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer }) => (
             </View>
           </View>
         </View>
+        
       </View>
-
+      <Text style={[styles.cellLabelWhite, { flex: 0.1,width="50%"}]}>Limpio,libre de malos olores:</Text>
+      {formData.image1 && (
+    <Image
+      source={{ uri: formData.image1 }} 
+      style={{ width: '200px', marginTop: '20px' }}
+    
+    />
+  )}
     </Page>
+
   </Document>
 )
 
@@ -504,7 +509,7 @@ const ActaDeLlegada = () => {
     optionCarga:'',
     optionSeguridad:'',
     optionSellado:'',
-    imageUri:''
+    image1:''
   })
 
   const [firmaBase64Inspector, setFirmaBase64Inspector] = useState(null)
@@ -526,8 +531,8 @@ const ActaDeLlegada = () => {
     if (file) {
       // Crear una URL temporal para el archivo seleccionado
       var  imageUrl = URL.createObjectURL(file);
-      setImage(imageUrl);
-      formData.imageUri=imageUrl // Guardar la URL temporal de la imagen en el estado
+      setImage(imageUrl); // Guardar la URL temporal de la imagen en el estado
+      formData.image1=imageUrl
     }
   };
   

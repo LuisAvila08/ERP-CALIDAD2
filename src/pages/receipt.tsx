@@ -83,7 +83,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#000',
     padding: 5,
-    fontSize: 10,
+    fontSize: 8,
+    paddingVertical: 7,
 
     justifyContent: 'center', // Centra el contenido verticalmente
     alignItems: 'center',fontFamily:'GothamNarrow'  // Centra el contenido verticalmente
@@ -94,7 +95,7 @@ const styles = StyleSheet.create({
     borderColor: '#000', // Borde negro
     borderRadius: 3, // Bordes redondeados
     fontSize: 10, // Aumenté el tamaño de la fuente
- // Relleno vertical para darle espacio al texto
+    paddingVertical:10,
     paddingHorizontal: 20, // Relleno horizontal para
     fontWeight: 'bold', // Texto en negrita
     flex: 1,

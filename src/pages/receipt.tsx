@@ -12,6 +12,7 @@ import { Bold } from 'lucide-react'
 import { WidthIcon } from '@radix-ui/react-icons'
 
 import GothamNarrowMedium from '../../public/fonts/GothamNarrow-Medium.otf'
+import { format } from 'path'
 
 // import { InputNumber } from 'primereact/inputnumber';
 // import '../App.css';
@@ -223,9 +224,13 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer }) => (
                   <View style={{ flex: 0.42, }}>
 
                     <Text style={styles.cellValue}>{formData.option === 'Si' ? 'SI' : ''}</Text>
+                    
                     <Text style={styles.cellValue} >{formData.option2 === 'Si' ? 'SI' : ''}</Text>
+        
+
                   </View>
                   <View style={{ flex: 0.43 }}>
+                
                     <Text style={styles.cellValue}>{formData.option === 'No' ? 'No ' : ''}</Text>
                     <Text style={styles.cellValue }>{formData.option2 === 'No' ? 'No' : ''}</Text>
                   </View>
@@ -409,16 +414,54 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer }) => (
 
 
       <Text style={[styles.cellLabelWhite, { flex: 0.1}]}>Limpio,libre de malos olores:</Text>
-      {formData.image1 && (
-    <Image
-      source={{ uri: formData.image1 }} 
-      style={{ width: '200px', marginTop: '20px' }}
-    
-    />
-  )}
+  
+
+
+      
+   
+
+
+
+ 
     </Page>
+    {formData.option === "No" && (
+  <Page>
+    <Text>Anexa las imágenes de termógrafo</Text>
+
+    {/* Mostrar la primera imagen */}
+    {formData.image2 && formData.image2.length > 0 && (
+  <div style={{ display: 'flex', flexWrap: 'wrap', marginTop: '20px' }}>
+    {formData.image2.map((imageUrl, index) => (
+      <img
+        key={index}
+        src={imageUrl}
+        alt={`Selected ${index}`}
+        style={{ width: '200px', height: '200px', margin: '10px', objectFit: 'cover' }}
+      />
+    ))}
+  </div>
+)}
+
+
+    {formData.optionLibre === "No" && (
+      <>
+        <Text>Libre </Text>
+        {formData.image1 && (
+          <Image
+            source={{ uri: formData.image1 }}
+            style={{ width: 200, height: 200, marginTop: 20 }}
+          />
+        )}
+        <Text style={[styles.cellLabelWhite, { flex: 0.1 }]} > {formData.limpio|| '' }</Text>
+      </>
+    )}
+  </Page>
+)}
+
+
 
   </Document>
+
 )
 
 const ActaDeLlegada = () => {
@@ -488,7 +531,8 @@ const ActaDeLlegada = () => {
     imageSellado:'',
     tarimasDanadas:'',
     cajasIdentificadas:'',
-    danadasManiobra:''
+    danadasManiobra:'',
+    image2:[]
   })
 
   const [firmaBase64Inspector, setFirmaBase64Inspector] = useState(null)
@@ -498,7 +542,7 @@ const ActaDeLlegada = () => {
 
   const signaturePadInspector = useRef<any>(null) // Refs para el signature pad
   const signaturePadChofer = useRef<any>(null)
-  const [image, setImage] = useState(null);
+  const [images, setImages] = useState([]);
   
 
   const handleInputChange = (e) => {
@@ -506,14 +550,27 @@ const ActaDeLlegada = () => {
     setFormData((prevData) => ({ ...prevData, [name]: value }))
   }
   
-  const handleFileChange = (e) => {
-    const file = e.target.files[0]; // Obtener el primer archivo seleccionado
-    if (file) {
-      // Crear una URL temporal para el archivo seleccionado
-      var  imageUrl = URL.createObjectURL(file);
-      setImage(imageUrl); // Guardar la URL temporal de la imagen en el estado
-      formData.image1=imageUrl
-    }
+
+  const handleFileChange2 = (event) => {
+    const files = event.target.files;
+
+  // Crear un array con las URLs de los archivos seleccionados
+  const fileArray = Array.from(files).map((file) => URL.createObjectURL(file));
+
+  // Actualizar el estado con las nuevas imágenes
+  setImages((prevImages) => {
+    const updatedImages = [...prevImages, ...fileArray];
+
+    // Actualizar formData con todas las imágenes seleccionadas
+    formData.image2 = updatedImages; 
+  
+
+    // Si necesitas forzar la actualización de formData en el estado, puedes hacerlo de la siguiente manera:
+    // setFormData({ ...formData, image2: updatedImages });
+    console.log( "El formato del data es=",formData.image2);
+
+    return updatedImages;
+  });
   };
   
 
@@ -732,16 +789,56 @@ const ActaDeLlegada = () => {
                 <AccordionTrigger>Inspección de Transporte</AccordionTrigger>
                 <AccordionContent>
                 <div style={{ marginBottom: 30 }}>
-                    <label>Cumple termografo  </label>
+                    <label>Limpio  </label>
                     <div style={{ marginBottom: 20 }}>
                     <Button  style={{ flex: 5, marginRight: "10px" }} name="optionLimpio" value="Si"onClick={handleInputChange}> Sí </Button>
                     <Button   name="optionLimpio" value="No"onClick={handleInputChange}>  No </Button>
+                    {formData.optionLimpio === 'No' && (
+                      <div>
+
+                        <label>Pon una descripcion </label>
+                         <Input type='text' name='limpio' value={formData.limpio} onChange={handleInputChange} />
+                         <div>
+                  <Button>
+                    <label htmlFor="file-input" style={{ cursor: 'pointer' }}>
+                      Seleccionar Imagen
+                    </label>
+                  </Button>
+
+                  <input
+                    type="file"
+                    id="file-input"
+                    accept="image/*" 
+                    multiple
+                    style={{ display: 'none' }} 
+                    onChange={handleFileChange2}
+                  />
+                  
+                  <div style={{ display: "flex", flexWrap: "wrap", marginTop: "20px" }}>
+                  {formData.image2.map((imageUrl, index) => (
+                      <img
+                        key={index}
+                        src={imageUrl}
+                        alt={`Selected ${index}`}
+                        style={{ width: '200px', height: '200px', margin: '10px', objectFit: 'cover' }}
+                      />
+                ))}
+
+      </div>
+                </div>
+                        </div>
+                    
+                  
+                
+                     )}
+
+                      {formData.optionLimpio === 'No' && (
+                      <div>
+                        </div>
+                     )}
                   </div>
                  </div>
 
-                  <label>Descripcion: </label>
-                  
-                  <Input type='text' name='limpio' value={formData.limpio} onChange={handleInputChange} />
                   
                   <div style={{ marginBottom: 30 }}>
                     <label>Caja cerrada, en buen estado  </label>
@@ -752,7 +849,7 @@ const ActaDeLlegada = () => {
                  </div>
 
 
-                  <label>DEscription</label>
+                  <label>Description</label>
                   <Input type='text' name='cajaCerrada' value={formData.cajaCerrada} onChange={handleInputChange} />
 
                   <div style={{ marginBottom: 30 }}>
@@ -844,22 +941,7 @@ const ActaDeLlegada = () => {
                  <label>Descripcion: </label>
                  <Input type='text' name='sellado' value={formData.sellado} onChange={handleInputChange} />
 
-                 <div>
-                  <Button>
-                    <label htmlFor="file-input" style={{ cursor: 'pointer' }}>
-                      Seleccionar Imagen
-                    </label>
-                  </Button>
-                  <input
-                    type="file"
-                    id="file-input"
-                    accept="image/*" // Solo imágenes
-                    style={{ display: 'none' }} // Ocultar el input real
-                    onChange={handleFileChange}
-                  />
-                  
-                  {image && <img src={image} alt="Selected" style={{ width: '300px', marginTop: '20px' }} />}
-                </div>
+           
 
                 </AccordionContent>
               </AccordionItem>
@@ -934,7 +1016,7 @@ const ActaDeLlegada = () => {
                 </AccordionContent>
               </AccordionItem>
             </Accordion>
-
+{/*
 <div>
   {Object.entries(formData)
     .filter(([key]) => key.startsWith("image"))
@@ -953,6 +1035,7 @@ const ActaDeLlegada = () => {
       )
     ))}
 </div>
+*/ }
 
             <h2>Resultados de la Investigación</h2>
             <Input type='text' name='resultadosInv' value={formData.resultadosInv} onChange={handleInputChange} />

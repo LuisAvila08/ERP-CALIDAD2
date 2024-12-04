@@ -16,9 +16,10 @@ import { format } from 'path'
 import {supabase} from '../../connections/supabase'
 import {insert,query} from '../../connections/querys'
 
-
-// import { InputNumber } from 'primereact/inputnumber';
-// import '../App.css';
+import { cn } from "@/lib/utils"
+import {Command,CommandEmpty, CommandGroup,CommandInput,CommandItem,CommandList,} from "@/components/ui/command"
+import {  Popover,  PopoverContent,  PopoverTrigger,} from "@/components/ui/popover"
+import { Check, ChevronsUpDown } from "lucide-react"
 
 Font.register({
   family: 'GothamNarrow',
@@ -465,6 +466,7 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer }) => (
 
 const ActaDeLlegada = () => {
   const [formData, setFormData] = useState({
+    id:null,
     fecha: '',
     inicioVerificacion: '',
     terminoVerificacion: '',
@@ -537,6 +539,11 @@ const ActaDeLlegada = () => {
   const handleInsert = () => {
     insert(formData); // Llama a la función insert y pasa formData
   };
+  
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState('');
+  const [actasList, setActasList] = useState([]);
+  const [actaDetails, setActaDetails] = useState(null);
 
   const [firmaBase64Inspector, setFirmaBase64Inspector] = useState(null)
   const [firmaBase64Chofer, setFirmaBase64Chofer] = useState(null)
@@ -570,7 +577,26 @@ const ActaDeLlegada = () => {
     })
   }
 
+  const handleSelect = (idActa) => {
+    setValue(idActa);
+    setOpen(false);
+
+    // Buscar detalles de la acta seleccionada
+    const selectedActa = actasList.find((acta) => acta.id === idActa);
+    setActaDetails(selectedActa);
+  };
+
+
   useEffect(() => {
+    const fetchActas = async () => {
+      const { data, error } = await supabase.from('ActaDescarga').select('id, fecha'); // Selecciona los campos que necesitas
+      if (error) {
+        console.error('Error fetching actas:', error);
+      } else {
+        setActasList(data);
+      }
+    };
+    fetchActas();
       const allTemperatures = [
         formData.tempAPuerta, formData.tempAMedio, formData.tempAFondo,
         formData.tempMPuerta, formData.tempMMedio, formData.tempMFondo,
@@ -655,6 +681,54 @@ const ActaDeLlegada = () => {
         <ResizablePanel defaultSize={50}>
           <div style={{ padding: '20px' }}>
             <h1>Acta de Llegada</h1>
+
+            <div>
+      <Popover open={open} onOpenChange={setOpen}>
+        <PopoverTrigger asChild>
+          <Button
+            variant="outline"
+            role="combobox"
+            aria-expanded={open}
+            className="w-[200px] justify-between"
+          >
+            {value ? actasList.find((acta) => acta.id === value)?.fecha : 'Select Acta...'}
+            <ChevronsUpDown className="w-4 h-4 ml-2 opacity-50 shrink-0" />
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent className="w-[200px] p-0">
+          <Command>
+            <CommandInput placeholder="Search Acta..." />
+            <CommandList>
+              <CommandEmpty>No Acta found.</CommandEmpty>
+              <CommandGroup>
+                {actasList.map((acta) => (
+                  <CommandItem
+                    key={acta.id}
+                    value={acta.id}
+                    onSelect={() => handleSelect(acta.id)}
+                  >
+                    <Check
+                      className={`mr-2 h-4 w-4 ${value === acta.id ? 'opacity-100' : 'opacity-0'}`}
+                    />
+                    {acta.fecha} {/* Aquí puedes mostrar la fecha o cualquier otra información relevante */}
+                  </CommandItem>
+                ))}
+              </CommandGroup>
+            </CommandList>
+          </Command>
+        </PopoverContent>
+      </Popover>
+
+      {/* Mostrar los detalles de la acta seleccionada */}
+      {actaDetails && (
+        <div className="mt-4">
+          <h3>Acta Details:</h3>
+          <p><strong>ID Acta:</strong> {actaDetails.id}</p>
+          <p><strong>Fecha:</strong> {actaDetails.fecha}</p>
+          {/* Aquí puedes agregar más detalles de la acta según sea necesario */}
+        </div>
+      )}
+    </div>
 
             {/* Formulario con campos de entrada */}
             <h2 />
@@ -1001,24 +1075,29 @@ const ActaDeLlegada = () => {
             <label>Nombre Inspector de Calidad: </label>
             <Input type='text' name='nombreInspector' value={formData.nombreInspector} onChange={handleInputChange} />
             <h2>Firma Inspector de Calidad</h2>
-            <div className={styles.signatureCanvasContainer}>
+            <div style={{border: '2px solid black', padding: 10, display: 'inline-block', boxSizing: 'border-box'}}>
               <SignatureCanvas
                 ref={signaturePadInspector}
                 penColor='black'
                 canvasProps={{ width: 500, height: 200, className: 'signature-canvas' }}
               />
             </div>
-
+            <div style={{paddingTop:5}}></div>
             <label>Nombre Chofer: </label>
             <Input type='text' name='nombreChofer' value={formData.nombreChofer} onChange={handleInputChange} />
             <h2>Firma del Chofer</h2>
-            <div className={styles.signatureCanvasContainer}>
+            <div style={{border: '2px solid black', padding: 10, display: 'inline-block', boxSizing: 'border-box'}}>
               <SignatureCanvas
                 ref={signaturePadChofer}
-                penColor='black'
-                canvasProps={{width: 500, height: 200, className: 'signature-canvas' }}
+                penColor="black"
+                canvasProps={{
+                  width: 500,
+                  height: 200,
+                  className: 'signature-canvas'
+                }}
               />
             </div>
+            <div style={{paddingTop:5}}></div>
             <Button onClick={clearSignature}>Limpiar Firma</Button>
             <Button onClick={saveSignature}>Guardar Firma</Button>
 
@@ -1033,11 +1112,7 @@ const ActaDeLlegada = () => {
             <PDFViewer width='100%' height='100%'>
               <ActaPDF formData={formData} firmaBase64Inspector={firmaBase64Inspector} firmaBase64Chofer={firmaBase64Chofer} />
             </PDFViewer>
-            <div style={{ padding: '10px', display: 'flex', justifyContent: 'center' }}>
-              <PDFDownloadLink document={<ActaPDF formData={formData} firmaBase64Inspector={firmaBase64Inspector} />} fileName='acta_de_llegada.pdf'>
-                <Button variant='primary'>Descargar PDF</Button>
-              </PDFDownloadLink>
-            </div>
+            
           </div>
         </ResizablePanel>
       </ResizablePanelGroup>

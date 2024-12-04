@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
   signatureCanvasContainer: {borderWidth: 1, borderColor: '#000', border: '1px solid #ccc', padding: '10px', marginTop: '20px' },
   table: {
     width: '100%',
-    borderWidth: 2,
+    borderWidth: 2, 
     borderColor: '#000',
     marginTop: 15,
     height: 'auto'
@@ -197,98 +197,98 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer }) => (
             <View style={{ flex: 1, flexDirection: 'column' }}>
 
               <View style={styles.tableRow}>
-                  <Text style={[styles.cellLabelWhite, { flex: 0.20 }]}>Temperatura del set point:</Text>
-                  <Text style={[styles.cellValue, { flex: 0.40 }]}>{formData.tempSetPoint || ''}</Text>
+                <Text style={[styles.cellLabelWhite, { flex: 0.20 }]}>Temperatura del set point:</Text>
+                <Text style={[styles.cellValue, { flex: 0.40 }]}>{formData.tempSetPoint || ''}</Text>
 
-                  <Text style={[styles.cellLabelWhite, { flex: 0.40 }]}>{formData.observacionesSetPoint || ''}</Text>
+                <Text style={[styles.cellLabelWhite, { flex: 0.40 }]}>{formData.observacionesSetPoint || ''}</Text>
 
-                </View>
+              </View>
               <View style={styles.tableRow}>
-                  <Text style={[styles.cellLabelWhite, { flex: 0.20 }]}>Temperatura de pantalla:</Text>
-                  <Text style={[styles.cellValue, { flex: 0.40 }]}>{formData.tempPantalla || ''}</Text>
-                  <Text style={[styles.cellLabelWhite, { flex: 0.40 }]}>{formData.observacionesPantalla || ''}</Text>
+                <Text style={[styles.cellLabelWhite, { flex: 0.20 }]}>Temperatura de pantalla:</Text>
+                <Text style={[styles.cellValue, { flex: 0.40 }]}>{formData.tempPantalla || ''}</Text>
+                <Text style={[styles.cellLabelWhite, { flex: 0.40 }]}>{formData.observacionesPantalla || ''}</Text>
 
-                </View>
+              </View>
               <View style={styles.tableRow}>
-                  <Text style={[styles.cellLabel, { flex: 0.28 }]} />
-                  <Text style={[styles.cellLabel, { flex: 0.17 }]}>cumple</Text>
-                  <Text style={[styles.cellLabel, { flex: 0.17 }]}>no cumple</Text>
+                <Text style={[styles.cellLabel, { flex: 0.28 }]} />
+                <Text style={[styles.cellLabel, { flex: 0.17 }]}>cumple</Text>
+                <Text style={[styles.cellLabel, { flex: 0.17 }]}>no cumple</Text>
 
-                  <Text style={[styles.cellLabel, { flex: 0.52 }]}>observaciones</Text>
+                <Text style={[styles.cellLabel, { flex: 0.52 }]}>observaciones</Text>
 
-                </View>
+              </View>
               {/* concatenacion */}
               <View style={[styles.tableRow, { height: 'auto' }]}>
-                  <Text style={[styles.cellLabelWhite, { flex: 0.66 }]}>Termografo:</Text>
+                <Text style={[styles.cellLabelWhite, { flex: 0.66 }]}>Termografo:</Text>
 
-                  <View style={{ flex: 0.42 }}>
+                <View style={{ flex: 0.42 }}>
 
-                    <Text style={styles.cellValue}>{formData.option === 'Si' ? 'SI' : ''}</Text>
+                  <Text style={styles.cellValue}>{formData.option === 'Si' ? 'SI' : ''}</Text>
 
-                    <Text style={styles.cellValue}>{formData.option2 === 'Si' ? 'SI' : ''}</Text>
+                  <Text style={styles.cellValue}>{formData.option2 === 'Si' ? 'SI' : ''}</Text>
 
-                  </View>
-                  <View style={{ flex: 0.43 }}>
-
-                    <Text style={styles.cellValue}>{formData.option === 'No' ? 'No ' : ''}</Text>
-                    <Text style={styles.cellValue}>{formData.option2 === 'No' ? 'No' : ''}</Text>
-                  </View>
-
-                  <View style={{ flex: 0.3 }}>
-                    <Text style={styles.cellValue}>Origen</Text>
-
-                    <Text style={styles.cellValue}>Destino:</Text>
-
-                  </View>
-                  <View style={{ flex: 0.98, minHeight: 60 }}>
-                    <Text style={styles.cellValue}>{formData.tempOrigen || ''}</Text>
-                    <Text style={styles.cellValue}>{formData.tempDestino || ''}</Text>
-                  </View>
                 </View>
+                <View style={{ flex: 0.43 }}>
+
+                  <Text style={styles.cellValue}>{formData.option === 'No' ? 'No ' : ''}</Text>
+                  <Text style={styles.cellValue}>{formData.option2 === 'No' ? 'No' : ''}</Text>
+                </View>
+
+                <View style={{ flex: 0.3 }}>
+                  <Text style={styles.cellValue}>Origen</Text>
+
+                  <Text style={styles.cellValue}>Destino:</Text>
+
+                </View>
+                <View style={{ flex: 0.98, minHeight: 60 }}>
+                  <Text style={styles.cellValue}>{formData.tempOrigen || ''}</Text>
+                  <Text style={styles.cellValue}>{formData.tempDestino || ''}</Text>
+                </View>
+              </View>
 
               <View style={styles.tableRow}>
-                  <Text style={[styles.cellLabelWhite, { flex: 0.7 }]}>Limpio,libre de malos olores:</Text>
-                  <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>{formData.optionLimpio === 'Si' ? 'Si' : ''}</Text>
-                  <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>{formData.optionLimpio === 'No' ? 'No' : ''}</Text>
-                  <Text style={[styles.cellLabelWhite, { flex: 1.3 }]}> {formData.limpio || ''}</Text>
-                </View>
+                <Text style={[styles.cellLabelWhite, { flex: 0.7 }]}>Limpio,libre de malos olores:</Text>
+                <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>{formData.optionLimpio === 'Si' ? 'Si' : ''}</Text>
+                <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>{formData.optionLimpio === 'No' ? 'No' : ''}</Text>
+                <Text style={[styles.cellLabelWhite, { flex: 1.3 }]}> {formData.limpio || ''}</Text>
+              </View>
               <View style={styles.tableRow}>
-                  <Text style={[styles.cellLabelWhite, { flex: 0.7 }]}>Caja cerrada , en buen estado(sin hoyos o endiduras ):</Text>
-                  <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>{formData.optionCaja === 'Si' ? 'Si' : ''}</Text>
-                  <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>{formData.optionCaja === 'No' ? 'No' : ''}</Text>
-                  <Text style={[styles.cellLabelWhite, { flex: 1.3 }]}>{formData.cajaCerrada || ''}</Text>
-                </View>
+                <Text style={[styles.cellLabelWhite, { flex: 0.7 }]}>Caja cerrada , en buen estado(sin hoyos o endiduras ):</Text>
+                <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>{formData.optionCaja === 'Si' ? 'Si' : ''}</Text>
+                <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>{formData.optionCaja === 'No' ? 'No' : ''}</Text>
+                <Text style={[styles.cellLabelWhite, { flex: 1.3 }]}>{formData.cajaCerrada || ''}</Text>
+              </View>
 
               <View style={styles.tableRow}>
-                  <Text style={[styles.cellLabelWhite, { flex: 0.7 }]}>Lona en buen estado:</Text>
-                  <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>{formData.optionLona === 'Si' ? 'Si' : ''}</Text>
-                  <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>{formData.optionLona === 'No' ? 'No' : ''}</Text>
-                  <Text style={[styles.cellLabelWhite, { flex: 1.3 }]}>{formData.lona || ''}</Text>
-                </View>
+                <Text style={[styles.cellLabelWhite, { flex: 0.7 }]}>Lona en buen estado:</Text>
+                <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>{formData.optionLona === 'Si' ? 'Si' : ''}</Text>
+                <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>{formData.optionLona === 'No' ? 'No' : ''}</Text>
+                <Text style={[styles.cellLabelWhite, { flex: 1.3 }]}>{formData.lona || ''}</Text>
+              </View>
               <View style={styles.tableRow}>
-                  <Text style={[styles.cellLabelWhite, { flex: 0.7 }]}>Libre de fauna nociva:</Text>
-                  <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>{formData.optionLibre === 'Si' ? 'Si' : ''}</Text>
-                  <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>{formData.optionLibre === 'No' ? 'No' : ''}</Text>
-                  <Text style={[styles.cellLabelWhite, { flex: 1.3 }]}>{formData.fauna || ''}</Text>
-                </View>
+                <Text style={[styles.cellLabelWhite, { flex: 0.7 }]}>Libre de fauna nociva:</Text>
+                <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>{formData.optionLibre === 'Si' ? 'Si' : ''}</Text>
+                <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>{formData.optionLibre === 'No' ? 'No' : ''}</Text>
+                <Text style={[styles.cellLabelWhite, { flex: 1.3 }]}>{formData.fauna || ''}</Text>
+              </View>
               <View style={styles.tableRow}>
-                  <Text style={[styles.cellLabelWhite, { flex: 0.7 }]}>Carga en buen estado:</Text>
-                  <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>{formData.optionCarga === 'Si' ? 'Si' : ''}</Text>
-                  <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>{formData.optionCarga === 'No' ? 'No' : ''}</Text>
-                  <Text style={[styles.cellLabelWhite, { flex: 1.3 }]}>{formData.carga || ''}</Text>
-                </View>
+                <Text style={[styles.cellLabelWhite, { flex: 0.7 }]}>Carga en buen estado:</Text>
+                <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>{formData.optionCarga === 'Si' ? 'Si' : ''}</Text>
+                <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>{formData.optionCarga === 'No' ? 'No' : ''}</Text>
+                <Text style={[styles.cellLabelWhite, { flex: 1.3 }]}>{formData.carga || ''}</Text>
+              </View>
               <View style={styles.tableRow}>
-                  <Text style={[styles.cellLabelWhite, { flex: 0.7 }]}>seguridad de carga</Text>
-                  <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>{formData.optionSeguridad === 'Si' ? 'Si' : ''}</Text>
-                  <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>{formData.optionSeguridad === 'No' ? 'No' : ''}</Text>
-                  <Text style={[styles.cellLabelWhite, { flex: 1.3 }]}>{formData.seguridadCarga || ''}</Text>
-                </View>
+                <Text style={[styles.cellLabelWhite, { flex: 0.7 }]}>seguridad de carga</Text>
+                <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>{formData.optionSeguridad === 'Si' ? 'Si' : ''}</Text>
+                <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>{formData.optionSeguridad === 'No' ? 'No' : ''}</Text>
+                <Text style={[styles.cellLabelWhite, { flex: 1.3 }]}>{formData.seguridadCarga || ''}</Text>
+              </View>
               <View style={styles.tableRow}>
-                  <Text style={[styles.cellLabelWhite, { flex: 0.7 }]}>sellado:</Text>
-                  <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>{formData.optionSellado === 'Si' ? 'Si' : ''}</Text>
-                  <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>{formData.optionSellado === 'No' ? 'No' : ''}</Text>
-                  <Text style={[styles.cellLabelWhite, { flex: 1.3 }]}>{formData.sellado || ''}</Text>
-                </View>
+                <Text style={[styles.cellLabelWhite, { flex: 0.7 }]}>sellado:</Text>
+                <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>{formData.optionSellado === 'Si' ? 'Si' : ''}</Text>
+                <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>{formData.optionSellado === 'No' ? 'No' : ''}</Text>
+                <Text style={[styles.cellLabelWhite, { flex: 1.3 }]}>{formData.sellado || ''}</Text>
+              </View>
 
             </View>
           </View>
@@ -389,8 +389,8 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer }) => (
             <View style={[styles.cellValue, {}]}>
               <Text style={[styles.inputLabel, { paddingBottom: 10 }]}>Firma:</Text>
               {firmaBase64Inspector && (
-                  <Image src={firmaBase64Inspector} style={{ width: 200, height: 150 }} />
-                )}
+                <Image src={firmaBase64Inspector} style={{ width: 200, height: 150 }} />
+              )}
 
             </View>
           </View>
@@ -400,8 +400,8 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer }) => (
             <View style={[styles.cellValue, {}]}>
               <Text style={[styles.inputLabel, { paddingBottom: 10 }]}>Firma:</Text>
               {firmaBase64Chofer && (
-                  <Image src={firmaBase64Chofer} style={{ width: 200, height: 150 }} />
-                )}
+                <Image src={firmaBase64Chofer} style={{ width: 200, height: 150 }} />
+              )}
 
             </View>
           </View>
@@ -409,56 +409,212 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer }) => (
       </View>
 
     </Page>
-    {formData.option === 'No' && (
-      <Page>
-        <View style={{ padding: '100px' }}>
-          <Text>Anexa las imágenes de termógrafo</Text>
+    {(formData.option === 'No' || 
+  formData.option2 === 'No' || 
+  formData.optionLibre === 'No' || 
+  formData.optionCaja === 'No' || 
+  formData.optionLona === 'No' || 
+  formData.optionCarga === 'No' || 
+  formData.optionSeguridad === 'No' || 
+  formData.optionSellado === 'No') && (
+    <Page>
+      <View style={{ padding: '100px' }}>
+        <Text>Anexa las imágenes de termógrafo</Text>
 
-          {formData.image2 && formData.image2.length > 0 && (
-
-            <div style={{ display: 'flex', flexWrap: 'wrap', marginTop: '30px', flexDirection: 'row' }}>
-
-          {formData.image2.map((imageUrl, index) => (
-          <div style={{ margin: '10px' }}>
-            <Image
-              src={imageUrl}
-              alt={`Selected ${index}`}
-              style={{
-                width: '100px',
-                height: '100px',
-
-                marginBottom: '10px' // Espaciado debajo de las imágenes
-              }}
-            />
-
+        {/* Mostrar imágenes del termógrafo */}
+        {formData.image2 && formData.image2.length > 0 && (
+          <div 
+            style={{ 
+              display: 'flex', 
+              flexWrap: 'wrap', 
+              marginTop: '30px', 
+              flexDirection: 'row' 
+            }}
+          >
+            {formData.image2.map((imageUrl, index) => (
+              <div key={index} style={{ margin: '10px' }}>
+                <Image
+                  src={imageUrl}
+                  alt={`Selected ${index}`}
+                  style={{
+                    width: '100px',
+                    height: '100px',
+                    marginBottom: '10px', // Espaciado debajo de las imágenes
+                  }}
+                />
+              </div>
+            ))}
           </div>
-
-        ))}
-
-         
-        </div>
-
-          )}
-
-          {formData.optionLibre === 'No' && (
-            <>
-          <Text>Libre </Text>
-          {formData.image1 && (
-          <Image
-            src={formData.image1}
-            alt='Libre'
-            style={{ width: '200px', height: '200px', marginTop: '20px' }}
-          />
         )}
-          <div style={{ marginTop: '10px' }}>
-          <Text style={[styles.cellLabelWhite, { flex: 0.1 }]}>{formData.limpio || ''}</Text>
-        </div>
-        </>
-          )}
-        </View>
-      </Page>
 
-    )}
+        {/* Bloque para "Option Libre" */}
+        {formData.optionLibre === 'No' && (
+          <>
+            <Text>Option libre</Text>
+            <div 
+              style={{ 
+                display: 'flex', 
+                flexWrap: 'wrap', 
+                marginTop: '30px', 
+                flexDirection: 'row' 
+              }}
+            >
+              {formData.image2.map((imageUrl, index) => (
+                <div key={index} style={{ margin: '10px' }}>
+                  <Image
+                    src={imageUrl}
+                    alt={`Selected ${index}`}
+                    style={{
+                      width: '100px',
+                      height: '100px',
+                      marginBottom: '10px', // Espaciado debajo de las imágenes
+                    }}
+                  />
+                </div>
+              ))}
+            </div>
+          </>
+        )}
+
+        {formData.optionCaja === 'No' && (
+          <>
+            <Text>Option Caja</Text>
+            <div 
+              style={{ 
+                display: 'flex', 
+                flexWrap: 'wrap', 
+                marginTop: '30px', 
+                flexDirection: 'row' 
+              }}
+            >
+              {formData.image2.map((imageUrl, index) => (
+                <div key={index} style={{ margin: '10px' }}>
+                  <Image
+                    src={imageUrl}
+                    alt={`Selected ${index}`}
+                    style={{
+                      width: '100px',
+                      height: '100px',
+                      marginBottom: '10px', // Espaciado debajo de las imágenes
+                    }}
+                  />
+                </div>
+              ))}
+            </div>
+          </>
+        )}
+        {formData.optionLona === 'No' && (
+          <>
+            <Text>Option Lona</Text>
+            <div 
+              style={{ 
+                display: 'flex', 
+                flexWrap: 'wrap', 
+                marginTop: '30px', 
+                flexDirection: 'row' 
+              }}
+            >
+              {formData.image2.map((imageUrl, index) => (
+                <div key={index} style={{ margin: '10px' }}>
+                  <Image
+                    src={imageUrl}
+                    alt={`Selected ${index}`}
+                    style={{
+                      width: '100px',
+                      height: '100px',
+                      marginBottom: '10px', // Espaciado debajo de las imágenes
+                    }}
+                  />
+                </div>
+              ))}
+            </div>
+          </>
+        )}
+        {formData.optionCarga === 'No' && (
+          <>
+            <Text>Option CArga</Text>
+            <div 
+              style={{ 
+                display: 'flex', 
+                flexWrap: 'wrap', 
+                marginTop: '30px', 
+                flexDirection: 'row' 
+              }}
+            >
+              {formData.image2.map((imageUrl, index) => (
+                <div key={index} style={{ margin: '10px' }}>
+                  <Image
+                    src={imageUrl}
+                    alt={`Selected ${index}`}
+                    style={{
+                      width: '100px',
+                      height: '100px',
+                      marginBottom: '10px', // Espaciado debajo de las imágenes
+                    }}
+                  />
+                </div>
+              ))}
+            </div>
+          </>
+        )}
+        {formData.optionSeguridad=== 'No' && (
+          <>
+            <Text>Seguridad</Text>
+            <div 
+              style={{ 
+                display: 'flex', 
+                flexWrap: 'wrap', 
+                marginTop: '30px', 
+                flexDirection: 'row' 
+              }}
+            >
+              {formData.image2.map((imageUrl, index) => (
+                <div key={index} style={{ margin: '10px' }}>
+                  <Image
+                    src={imageUrl}
+                    alt={`Selected ${index}`}
+                    style={{
+                      width: '100px',
+                      height: '100px',
+                      marginBottom: '10px', // Espaciado debajo de las imágenes
+                    }}
+                  />
+                </div>
+              ))}
+            </div>
+          </>
+        )}
+
+{formData.optionSellado=== 'No' && (
+          <>
+            <Text>Option libre</Text>
+            <div 
+              style={{ 
+                display: 'flex', 
+                flexWrap: 'wrap', 
+                marginTop: '30px', 
+                flexDirection: 'row' 
+              }}
+            >
+              {formData.image2.map((imageUrl, index) => (
+                <div key={index} style={{ margin: '10px' }}>
+                  <Image
+                    src={imageUrl}
+                    alt={`Selected ${index}`}
+                    style={{
+                      width: '100px',
+                      height: '100px',
+                      marginBottom: '10px', // Espaciado debajo de las imágenes
+                    }}
+                  />
+                </div>
+              ))}
+            </div>
+          </>
+        )}
+      </View>
+    </Page>
+)}
 
   </Document>
 
@@ -522,18 +678,22 @@ const ActaDeLlegada = () => {
     optionCarga: '',
     optionSeguridad: '',
     optionSellado: '',
-    imageTermografo: '',
-    imageMalosOlores: '',
-    imageCajaCerrada: '',
-    imageLonaBuenEstado: '',
-    imageLibreFauna: '',
-    imagecargaBuenEstado: '',
-    imageSeguridadCarga: '',
-    imageSellado: '',
+    imageTermografo: [],
+    imageLimpio:[],
+    imageMalosOlores: [],
+    imageCajaCerrada: [],
+    imageLonaBuenEstado: [],
+    imageLibreFauna: [],
+    imageCargaBuenEstado: [],
+    imageSeguridadCarga: [],
+    imageSellado: [],
     tarimasDanadas: '',
     cajasIdentificadas: '',
     danadasManiobra: '',
-    image2: []
+    image2: [],
+    image3:[]
+
+
   })
 
   const handleInsert = () => {
@@ -556,26 +716,9 @@ const ActaDeLlegada = () => {
     setFormData((prevData) => ({ ...prevData, [name]: value }))
   }
 
-  const handleFileChange2 = (event) => {
-    const files = event.target.files
-
-    // Crear un array con las URLs de los archivos seleccionados
-    const fileArray = Array.from(files).map((file) => URL.createObjectURL(file))
-
-    // Actualizar el estado con las nuevas imágenes
-    setImages((prevImages) => {
-      const updatedImages = [...prevImages, ...fileArray]
-
-      // Actualizar formData con todas las imágenes seleccionadas
-      formData.image2 = updatedImages
-
-      // Si necesitas forzar la actualización de formData en el estado, puedes hacerlo de la siguiente manera:
-      // setFormData({ ...formData, image2: updatedImages });
-      console.log('El formato del data es=', formData.image2)
-
-      return updatedImages
-    })
-  }
+ 
+  const handleFileChange3 = (event, key) => {
+    const files = event.target.files;
 
   const handleSelect = (idActa) => {
     setValue(idActa);
@@ -587,6 +730,18 @@ const ActaDeLlegada = () => {
   };
 
 
+    const fileArray = Array.from(files).map((file) => URL.createObjectURL(file));
+    console.log(key)
+    
+  
+    // Actualizar dinámicamente el conjunto de imágenes
+    setFormData((prevData) => ({
+      ...prevData,
+      [key]: [...prevData[key], ...fileArray], // Actualiza solo el conjunto específico (image2, image3, etc.)
+    }));
+    console.log("la longitud imageCajacerrada es ",formData.imageCajaCerrada.length+1)
+  };
+  
   useEffect(() => {
     const fetchActas = async () => {
       const { data, error } = await supabase.from('ActaDescarga').select('id, fecha'); // Selecciona los campos que necesitas
@@ -862,16 +1017,62 @@ const ActaDeLlegada = () => {
                     <div style={{ marginBottom: 20 }}>
                       <Button style={{ flex: 5, marginRight: '10px' }} name='optionLimpio' value='Si' onClick={handleInputChange}> Sí </Button>
                       <Button name='optionLimpio' value='No' onClick={handleInputChange}>  No </Button>
+
+
                       {formData.optionLimpio === 'No' && (
+
                         <div>
 
-                        <label>Pon una descripcion </label>
-                        <Input type='text' name='limpio' value={formData.limpio} onChange={handleInputChange} />
-                        <div>
+                          <div Styles={{ marginBottom: 30 }}>
                             <Button>
                             <label htmlFor='file-input' style={{ cursor: 'pointer' }}>
-                              Seleccionar Imagen
-                    </label>
+                                Seleccionar Imagen
+                            </label>
+                          </Button>
+
+                            <input
+                                type='file'
+                                id='file-input'
+                                accept='image/*'
+                                multiple
+                                style={{ display: 'none' }}
+                                onChange={(e) =>handleFileChange3(e,'imageLimpio')}
+                                
+                          />
+
+                            <div style={{ display: 'flex', flexWrap: 'wrap', marginTop: '20px' }}>
+                            {formData.imageLimpio.map((imageUrl, index) => (
+                                <img
+                                key={index}
+                                src={imageUrl}
+                                alt={`imageLimpio`}
+                                style={{ width: '200px', height: '200px', margin: '10px', objectFit: 'cover' }}
+                              />
+                              ))}
+
+                          </div>
+                          </div>
+                        </div>
+
+                      )}
+                    </div>
+                  </div>
+                   <label style={{ marginBottom: 30 }}>Pon una descripcion </label>
+                          <Input type='text' name='limpio' value={formData.limpio} onChange={handleInputChange} />
+
+
+                  <div style={{ marginBottom: 30 }}>
+                    <label>Caja cerrada, en buen estado  </label>
+                    <div style={{ marginBottom: 20 }}>
+                      <Button style={{ flex: 5, marginRight: '10px' }} name='optionCaja' value='Si' onClick={handleInputChange}> Sí </Button>
+                      <Button name='optionCaja' value='No' onClick={handleInputChange}>  No </Button>
+                      {formData.optionCaja === 'No' && (
+                        <div>
+                          <div Styles={{ marginBottom: 30 }}>
+                            <Button>
+                            <label htmlFor='file-input' style={{ cursor: 'pointer' }}>
+                                Seleccionar Imagen
+                            </label>
                           </Button>
 
                             <input
@@ -880,36 +1081,24 @@ const ActaDeLlegada = () => {
                             accept='image/*'
                             multiple
                             style={{ display: 'none' }}
-                            onChange={handleFileChange2}
+                            onChange={(e) => handleFileChange3(e, 'imageCajaCerrada')}
                           />
 
                             <div style={{ display: 'flex', flexWrap: 'wrap', marginTop: '20px' }}>
-                            {formData.image2.map((imageUrl, index) => (
-                              <img
-                                 key={index}
-                                 src={imageUrl}
-                                 alt={`Selected ${index}`}
-                                 style={{ width: '200px', height: '200px', margin: '10px', objectFit: 'cover' }}
-                               />
-                            ))}
+                            {formData.imageCajaCerrada.map((imageUrl, index) => (
+                                <img
+                                key={index}
+                                src={imageUrl}
+                                alt={`imageCajaCerrada`}
+                                style={{ width: '200px', height: '200px', margin: '10px', objectFit: 'cover' }}
+                              />
+                              ))}
 
                           </div>
                           </div>
-                      </div>
+                        </div>
 
                       )}
-
-                      {formData.optionLimpio === 'No' && (
-                        <div />
-                      )}
-                    </div>
-                  </div>
-
-                  <div style={{ marginBottom: 30 }}>
-                    <label>Caja cerrada, en buen estado  </label>
-                    <div style={{ marginBottom: 20 }}>
-                      <Button style={{ flex: 5, marginRight: '10px' }} name='optionCaja' value='Si' onClick={handleInputChange}> Sí </Button>
-                      <Button name='optionCaja' value='No' onClick={handleInputChange}>  No </Button>
                     </div>
                   </div>
 
@@ -921,42 +1110,85 @@ const ActaDeLlegada = () => {
                     <div style={{ marginBottom: 20 }}>
                       <Button style={{ flex: 5, marginRight: '10px' }} name='optionLona' value='Si' onClick={handleInputChange}> Sí </Button>
                       <Button name='optionLona' value='No' onClick={handleInputChange}>  No </Button>
+                       {formData.optionLona === 'No' && (
+                        <div>
+                          <div Styles={{ marginBottom: 30 }}>
+                            <Button>
+                            <label htmlFor='file-input' style={{ cursor: 'pointer' }}>
+                                Seleccionar Imagen
+                            </label>
+                          </Button>
+
+                            <input
+                                type='file'
+                                id='file-input'
+                                accept='image/*'
+                                multiple
+                                style={{ display: 'none' }}
+                                onChange={(e) =>handleFileChange3(e,'imageLonaBuenEstado')}
+                          />
+
+                            <div style={{ display: 'flex', flexWrap: 'wrap', marginTop: '20px' }}>
+                            {formData.imageLonaBuenEstado.map((imageUrl, index) => (
+                                <img
+                                key={index}
+                                src={imageUrl}
+                                alt={`imageLonaBuenEstado-${index}`}
+                                style={{ width: '200px', height: '200px', margin: '10px', objectFit: 'cover' }}
+                              />
+                              ))}
+
+                          </div>
+                          </div>
+                        </div>
+
+                      )}
                     </div>
                   </div>
 
                   <label>Descripcion</label>
                   <Input type='text' name='lona' value={formData.lona} onChange={handleInputChange} />
 
-                  <div>
-                    <label htmlFor='file-malos-olores' style={{ cursor: 'pointer' }}>
-                      Subir imagen de malos olores
-                    </label>
-                    <input
-                      type='file'
-                      id='file-malos-olores'
-                      accept='image/*'
-                      style={{ display: 'none' }}
-                      onChange={(e) => handleImageUpload(e, 'imageMalosOlores')}
-                    />
-                    {formData.imageMalosOlores && (
-                      <div>
-                        <img
-                          src={formData.imageMalosOlores}
-                          alt='Malos olores'
-                          style={{ width: '200px', marginTop: '10px' }}
-                        />
-                        <button onClick={() => handleImageDelete('imageMalosOlores')}>
-                          Eliminar
-                        </button>
-                      </div>
-                    )}
-                  </div>
+           
 
                   <div style={{ marginBottom: 30 }}>
                     <label>Libre de fauna nociva:   </label>
                     <div style={{ marginBottom: 20 }}>
                       <Button style={{ flex: 5, marginRight: '10px' }} name='optionLibre' value='Si' onClick={handleInputChange}> Sí </Button>
                       <Button name='optionLibre' value='No' onClick={handleInputChange}>  No </Button>
+                      {formData.optionLimpio === 'No' && (
+                        <div>
+                          <div Styles={{ marginBottom: 30 }}>
+                            <Button>
+                            <label htmlFor='file-input' style={{ cursor: 'pointer' }}>
+                                Seleccionar Imagen
+                            </label>
+                          </Button> 
+
+                            <input
+                            type='file'
+                            id='file-input'
+                            accept='image/*'
+                            multiple
+                            style={{ display: 'none' }}
+                            onChange={(e) =>handleFileChange3(e,'imageCajaCerrada')}
+                          />
+
+                            <div style={{ display: 'flex', flexWrap: 'wrap', marginTop: '20px' }}>
+                            {formData.image2.map((imageUrl, index) => (
+                                <img
+                                key={index}
+                                src={imageUrl}
+                                alt={`Selected ${index}`}
+                                style={{ width: '200px', height: '200px', margin: '10px', objectFit: 'cover' }}
+                              />
+                              ))}
+
+                          </div>
+                          </div>
+                        </div>
+
+                      )}
                     </div>
                   </div>
 
@@ -968,6 +1200,39 @@ const ActaDeLlegada = () => {
                     <div style={{ marginBottom: 20 }}>
                       <Button style={{ flex: 5, marginRight: '10px' }} name='optionCarga' value='Si' onClick={handleInputChange}> Sí </Button>
                       <Button name='optionCarga' value='No' onClick={handleInputChange}>  No </Button>
+                      {formData.optionLimpio === 'No' && (
+                        <div>
+                          <div Styles={{ marginBottom: 30 }}>
+                            <Button>
+                            <label htmlFor='file-input' style={{ cursor: 'pointer' }}>
+                                Seleccionar Imagen
+                            </label>
+                          </Button>
+
+                            <input
+                            type='file'
+                            id='file-input'
+                            accept='image/*'
+                            multiple
+                            style={{ display: 'none' }}
+                            onChange={(e) =>handleFileChange3(e,'imageCajaCerrada')}
+                          />
+
+                            <div style={{ display: 'flex', flexWrap: 'wrap', marginTop: '20px' }}>
+                            {formData.image2.map((imageUrl, index) => (
+                                <img
+                                key={index}
+                                src={imageUrl}
+                                alt={`Selected ${index}`}
+                                style={{ width: '200px', height: '200px', margin: '10px', objectFit: 'cover' }}
+                              />
+                              ))}
+
+                          </div>
+                          </div>
+                        </div>
+
+                      )}
                     </div>
                   </div>
 
@@ -979,6 +1244,39 @@ const ActaDeLlegada = () => {
                     <div style={{ marginBottom: 20 }}>
                       <Button style={{ flex: 5, marginRight: '10px' }} name='optionSeguridad' value='Si' onClick={handleInputChange}> Sí </Button>
                       <Button name='optionSeguridad' value='No' onClick={handleInputChange}>  No </Button>
+                      {formData.optionLimpio === 'No' && (
+                        <div>
+                          <div Styles={{ marginBottom: 30 }}>
+                            <Button>
+                            <label htmlFor='file-input' style={{ cursor: 'pointer' }}>
+                                Seleccionar Imagen
+                            </label>
+                          </Button>
+
+                            <input
+                            type='file'
+                            id='file-input'
+                            accept='image/*'
+                            multiple
+                            style={{ display: 'none' }}
+                            onChange={(e) =>handleFileChange3(e,'imageCajaCerrada')}
+                          />
+
+                            <div style={{ display: 'flex', flexWrap: 'wrap', marginTop: '20px' }}>
+                            {formData.image2.map((imageUrl, index) => (
+                                <img
+                                key={index}
+                                src={imageUrl}
+                                alt={`Selected ${index}`}
+                                style={{ width: '200px', height: '200px', margin: '10px', objectFit: 'cover' }}
+                              />
+                              ))}
+
+                          </div>
+                          </div>
+                        </div>
+
+                      )}
                     </div>
                   </div>
 
@@ -990,6 +1288,40 @@ const ActaDeLlegada = () => {
                     <div style={{ marginBottom: 20 }}>
                       <Button style={{ flex: 5, marginRight: '10px' }} name='optionSellado' value='Si' onClick={handleInputChange}> Sí </Button>
                       <Button name='optionSellado' value='No' onClick={handleInputChange}>  No </Button>
+                      {formData.optionLimpio === 'No' && (
+                        <div>
+                          <div Styles={{ marginBottom: 30 }}>
+                            <Button>
+                            <label htmlFor='file-input' style={{ cursor: 'pointer' }}>
+                                Seleccionar Imagen
+                            </label>
+                          </Button>
+
+                            <input
+                            type='file'
+                            id='file-input'
+                            accept='image/*'
+                            multiple
+                            style={{ display: 'none' }}
+                            onChange={(e) =>handleFileChange3(e,'imageCajaCerrada')}
+                          />
+
+                            <div style={{ display: 'flex', flexWrap: 'wrap', marginTop: '20px' }}>
+                           
+                            {formData.imageLimpio.map((imageUrl, index) => (
+                                <img
+                                key={index}
+                                src={imageUrl}
+                                alt={`Selected ${index}`}
+                                style={{ width: '200px', height: '200px', margin: '10px', objectFit: 'cover' }}
+                              />
+                              ))}
+
+                          </div>
+                          </div>
+                        </div>
+
+                      )}
                     </div>
                   </div>
                   <label>Descripcion: </label>

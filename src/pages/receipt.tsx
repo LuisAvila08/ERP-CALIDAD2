@@ -13,6 +13,9 @@ import { WidthIcon } from '@radix-ui/react-icons'
 
 import GothamNarrowMedium from '../../public/fonts/GothamNarrow-Medium.otf'
 import { format } from 'path'
+import {supabase} from '../../connections/supabase'
+import {insert,query} from '../../connections/querys'
+
 
 // import { InputNumber } from 'primereact/inputnumber';
 // import '../App.css';
@@ -32,9 +35,8 @@ const styles = StyleSheet.create({
   },
   row: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 5 },
   inputLabel: { fontSize: 12, fontWeight: 'bold', fontFamily: 'GothamNarrow' },
-  signatureCanvasContainer: { border: '1px solid #ccc', padding: '10px', marginTop: '20px' },
+  signatureCanvasContainer: {borderWidth: 1, borderColor: '#000', border: '1px solid #ccc', padding: '10px', marginTop: '20px' },
   table: {
-    display: 'table',
     width: '100%',
     borderWidth: 2,
     borderColor: '#000',
@@ -532,14 +534,15 @@ const ActaDeLlegada = () => {
     image2: []
   })
 
+  const handleInsert = () => {
+    insert(formData); // Llama a la función insert y pasa formData
+  };
+
   const [firmaBase64Inspector, setFirmaBase64Inspector] = useState(null)
   const [firmaBase64Chofer, setFirmaBase64Chofer] = useState(null)
-
   const [temperatureRange, setTemperatureRange] = useState(null)
-
   const signaturePadInspector = useRef<any>(null) // Refs para el signature pad
   const signaturePadChofer = useRef<any>(null)
-  const [images, setImages] = useState([])
 
   const handleInputChange = (e) => {
     const { name, value } = e.target
@@ -568,33 +571,34 @@ const ActaDeLlegada = () => {
   }
 
   useEffect(() => {
-    const allTemperatures = [
+      const allTemperatures = [
+        formData.tempAPuerta, formData.tempAMedio, formData.tempAFondo,
+        formData.tempMPuerta, formData.tempMMedio, formData.tempMFondo,
+        formData.tempBPuerta, formData.tempBMedio, formData.tempBFondo
+      ].map(temp => Number(temp) || null) // Convierte a número o `null` si no es un número
+        .filter(temp => temp !== null) /// Aseguramos que sean números válidos
+
+      // Si no hay temperaturas válidas, no hacer nada
+      if (allTemperatures.length === 0) return
+
+      const maxTemp = Math.max(...allTemperatures)
+      const minTemp = Math.min(...allTemperatures)
+
+      // Actualizar el estado con los valores de tempMax y tempMin
+      setFormData(prevData => ({
+        ...prevData,
+        tempMax: maxTemp,
+        tempMin: minTemp
+      }))
+
+      // Actualizar el rango
+      setTemperatureRange({ max: maxTemp, min: minTemp })
+    }
+    , [
       formData.tempAPuerta, formData.tempAMedio, formData.tempAFondo,
       formData.tempMPuerta, formData.tempMMedio, formData.tempMFondo,
       formData.tempBPuerta, formData.tempBMedio, formData.tempBFondo
-    ].map(temp => Number(temp) || null) // Convierte a número o `null` si no es un número
-      .filter(temp => temp !== null) /// Aseguramos que sean números válidos
-
-    // Si no hay temperaturas válidas, no hacer nada
-    if (allTemperatures.length === 0) return
-
-    const maxTemp = Math.max(...allTemperatures)
-    const minTemp = Math.min(...allTemperatures)
-
-    // Actualizar el estado con los valores de tempMax y tempMin
-    setFormData(prevData => ({
-      ...prevData,
-      tempMax: maxTemp,
-      tempMin: minTemp
-    }))
-
-    // Actualizar el rango
-    setTemperatureRange({ max: maxTemp, min: minTemp })
-  }, [
-    formData.tempAPuerta, formData.tempAMedio, formData.tempAFondo,
-    formData.tempMPuerta, formData.tempMMedio, formData.tempMFondo,
-    formData.tempBPuerta, formData.tempBMedio, formData.tempBFondo
-  ])
+    ])
 
   // Función para limpiar ambas firmas
   const clearSignature = () => {
@@ -942,7 +946,7 @@ const ActaDeLlegada = () => {
                   <table>
                     <thead>
                       <tr>
-                        <th colspan='2'><h3>Puerta</h3></th>
+                        <th ><h3>Puerta</h3></th>
                         <th><h3>Medio</h3></th>
                         <th><h3>Fondo</h3></th>
                       </tr>
@@ -951,21 +955,21 @@ const ActaDeLlegada = () => {
                       <tr>
                         <td><label>A   </label></td>
                         {/* <td><InputNumber value={formData.tempAPuerta} prefix="&uarr; " suffix="℃" min={0} max={40} /></td> */}
-                        <td><Input type='number' name='tempAPuerta' value={formData.tempAPuerta} onChange={(e) => { handleInputChange(e); calculateTemperatureRange() }} /></td>
-                        <td><Input type='number' name='tempAMedio' value={formData.tempAMedio} onChange={(e) => { handleInputChange(e); calculateTemperatureRange() }} /></td>
-                        <td><Input type='number' name='tempAFondo' value={formData.tempAFondo} onChange={(e) => { handleInputChange(e); calculateTemperatureRange() }} /></td>
+                        <td><Input type='number' name='tempAPuerta' value={formData.tempAPuerta} onChange={(e) => { handleInputChange(e)  }} /></td>
+                        <td><Input type='number' name='tempAMedio' value={formData.tempAMedio} onChange={(e) => { handleInputChange(e)}} /></td>
+                        <td><Input type='number' name='tempAFondo' value={formData.tempAFondo} onChange={(e) => { handleInputChange(e) }} /></td>
                       </tr>
                       <tr>
                         <td><label>M   </label></td>
-                        <td><Input type='number' name='tempMPuerta' value={formData.tempMPuerta} onChange={(e) => { handleInputChange(e); calculateTemperatureRange() }} /></td>
-                        <td><Input type='number' name='tempMMedio' value={formData.tempMMedio} onChange={(e) => { handleInputChange(e); calculateTemperatureRange() }} /></td>
-                        <td><Input type='number' name='tempMFondo' value={formData.tempMFondo} onChange={(e) => { handleInputChange(e); calculateTemperatureRange() }} /></td>
+                        <td><Input type='number' name='tempMPuerta' value={formData.tempMPuerta} onChange={(e) => { handleInputChange(e) }} /></td>
+                        <td><Input type='number' name='tempMMedio' value={formData.tempMMedio} onChange={(e) => { handleInputChange(e)}} /></td>
+                        <td><Input type='number' name='tempMFondo' value={formData.tempMFondo} onChange={(e) => { handleInputChange(e) }} /></td>
                       </tr>
                       <tr>
                         <td><label>B   </label></td>
-                        <td><Input type='number' name='tempBPuerta' value={formData.tempBPuerta} onChange={(e) => { handleInputChange(e); calculateTemperatureRange() }} /></td>
-                        <td><Input type='number' name='tempBMedio' value={formData.tempBMedio} onChange={(e) => { handleInputChange(e); calculateTemperatureRange() }} /></td>
-                        <td><Input type='number' name='tempBFondo' value={formData.tempBFondo} onChange={(e) => { handleInputChange(e); calculateTemperatureRange() }} /></td>
+                        <td><Input type='number' name='tempBPuerta' value={formData.tempBPuerta} onChange={(e) => { handleInputChange(e)}} /></td>
+                        <td><Input type='number' name='tempBMedio' value={formData.tempBMedio} onChange={(e) => { handleInputChange(e) }} /></td>
+                        <td><Input type='number' name='tempBFondo' value={formData.tempBFondo} onChange={(e) => { handleInputChange(e) }} /></td>
                       </tr>
                     </tbody>
                   </table>
@@ -989,26 +993,7 @@ const ActaDeLlegada = () => {
                 </AccordionContent>
               </AccordionItem>
             </Accordion>
-            {/*
-<div>
-  {Object.entries(formData)
-    .filter(([key]) => key.startsWith("image"))
-    .map(([key, value]) => (
-      value && (
-        <div key={key}>
-          <Text style={{ fontWeight: "bold" }}>
-            {key.replace(/image/, "").replace(/([A-Z])/g, " $1")}:
-          </Text>
-          <img
-            src={value}
-            alt={key}
-            style={{ width: "200px", marginTop: "10px" }}
-          />
-        </div>
-      )
-    ))}
-</div>
-*/}
+
 
             <h2>Resultados de la Investigación</h2>
             <Input type='text' name='resultadosInv' value={formData.resultadosInv} onChange={handleInputChange} />
@@ -1031,11 +1016,13 @@ const ActaDeLlegada = () => {
               <SignatureCanvas
                 ref={signaturePadChofer}
                 penColor='black'
-                canvasProps={{ width: 500, height: 200, className: 'signature-canvas' }}
+                canvasProps={{width: 500, height: 200, className: 'signature-canvas' }}
               />
             </div>
             <Button onClick={clearSignature}>Limpiar Firma</Button>
             <Button onClick={saveSignature}>Guardar Firma</Button>
+
+            <Button onClick={handleInsert}>Guardar datos en la Bd</Button>
           </div>
         </ResizablePanel>
 

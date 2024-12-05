@@ -614,9 +614,9 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer }) => (
           <Text>Anexa las imágenes de termógrafo</Text>
 
           {/* Mostrar imágenes del termógrafo */}
-          {formData.optionLibre === 'No'&& (
+          {formData.optionLimpio === 'No'&& (
             <>
-              {/* Título */}
+                
               <Text
                 style={{
                   fontSize: '20px',
@@ -627,53 +627,23 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer }) => (
               >
                 Option Limpio
               </Text>
-              <div style={{ marginBottom: '20px' }}>
-                <label
-                  htmlFor='imageInput'
-                  style={{
-                    display: 'inline-block',
-                    padding: '10px 20px',
-                    backgroundColor: '#4CAF50',
-                    color: '#fff',
-                    borderRadius: '5px',
-                    cursor: 'pointer',
-                    fontSize: '16px',
-                  }}
-                >
-                  Cargar Imágenes
-                </label>
-                <input
-                  id='imageInput'
-                  type='file'
-                  accept='image/*'
-                  multiple
-                  onChange={(e) => {
-                    const files = Array.from(e.target.files).map((file) =>
-                      URL.createObjectURL(file)
-                    )
-                    setFormData({
-                      ...formData,
-                      imageLimpio: [...formData.imageLimpio, ...files]
-                    })
-                  }}
-                  style={{ display: 'none' }} // Ocultamos el input real
-                />
-              </div>
+              
+              <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
+              <Text style={[styles.cellLabelWhite, { flex: 1, marginBottom: 10 }]}>
+                {formData.limpio || ''}
+              </Text>
+            </View>
 
-              <div
-                style={{
+
+              <div   style={{
                   display: 'flex',
                   flexWrap: 'wrap',
                   marginTop: '10px',
                   flexDirection: 'row',
                   gap: '15px',
                   justifyContent: 'flex-start',
-                }}
-
-              >
-                     <Text style={[styles.cellValue, { marginBottom: 10, flex: 1 }]}>
-  {formData.tempOrigen || ''}
-</Text>
+                }} >
+      
                 {formData.imageLimpio.map((imageUrl, index) => (
                   
                   <div
@@ -709,38 +679,79 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer }) => (
             </>
           )}
 
-          {/* Bloque para "Option Libre" */}
-          {formData.optionLibre === 'No' && (
+{formData.optionLibre=== 'No'&& (
             <>
-              <Text>Option libre</Text>
-              <div
+                
+              <Text
                 style={{
-                  display: 'flex',
-                  flexWrap: 'wrap',
-                  marginTop: '30px',
-                  flexDirection: 'row',
+                  fontSize: '20px',
+                  fontWeight: 'bold',
+                  color: '#333',
+                  marginBottom: '20px',
                 }}
               >
-                {formData.opcionLibre.map((imageUrl, index) => (
-                  <div key={index} style={{ margin: '10px' }}>
+                Option Limpio
+              </Text>
+              
+              <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
+              <Text style={[styles.cellLabelWhite, { flex: 1, marginBottom: 10 }]}>
+                {formData.libre || ''}
+              </Text>
+            </View>
+
+
+              <div   style={{
+                  display: 'flex',
+                  flexWrap: 'wrap',
+                  marginTop: '10px',
+                  flexDirection: 'row',
+                  gap: '15px',
+                  justifyContent: 'flex-start',
+                }} >
+      
+                {formData. imageLibreFauna.map((imageUrl, index) => (
+                  
+                  <div
+                    key={index}
+                    style={{
+                      padding: '10px',
+                      border: '1px solid #ccc',
+                      borderRadius: '10px',
+                      boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
+                      backgroundColor: '#fff',
+                      textAlign: 'center',
+                      maxWidth: '120px',
+                    }}
+                  >
+                    
                     <Image
                       src={imageUrl}
-                      alt={`Selected ${index}`}
+                      alt={`Imagen ${index + 1}`}
                       style={{
                         width: '100px',
                         height: '100px',
-                        marginBottom: '10px', // Espaciado debajo de las imágenes
+                        objectFit: 'cover',
+                        borderRadius: '5px',
+                        marginBottom: '10px',
                       }}
                     />
                   </div>
+                 
                 ))}
               </div>
+         
+
             </>
           )}
 
           {formData.optionCaja === 'No' && (
             <>
               <Text>Option Caja</Text>
+              <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
+              <Text style={[styles.cellLabelWhite, { flex: 1, marginBottom: 10 }]}>
+                {formData.cajaCerrada || ''}
+              </Text>
+            </View>
               <div
                 style={{
                   display: 'flex',
@@ -768,6 +779,11 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer }) => (
           {formData.optionLona === 'No' && (
             <>
               <Text>Option Lona</Text>
+              <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
+              <Text style={[styles.cellLabelWhite, { flex: 1, marginBottom: 10 }]}>
+                {formData.lona || ''}
+              </Text>
+            </View>
               <div
                 style={{
                   display: 'flex',
@@ -795,6 +811,11 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer }) => (
           {formData.optionCarga === 'No' && (
             <>
               <Text>Option CArga</Text>
+              <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
+              <Text style={[styles.cellLabelWhite, { flex: 1, marginBottom: 10 }]}>
+                {formData.carga || ''}
+              </Text>
+            </View>
               <div
                 style={{
                   display: 'flex',
@@ -822,6 +843,11 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer }) => (
           {formData.optionSeguridad === 'No' && (
             <>
               <Text>Seguridad</Text>
+              <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
+              <Text style={[styles.cellLabelWhite, { flex: 1, marginBottom: 10 }]}>
+                {formData.seguridadCarga || ''}
+              </Text>
+            </View>
               <div
                 style={{
                   display: 'flex',
@@ -850,6 +876,10 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer }) => (
           {formData.optionSellado === 'No' && (
             <>
               <Text>Option libre</Text>
+              <Text style={[styles.cellLabelWhite, { flex: 1, marginBottom: 10 }]}>
+                {formData.sellado|| ''}
+              </Text>
+              
               <div
                 style={{
                   display: 'flex',
@@ -876,7 +906,7 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer }) => (
           )}
         </View>
       </Page>
-    )}
+    )}	
   </Document>
 )
 

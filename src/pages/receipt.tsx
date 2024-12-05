@@ -597,7 +597,7 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer }) => (
                 />
               )}
             </View>
-          </View>
+          </View> 
         </View>
       </View>
     </Page>
@@ -621,6 +621,7 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer }) => (
                 style={{
                   fontSize: '20px',
                   fontWeight: 'bold',
+                  borderWidth:1,
                   color: '#333',
                   marginBottom: '20px',
                 }}
@@ -1004,18 +1005,17 @@ const ActaDeLlegada = () => {
     setFormData((prevData) => ({ ...prevData, [name]: value }))
   };
 
+  const handleSelect = (idActa) => {
+    setValue(idActa)
+    setOpen(false)
+
+    // Buscar detalles de la acta seleccionada
+    const selectedActa = actasList.find((acta) => acta.id === idActa)
+    setActaDetails(selectedActa)
+  };
+
   const handleFileChange3 = (event, key) => {
     const files = event.target.files
-
-    const handleSelect = (idActa) => {
-      setValue(idActa)
-      setOpen(false)
-
-      // Buscar detalles de la acta seleccionada
-      const selectedActa = actasList.find((acta) => acta.id === idActa)
-      setActaDetails(selectedActa)
-    };
-
     const fileArray = Array.from(files).map((file) =>
       URL.createObjectURL(file)
     )
@@ -1044,6 +1044,8 @@ const ActaDeLlegada = () => {
       }
     }
     fetchActas()
+
+
     const allTemperatures = [
       formData.tempAPuerta,
       formData.tempAMedio,
@@ -1111,28 +1113,6 @@ const ActaDeLlegada = () => {
     }
   }
 
-  const handleImageUpload = (e, key) => {
-    const file = e.target.files[0] // Obtener el primer archivo seleccionado
-    if (!file) return
-
-    // Validar si ya se alcanzó el límite total de 8 imágenes
-    const existingImages = Object.values(formData).filter((val) =>
-      val.startsWith('blob:')
-    ).length
-
-    if (existingImages >= 8) {
-      alert('Solo puedes subir un máximo de 8 imágenes.')
-      return;
-    }
-
-    // Crear una URL temporal para la imagen y actualizar el campo correspondiente
-    const imageUrl = URL.createObjectURL(file)
-    setFormData((prevData) => ({ ...prevData, [key]: imageUrl }))
-  };
-
-  const handleImageDelete = (key) => {
-    setFormData((prevData) => ({ ...prevData, [key]: '' }))
-  };
 
   return (
     <Layout>

@@ -610,265 +610,195 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer }) => (
       formData.optionLona === 'No' ||
       formData.optionCarga === 'No' ||
       formData.optionSeguridad === 'No' ||
-      formData.optionSellado === 'No') && (
-        <Page>
-          <View style={{ padding: '100px' }}>
-            <Text>Anexa las imágenes de termógrafo</Text>
+      formData.optionSellado === 'No' || formData.optionLimpio === 'No') && (
+        <Page style={styles.page}>
 
-            {/* Mostrar imágenes del termógrafo */}
-            {/* Mostrar imágenes del termógrafo */}
-            {formData.imageLimpio && (
-              <>
-                {/* Título */}
-                <Text
-                  style={{
-                    fontSize: '20px',
-                    fontWeight: 'bold',
-                    color: '#333',
-                    marginBottom: '20px'
-                  }}
-                >
-                  Option Limpio
-                </Text>
-                <div style={{ marginBottom: '20px' }}>
-                  <label
-                    htmlFor='imageInput'
-                    style={{
-                      display: 'inline-block',
-                      padding: '10px 20px',
-                      backgroundColor: '#4CAF50',
-                      color: '#fff',
-                      borderRadius: '5px',
-                      cursor: 'pointer',
-                      fontSize: '16px'
-                    }}
-                  >
-                    Cargar Imágenes
-                  </label>
-                  <input
-                    id='imageInput'
-                    type='file'
-                    accept='image/*'
-                    multiple
-                    onChange={(e) => {
-                      const files = Array.from(e.target.files).map((file) =>
-                        URL.createObjectURL(file)
-                      )
-                      setFormData({
-                        ...formData,
-                        imageLimpio: [...formData.imageLimpio, ...files]
-                      })
-                    }}
-                    style={{ display: 'none' }}
+          <View>
+          <Text style={{ justifyContent: 'center', textAlign: 'center', borderWidth: 1, borderColor: '#000', backgroundColor: '#ccc' }}>
+            Anexos
+          </Text>
+        </View>
+
+          <View>
+
+          {formData.optionLimpio === 'No' && (
+            <>
+              <View style={{ borderWidth: 1, borderColor: '#000' }}>
+
+                <Text style={{ fontSize: '15px' }}>  Evidencia No cumple con Limpio, libre de malos olores  </Text>
+
+                <Text style={{ fontSize: '10px', paddingTop: 10 }}> {formData.limpio || ''} </Text>
+
+                <div style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'flex-start' }}>
+
+                  {formData.imageLimpio.map((imageUrl, index) => (
+
+                  <div key={index} style={{ padding: '4px', borderRadius: '10px', textAlign: 'center' }}>
+                    <Image
+                      src={imageUrl}
+                      alt={`Imagen ${index + 1}`}
+                      style={{
+                        width: '150px',
+                        height: '150px',
+                        borderRadius: '5px',
+                        marginBottom: '10px'
+                      }}
+                    />
+                  </div>
+
+                ))}
+                </div>
+
+              </View>
+            </>
+          )}
+
+          {formData.optionLibre === 'No' && (
+            <>
+
+              <View style={{ borderWidth: 1, borderColor: '#000' }}>
+
+                <Text style={{ fontSize: '15px' }}>  Evidencia No cumple libre de Fauna nociva  </Text>
+
+                <Text style={{ fontSize: '10px', paddingTop: 10 }}> {formData.limpio || ''} </Text>
+
+                <div style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'flex-start' }}>
+
+                  {formData.imageLibreFauna.map((imageUrl, index) => (
+
+                  <div key={index} style={{ padding: '4px', borderRadius: '10px', textAlign: 'center' }}>
+
+                    <Image
+                      src={imageUrl}
+                      alt={`Imagen ${index + 1}`}
+                      style={{ width: '150px', height: '150px', borderRadius: '5px', marginBottom: '10px' }}
+                    />
+                  </div>
+
+                ))}
+                </div>
+
+              </View>
+            </>
+          )}
+
+          {formData.optionCaja === 'No' && (
+            <>
+              <View style={{ borderWidth: 1, borderColor: '#000' }}>
+
+                <Text style={{ fontSize: '15px' }}>  Evidencia No cumple Caja cerrada, en buen estado(sin hoyos o endiduras ):  </Text>
+
+                <Text style={{ fontSize: '10px', paddingTop: 10 }}> {formData.cajaCerrada || ''} </Text>
+
+                <div style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'flex-start' }}>
+
+                {formData.imageCajaCerrada.map((imageUrl, index) => (
+                  <div key={index} style={{ margin: '10px' }}>
+                    <Image
+                      src={imageUrl}
+                      alt={`Imagen ${index + 1}`}
+                      style={{ width: '150px', height: '150px', borderRadius: '5px', marginBottom: '10px' }}
+                    />
+                  </div>
+                ))}
+              </div>
+              </View>
+            </>
+          )}
+          {formData.optionLona === 'No' && (
+            <>
+              <View style={{ borderWidth: 1, borderColor: '#000' }}>
+
+              <Text style={{ fontSize: '15px' }}>  Evidencia No cumple  Lona en buen estado  </Text>
+
+              <Text style={{ fontSize: '10px', paddingTop: 10 }}> {formData.lona || ''} </Text>
+
+              <div style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'flex-start' }}>
+
+              {formData.imageLonaBuenEstado.map((imageUrl, index) => (
+                <div key={index} style={{ margin: '10px' }}>
+                  <Image
+                    src={imageUrl}
+                    alt={`Imagen ${index + 1}`}
+                    style={{ width: '150px', height: '150px', borderRadius: '5px', marginBottom: '10px' }}
                   />
                 </div>
+              ))}
+            </div>
+            </View>
+            </>
+          )}
+          {formData.optionCarga === 'No' && (
+            <>
+              <View style={{ borderWidth: 1, borderColor: '#000' }}>
 
-                <div
-                  style={{
-                    display: 'flex',
-                    flexWrap: 'wrap',
-                    marginTop: '10px',
-                    flexDirection: 'row',
-                    gap: '15px',
-                    justifyContent: 'flex-start'
-                  }}
-                >
-                  {formData.imageLimpio.map((imageUrl, index) => (
-                    <div
-                      key={index}
-                      style={{
-                        padding: '10px',
-                        border: '1px solid #ccc',
-                        borderRadius: '10px',
-                        boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
-                        backgroundColor: '#fff',
-                        textAlign: 'center',
-                        maxWidth: '120px'
-                      }}
-                    >
-                      <Image
-                        src={imageUrl}
-                        alt={`Imagen ${index + 1}`}
-                        style={{
-                          width: '100px',
-                          height: '100px',
-                          objectFit: 'cover',
-                          borderRadius: '5px',
-                          marginBottom: '10px'
-                        }}
-                      />
-                    </div>
-                  ))}
-                </div>
-              </>
-            )}
+              <Text style={{ fontSize: '15px' }}>  Evidencia No cumple Carga en buen estado</Text>
 
-            {/* Bloque para "Option Libre" */}
-            {formData.optionLibre === 'No' && (
-              <>
-                <Text>Option libre</Text>
-                <div
-                  style={{
-                    display: 'flex',
-                    flexWrap: 'wrap',
-                    marginTop: '30px',
-                    flexDirection: 'row'
-                  }}
-                >
-                  {formData.opcionLibre.map((imageUrl, index) => (
-                    <div key={index} style={{ margin: '10px' }}>
-                      <Image
-                        src={imageUrl}
-                        alt={`Selected ${index}`}
-                        style={{
-                          width: '100px',
-                          height: '100px',
-                          marginBottom: '10px' // Espaciado debajo de las imágenes
-                        }}
-                      />
-                    </div>
-                  ))}
-                </div>
-              </>
-            )}
+              <Text style={{ fontSize: '10px', paddingTop: 10 }}> {formData.carga || ''} </Text>
 
-            {formData.optionCaja === 'No' && (
-              <>
-                <Text>Option Caja</Text>
-                <div
-                  style={{
-                    display: 'flex',
-                    flexWrap: 'wrap',
-                    marginTop: '30px',
-                    flexDirection: 'row'
-                  }}
-                >
-                  {formData.imageCajaCerrada.map((imageUrl, index) => (
-                    <div key={index} style={{ margin: '10px' }}>
-                      <Image
-                        src={imageUrl}
-                        alt={`Selected ${index}`}
-                        style={{
-                          width: '100px',
-                          height: '100px',
-                          marginBottom: '10px' // Espaciado debajo de las imágenes
-                        }}
-                      />
-                    </div>
-                  ))}
-                </div>
-              </>
-            )}
-            {formData.optionLona === 'No' && (
-              <>
-                <Text>Option Lona</Text>
-                <div
-                  style={{
-                    display: 'flex',
-                    flexWrap: 'wrap',
-                    marginTop: '30px',
-                    flexDirection: 'row'
-                  }}
-                >
-                  {formData.imageLonaBuenEstado.map((imageUrl, index) => (
-                    <div key={index} style={{ margin: '10px' }}>
-                      <Image
-                        src={imageUrl}
-                        alt={`Selected ${index}`}
-                        style={{
-                          width: '100px',
-                          height: '100px',
-                          marginBottom: '10px' // Espaciado debajo de las imágenes
-                        }}
-                      />
-                    </div>
-                  ))}
-                </div>
-              </>
-            )}
-            {formData.optionCarga === 'No' && (
-              <>
-                <Text>Option CArga</Text>
-                <div
-                  style={{
-                    display: 'flex',
-                    flexWrap: 'wrap',
-                    marginTop: '30px',
-                    flexDirection: 'row'
-                  }}
-                >
-                  {formData.imageCargaBuenEstado.map((imageUrl, index) => (
-                    <div key={index} style={{ margin: '10px' }}>
-                      <Image
-                        src={imageUrl}
-                        alt={`Selected ${index}`}
-                        style={{
-                          width: '100px',
-                          height: '100px',
-                          marginBottom: '10px' // Espaciado debajo de las imágenes
-                        }}
-                      />
-                    </div>
-                  ))}
-                </div>
-              </>
-            )}
-            {formData.optionSeguridad === 'No' && (
-              <>
-                <Text>Seguridad</Text>
-                <div
-                  style={{
-                    display: 'flex',
-                    flexWrap: 'wrap',
-                    marginTop: '30px',
-                    flexDirection: 'row'
-                  }}
-                >
-                  {formData.imageSeguridadCarga.map((imageUrl, index) => (
-                    <div key={index} style={{ margin: '10px' }}>
-                      <Image
-                        src={imageUrl}
-                        alt={`Selected ${index}`}
-                        style={{
-                          width: '100px',
-                          height: '100px',
-                          marginBottom: '10px' // Espaciado debajo de las imágenes
-                        }}
-                      />
-                    </div>
-                  ))}
-                </div>
-              </>
-            )}
+              <div style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'flex-start' }}>
 
-            {formData.optionSellado === 'No' && (
-              <>
-                <Text>Option libre</Text>
-                <div
-                  style={{
-                    display: 'flex',
-                    flexWrap: 'wrap',
-                    marginTop: '30px',
-                    flexDirection: 'row'
-                  }}
-                >
-                  {formData.imageSellado.map((imageUrl, index) => (
-                    <div key={index} style={{ margin: '10px' }}>
-                      <Image
-                        src={imageUrl}
-                        alt={`Selected ${index}`}
-                        style={{
-                          width: '100px',
-                          height: '100px',
-                          marginBottom: '10px' // Espaciado debajo de las imágenes
-                        }}
-                      />
-                    </div>
-                  ))}
+              {formData.imageCargaBuenEstado.map((imageUrl, index) => (
+                <div key={index} style={{ margin: '10px' }}>
+                  <Image
+                    src={imageUrl}
+                    alt={`Imagen ${index + 1}`}
+                    style={{ width: '150px', height: '150px', borderRadius: '5px', marginBottom: '10px' }}
+                  />
                 </div>
-              </>
-            )}
-          </View>
+              ))}
+            </div>
+            </View>
+            </>
+          )}
+          {formData.optionSeguridad === 'No' && (
+            <>
+              <View style={{ borderWidth: 1, borderColor: '#000' }}>
+
+              <Text style={{ fontSize: '15px' }}>  Evidencia No cumple seguridad de carga </Text>
+
+              <Text style={{ fontSize: '10px', paddingTop: 10 }}> {formData.seguridadCarga || ''} </Text>
+
+              <div style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'flex-start' }}>
+
+              {formData.imageSeguridadCarga.map((imageUrl, index) => (
+                <div key={index} style={{ margin: '10px' }}>
+                  <Image
+                    src={imageUrl}
+                    alt={`Imagen ${index + 1}`}
+                    style={{ width: '150px', height: '150px', borderRadius: '5px', marginBottom: '10px' }}
+                  />
+                </div>
+              ))}
+            </div>
+            </View>
+            </>
+          )}
+
+          {formData.optionSellado === 'No' && (
+            <>
+              <View style={{ borderWidth: 1, borderColor: '#000' }}>
+
+              <Text style={{ fontSize: '15px' }}>  Evidencia No cumple con el sellado  </Text>
+
+              <Text style={{ fontSize: '10px', paddingTop: 10 }}> {formData.sellado || ''} </Text>
+
+              <div style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'flex-start' }}>
+
+              {formData.imageSellado.map((imageUrl, index) => (
+                <div key={index} style={{ margin: '10px' }}>
+                  <Image
+                    src={imageUrl}
+                    alt={`Imagen ${index + 1}`}
+                    style={{ width: '150px', height: '150px', borderRadius: '5px', marginBottom: '10px' }}
+                  />
+                </div>
+              ))}
+            </div>
+            </View>
+            </>
+          )}
+        </View>
         </Page>
     )}
   </Document>
@@ -968,18 +898,17 @@ const ActaDeLlegada = () => {
     setFormData((prevData) => ({ ...prevData, [name]: value }))
   }
 
+  const handleSelect = (idActa) => {
+    setValue(idActa)
+    setOpen(false)
+
+    // Buscar detalles de la acta seleccionada
+    const selectedActa = actasList.find((acta) => acta.id === idActa)
+    setActaDetails(selectedActa)
+  }
+
   const handleFileChange3 = (event, key) => {
     const files = event.target.files
-
-    const handleSelect = (idActa) => {
-      setValue(idActa)
-      setOpen(false)
-
-      // Buscar detalles de la acta seleccionada
-      const selectedActa = actasList.find((acta) => acta.id === idActa)
-      setActaDetails(selectedActa)
-    }
-
     const fileArray = Array.from(files).map((file) =>
       URL.createObjectURL(file)
     )
@@ -1008,6 +937,7 @@ const ActaDeLlegada = () => {
       }
     }
     fetchActas()
+
     const allTemperatures = [
       formData.tempAPuerta,
       formData.tempAMedio,
@@ -1073,29 +1003,6 @@ const ActaDeLlegada = () => {
       const dataUrlChofer = signaturePadChofer.current.toDataURL()
       setFirmaBase64Chofer(dataUrlChofer) // Guarda la firma del chofer
     }
-  }
-
-  const handleImageUpload = (e, key) => {
-    const file = e.target.files[0] // Obtener el primer archivo seleccionado
-    if (!file) return
-
-    // Validar si ya se alcanzó el límite total de 8 imágenes
-    const existingImages = Object.values(formData).filter((val) =>
-      val.startsWith('blob:')
-    ).length
-
-    if (existingImages >= 8) {
-      alert('Solo puedes subir un máximo de 8 imágenes.')
-      return
-    }
-
-    // Crear una URL temporal para la imagen y actualizar el campo correspondiente
-    const imageUrl = URL.createObjectURL(file)
-    setFormData((prevData) => ({ ...prevData, [key]: imageUrl }))
-  }
-
-  const handleImageDelete = (key) => {
-    setFormData((prevData) => ({ ...prevData, [key]: '' }))
   }
 
   return (
@@ -1235,18 +1142,18 @@ const ActaDeLlegada = () => {
               </AccordionItem>
             </Accordion>
 
-            <Accordion type="single" collapsible>
-              <AccordionItem value="item-2">
+            <Accordion type='single' collapsible>
+              <AccordionItem value='item-2'>
                 <AccordionTrigger
                   style={{
-                    fontSize: "20px",
-                    fontWeight: "bold",
-                    padding: "12px 16px",
-                    color: "#fff",
-                    borderRadius: "8px",
-                    border: "2px solid #7A2A1E",
-                    textAlign: "center",
-                    cursor: "pointer",
+                    fontSize: '20px',
+                    fontWeight: 'bold',
+                    padding: '12px 16px',
+                    color: '#fff',
+                    borderRadius: '8px',
+                    border: '2px solid #7A2A1E',
+                    textAlign: 'center',
+                    cursor: 'pointer',
                     // backgroundColor: "#9A3324", // Fondo destacado
                   }}
                 >
@@ -1254,67 +1161,67 @@ const ActaDeLlegada = () => {
                 </AccordionTrigger>
                 <AccordionContent>
                   {[
-                    { label: "Temperatura de set point:", name: "tempSetPoint" },
-                    { label: "Observaciones set point:", name: "observacionesSetPoint" },
-                    { label: "Temperatura de pantalla:", name: "tempPantalla" },
-                    { label: "Observaciones pantalla:", name: "observacionesPantalla" },
-                    { label: "Temperatura de origen:", name: "tempOrigen" },
-                    { label: "Temperatura de destino:", name: "tempDestino" },
+                    { label: 'Temperatura de set point:', name: 'tempSetPoint' },
+                    { label: 'Observaciones set point:', name: 'observacionesSetPoint' },
+                    { label: 'Temperatura de pantalla:', name: 'tempPantalla' },
+                    { label: 'Observaciones pantalla:', name: 'observacionesPantalla' },
+                    { label: 'Temperatura de origen:', name: 'tempOrigen' },
+                    { label: 'Temperatura de destino:', name: 'tempDestino' }
                   ].map(({ label, name }) => (
-                    <div key={name} style={{ display: "flex", alignItems: "center", marginBottom: "10px" }}>
-                      <label style={{ flex: "0 0 250px", fontWeight: "bold" }}>{label}</label>
+                    <div key={name} style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
+                      <label style={{ flex: '0 0 250px', fontWeight: 'bold' }}>{label}</label>
                       <Input
-                        type="text"
+                        type='text'
                         name={name}
                         value={formData[name]}
                         onChange={handleInputChange}
-                        style={{ flex: "1", padding: "8px", borderRadius: "4px", border: "1px solid #ccc" }}
+                        style={{ flex: '1', padding: '8px', borderRadius: '4px', border: '1px solid #ccc' }}
                       />
                     </div>
                   ))}
 
-                  <div style={{ display: "flex", alignItems: "center", marginBottom: "10px" }}>
-                    <label style={{ flex: "0 0 250px", fontWeight: "bold" }}>Termógrafo:</label>
+                  <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
+                    <label style={{ flex: '0 0 250px', fontWeight: 'bold' }}>Termógrafo:</label>
                     <Input
-                      type="text"
-                      name="termografo"
+                      type='text'
+                      name='termografo'
                       value={formData.termografo}
                       onChange={handleInputChange}
-                      style={{ flex: "1", padding: "8px", borderRadius: "4px", border: "1px solid #ccc" }}
+                      style={{ flex: '1', padding: '8px', borderRadius: '4px', border: '1px solid #ccc' }}
                     />
                   </div>
 
                   {[
-                    { label: "Cumple termógrafo:", name: "option" },
-                    { label: "Cumple termógrafo2:", name: "option2" },
+                    { label: 'Cumple termógrafo:', name: 'option' },
+                    { label: 'Cumple termógrafo2:', name: 'option2' }
                   ].map(({ label, name }) => (
-                    <div key={name} style={{ display: "flex", alignItems: "center", marginBottom: "20px" }}>
-                      <label style={{ flex: "0 0 250px", fontWeight: "bold" }}>{label}</label>
-                      <div style={{ display: "flex", gap: "10px" }}>
+                    <div key={name} style={{ display: 'flex', alignItems: 'center', marginBottom: '20px' }}>
+                      <label style={{ flex: '0 0 250px', fontWeight: 'bold' }}>{label}</label>
+                      <div style={{ display: 'flex', gap: '10px' }}>
                         <Button
                           style={{
-                            padding: "8px 16px",
-                            borderRadius: "4px",
-                            backgroundColor: "#9A3324",
-                            color: "#fff",
-                            cursor: "pointer",
+                            padding: '8px 16px',
+                            borderRadius: '4px',
+                            backgroundColor: '#9A3324',
+                            color: '#fff',
+                            cursor: 'pointer',
                           }}
                           name={name}
-                          value="Si"
+                          value='Si'
                           onClick={handleInputChange}
                         >
                           Sí
                         </Button>
                         <Button
                           style={{
-                            padding: "8px 16px",
-                            borderRadius: "4px",
-                            backgroundColor: "#ccc",
-                            color: "#000",
-                            cursor: "pointer",
+                            padding: '8px 16px',
+                            borderRadius: '4px',
+                            backgroundColor: '#ccc',
+                            color: '#000',
+                            cursor: 'pointer',
                           }}
                           name={name}
-                          value="No"
+                          value='No'
                           onClick={handleInputChange}
                         >
                           No
@@ -1325,7 +1232,6 @@ const ActaDeLlegada = () => {
                 </AccordionContent>
               </AccordionItem>
             </Accordion>
-
 
             <Accordion type='single' collapsible>
               <AccordionItem value='item-2'>
@@ -1377,16 +1283,24 @@ const ActaDeLlegada = () => {
                                 Seleccionar Imagen
                               </label>
                             </Button>
+                            {formData.imageLimpio.length < 8
+? (
 
-                            <input
-                              type='file'
-                              id='file-input-limpio'
-                              accept='image/*'
-                              multiple
-                              style={{ display: 'none' }}
-                              onChange={(e) =>
-                                handleFileChange3(e, 'imageLimpio')}
-                            />
+                              <input
+                                 type='file'
+                                 id='file-input-limpio'
+                                 accept='image/*'
+                                 multiple
+                                 style={{ display: 'none' }}
+                                 onChange={(e) =>
+                                 handleFileChange3(e, 'imageLimpio')}
+                               />
+                            )
+                              : <p style={{ color: 'red', marginTop: '10px' }}>
+                                   No puedes agregar más de 8 imágenes
+                               </p>}
+
+
 
                             <div
                               style={{
@@ -1890,7 +1804,7 @@ const ActaDeLlegada = () => {
             <Accordion type='single' collapsible>
               <AccordionItem value='item-6'>
                 <AccordionTrigger
-                    style={{
+                  style={{
                       fontSize: '20px', // Tamaño de fuente grande
                       fontWeight: 'bold', // Negrita para mayor visibilidad
                       padding: '12px 16px', // Más espacio alrededor del texto
@@ -1901,8 +1815,8 @@ const ActaDeLlegada = () => {
                       textAlign: 'center', // Centrar el texto
                       cursor: 'pointer' // Cambia el cursor para que parezca un botón
                     }}
-                  >
-                    Placas Caja
+                >
+                  Placas Caja
                   </AccordionTrigger>
                 <AccordionContent>
                   <label>Hay tarimas dañadas?: </label>
@@ -1933,7 +1847,7 @@ const ActaDeLlegada = () => {
             <Accordion type='single' collapsible>
               <AccordionItem value='item-2'>
                 <AccordionTrigger
-                    style={{
+                  style={{
                       fontSize: '20px', // Tamaño de fuente grande
                       fontWeight: 'bold', // Negrita para mayor visibilidad
                       padding: '12px 16px', // Más espacio alrededor del texto
@@ -1944,8 +1858,8 @@ const ActaDeLlegada = () => {
                       textAlign: 'center', // Centrar el texto
                       cursor: 'pointer' // Cambia el cursor para que parezca un botón
                     }}
-                  >
-                    Temperatura de Pulpa
+                >
+                  Temperatura de Pulpa
                   </AccordionTrigger>
                 <AccordionContent>
                   <table>

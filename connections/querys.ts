@@ -1,5 +1,6 @@
 import {supabase} from './supabase'
 
+
 export const query = async()=>{
     try{
       const {data,error}= await supabase.from("ActaDescarga").select("*")
@@ -96,5 +97,67 @@ export const query = async()=>{
       console.log("El error es:", e);
     }
   };
+
   
   
+export const fetchActas = async () => {
+  const { data, error } = await supabase
+    .from('ActaDescarga')
+    .select(`
+      id,
+      fecha,
+      start_verification,
+      end_verification,
+      oc,
+      provider,
+      origin,
+      bill,
+      varieties,
+      cold_disc,
+      boxes_received,
+      carrier_line,
+      num_cont,
+      truck_plt,
+      box_plt,
+      driver,
+      setpoint_temp,
+      setpoint_obs,
+      screen_temp,
+      screen_obs,
+      therm_org,
+      therm_dst,
+      clean_free,
+      close,
+      tarp_state,
+      pest_free,
+      load_state,
+      load_sec,
+      seal,
+      box_id,
+      invest_res,
+      tempa_door,
+      tempa_mid,
+      tempa_back,
+      tempm_door,
+      tempm_mid,
+      tempm_back,
+      tempb_door,
+      tempb_mid,
+      tempb_back,
+      temp_max,
+      temp_min,
+      temp_ideal,
+      insp_name,
+      pallet_dmg,
+      pallet_num,
+      box_num,
+      dmg_num
+    `); 
+
+  if (error) {
+    console.error('Error fetching actas:', error);
+    return null;
+  }
+  
+  return data;
+};

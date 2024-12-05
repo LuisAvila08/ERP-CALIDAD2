@@ -608,14 +608,13 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer }) => (
       formData.optionLona === 'No' ||
       formData.optionCarga === 'No' ||
       formData.optionSeguridad === 'No' ||
-      formData.optionSellado === 'No') && (
+      formData.optionSellado === 'No' || formData.optionLimpio==='No') && (
         <Page>
         <View style={{ padding: '100px' }}>
           <Text>Anexa las imágenes de termógrafo</Text>
 
           {/* Mostrar imágenes del termógrafo */}
-          {/* Mostrar imágenes del termógrafo */}
-          {formData.imageLimpio && (
+          {formData.optionLibre === 'No'&& (
             <>
               {/* Título */}
               <Text
@@ -670,8 +669,13 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer }) => (
                   gap: '15px',
                   justifyContent: 'flex-start',
                 }}
+
               >
+                     <Text style={[styles.cellValue, { marginBottom: 10, flex: 1 }]}>
+  {formData.tempOrigen || ''}
+</Text>
                 {formData.imageLimpio.map((imageUrl, index) => (
+                  
                   <div
                     key={index}
                     style={{
@@ -684,6 +688,7 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer }) => (
                       maxWidth: '120px',
                     }}
                   >
+                    
                     <Image
                       src={imageUrl}
                       alt={`Imagen ${index + 1}`}
@@ -696,8 +701,11 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer }) => (
                       }}
                     />
                   </div>
+                 
                 ))}
               </div>
+         
+
             </>
           )}
 

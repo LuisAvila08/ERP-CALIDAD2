@@ -65,7 +65,8 @@ const styles = StyleSheet.create({
   page: { padding: 20 },
   logoSection: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
+    alignItems: 'center',
     marginBottom: 0
   },
   logo: {
@@ -524,7 +525,9 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer }) => (
         </View>
         <View style={[{ width: '30%' }]}>
           <Text style={styles.cellLabel}>Ideal</Text>
-          <Text style={styles.cellValue}> {formData.tempIdeal}°C </Text>
+          <View style={[styles.tableRow, { height: 50 }]}>
+            <Text style={styles.cellValue}> {formData.tempIdeal}°C </Text>
+          </View>
         </View>
       </View>
 
@@ -1162,257 +1165,185 @@ const ActaDeLlegada = () => {
 
             <Accordion type='single' collapsible>
               <AccordionItem value='item-1'>
-                <AccordionTrigger>Fecha y Verificación</AccordionTrigger>
+                <AccordionTrigger>Datos Pedido</AccordionTrigger>
                 <AccordionContent>
-                  <label>Fecha: </label>
-                  <Input
-                    type='date'
-                    name='fecha'
-                    value={formData.fecha}
-                    onChange={handleInputChange}
-                  />
-                  <label>Inicio de verificación: </label>
-                  <Input
-                    type='text'
-                    name='inicioVerificacion'
-                    value={formData.inicioVerificacion}
-                    onChange={handleInputChange}
-                  />
-                  <label>Término de verificación: </label>
-                  <Input
-                    type='text'
-                    name='terminoVerificacion'
-                    value={formData.terminoVerificacion}
-                    onChange={handleInputChange}
-                  />
-                  <label>O.C.: </label>
-                  <Input
-                    type='text'
-                    name='oc'
-                    value={formData.oc}
-                    onChange={handleInputChange}
-                  />
-
-                  <label>Proveedor: </label>
-                  <Input
-                    type='text'
-                    name='proveedor'
-                    value={formData.proveedor}
-                    onChange={handleInputChange}
-                  />
-
-                  <label>origen: </label>
-                  <Input
-                    type='text'
-                    name='origen'
-                    value={formData.origen}
-                    onChange={handleInputChange}
-                  />
-                  <label>Factura: </label>
-                  <Input
-                    type='text'
-                    name='factura'
-                    value={formData.factura}
-                    onChange={handleInputChange}
-                  />
-
-                  <label>Especie: </label>
-                  <Input
-                    type='text'
-                    name='especie'
-                    value={formData.especie}
-                    onChange={handleInputChange}
-                  />
-
-                  <label>Variedades: </label>
-                  <Input
-                    type='text'
-                    name='variedades'
-                    value={formData.variedades}
-                    onChange={handleInputChange}
-                  />
-
-                  <label>Frío de descarga: </label>
-                  <Input
-                    type='text'
-                    name='frioDescarga'
-                    value={formData.frioDescarga}
-                    onChange={handleInputChange}
-                  />
-
-                  <label>Cajas recibidas: </label>
-                  <Input
-                    type='text'
-                    name='cajasRecibidas'
-                    value={formData.cajasRecibidas}
-                    onChange={handleInputChange}
-                  />
+                  {[
+                    { label: 'Fecha:', type: 'date', name: 'fecha' },
+                    { label: 'Inicio de verificación:', type: 'text', name: 'inicioVerificacion' },
+                    { label: 'Término de verificación:', type: 'text', name: 'terminoVerificacion' },
+                    { label: 'O.C.:', type: 'text', name: 'oc' },
+                    { label: 'Proveedor:', type: 'text', name: 'proveedor' },
+                    { label: 'Origen:', type: 'text', name: 'origen' },
+                    { label: 'Factura:', type: 'text', name: 'factura' },
+                    { label: 'Especie:', type: 'text', name: 'especie' },
+                    { label: 'Variedades:', type: 'text', name: 'variedades' },
+                    { label: 'Frío de descarga:', type: 'text', name: 'frioDescarga' },
+                    { label: 'Cajas recibidas:', type: 'text', name: 'cajasRecibidas' }
+                  ].map(({ label, type, name }) => (
+                    <div key={name} style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
+                      <label style={{ flex: '0 0 200px', fontWeight: 'bold' }}>{label}</label>
+                      <Input
+                        type={type}
+                        name={name}
+                        value={formData[name]}
+                        onChange={handleInputChange}
+                        style={{ flex: '1', padding: '8px', borderRadius: '4px', border: '1px solid #ccc' }}
+                      />
+                    </div>
+                  ))}
                 </AccordionContent>
               </AccordionItem>
             </Accordion>
 
             <Accordion type='single' collapsible>
               <AccordionItem value='item-2'>
-                <AccordionTrigger>Transporte</AccordionTrigger>
+                <AccordionTrigger
+                  style={{
+                    fontSize: '20px', // Tamaño de fuente grande
+                    fontWeight: 'bold', // Negrita para mayor visibilidad
+                    padding: '12px 16px', // Más espacio alrededor del texto
+                    // backgroundColor: '#9A3324', // Fondo destacado (puedes cambiar el color si es necesario)
+                    color: '#fff', // Texto en color blanco para contraste
+                    borderRadius: '8px', // Bordes redondeados para un diseño moderno
+                    border: '2px solid #7A2A1E', // Borde para resaltar el elemento
+                    textAlign: 'center', // Centrar el texto
+                    cursor: 'pointer' // Cambia el cursor para que parezca un botón
+                  }}
+                >
+                  Transporte
+                </AccordionTrigger>
                 <AccordionContent>
-                  <label>Línea transportista: </label>
-                  <Input
-                    type='text'
-                    name='lineaTransportista'
-                    value={formData.lineaTransportista}
-                    onChange={handleInputChange}
-                  />
-
-                  <label>Número de contenedor: </label>
-                  <Input
-                    type='text'
-                    name='numeroContenedor'
-                    value={formData.numeroContenedor}
-                    onChange={handleInputChange}
-                  />
-
-                  <label>Placas camión: </label>
-                  <Input
-                    type='text'
-                    name='placasCamion'
-                    value={formData.placasCamion}
-                    onChange={handleInputChange}
-                  />
-
-                  <label>Placas caja: </label>
-                  <Input
-                    type='text'
-                    name='placasCaja'
-                    value={formData.placasCaja}
-                    onChange={handleInputChange}
-                  />
-
-                  <label>Chofer: </label>
-                  <Input
-                    type='text'
-                    name='chofer'
-                    value={formData.chofer}
-                    onChange={handleInputChange}
-                  />
+                  {[
+                    { label: 'Línea transportista:', name: 'lineaTransportista' },
+                    { label: 'Número de contenedor:', name: 'numeroContenedor' },
+                    { label: 'Placas camión:', name: 'placasCamion' },
+                    { label: 'Placas caja:', name: 'placasCaja' },
+                    { label: 'Chofer:', name: 'chofer' }
+                  ].map(({ label, name }) => (
+                    <div key={name} style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
+                      <label style={{ flex: '0 0 200px', fontWeight: 'bold' }}>{label}</label>
+                      <Input
+                        type='text'
+                        name={name}
+                        value={formData[name]}
+                        onChange={handleInputChange}
+                        style={{ flex: '1', padding: '8px', borderRadius: '4px', border: '1px solid #ccc' }}
+                      />
+                    </div>
+                  ))}
                 </AccordionContent>
               </AccordionItem>
             </Accordion>
 
-            <Accordion type='single' collapsible>
-              <AccordionItem value='item-2'>
-                <AccordionTrigger>Condiciones de Transporte</AccordionTrigger>
-
+            <Accordion type="single" collapsible>
+              <AccordionItem value="item-2">
+                <AccordionTrigger
+                  style={{
+                    fontSize: "20px",
+                    fontWeight: "bold",
+                    padding: "12px 16px",
+                    color: "#fff",
+                    borderRadius: "8px",
+                    border: "2px solid #7A2A1E",
+                    textAlign: "center",
+                    cursor: "pointer",
+                    // backgroundColor: "#9A3324", // Fondo destacado
+                  }}
+                >
+                  Condiciones de transporte
+                </AccordionTrigger>
                 <AccordionContent>
-                  <label>Temperatura de set point: </label>
-                  <Input
-                    type='text'
-                    name='tempSetPoint'
-                    value={formData.tempSetPoint}
-                    onChange={handleInputChange}
-                  />
+                  {[
+                    { label: "Temperatura de set point:", name: "tempSetPoint" },
+                    { label: "Observaciones set point:", name: "observacionesSetPoint" },
+                    { label: "Temperatura de pantalla:", name: "tempPantalla" },
+                    { label: "Observaciones pantalla:", name: "observacionesPantalla" },
+                    { label: "Temperatura de origen:", name: "tempOrigen" },
+                    { label: "Temperatura de destino:", name: "tempDestino" },
+                  ].map(({ label, name }) => (
+                    <div key={name} style={{ display: "flex", alignItems: "center", marginBottom: "10px" }}>
+                      <label style={{ flex: "0 0 250px", fontWeight: "bold" }}>{label}</label>
+                      <Input
+                        type="text"
+                        name={name}
+                        value={formData[name]}
+                        onChange={handleInputChange}
+                        style={{ flex: "1", padding: "8px", borderRadius: "4px", border: "1px solid #ccc" }}
+                      />
+                    </div>
+                  ))}
 
-                  <label>Observaciones set point: </label>
-                  <Input
-                    type='text'
-                    name='observacionesSetPoint'
-                    value={formData.observacionesSetPoint}
-                    onChange={handleInputChange}
-                  />
-
-                  <label>Temperatura de pantalla: </label>
-                  <Input
-                    type='text'
-                    name='tempPantalla'
-                    value={formData.tempPantalla}
-                    onChange={handleInputChange}
-                  />
-
-                  <label>Observaciones pantalla: </label>
-                  <Input
-                    type='text'
-                    name='observacionesPantalla'
-                    value={formData.observacionesPantalla}
-                    onChange={handleInputChange}
-                  />
-
-                  <div style={{ marginBottom: 10 }}>
-                    <label>Termógrafo: </label>
+                  <div style={{ display: "flex", alignItems: "center", marginBottom: "10px" }}>
+                    <label style={{ flex: "0 0 250px", fontWeight: "bold" }}>Termógrafo:</label>
                     <Input
-                      type='text'
-                      name='termografo'
+                      type="text"
+                      name="termografo"
                       value={formData.termografo}
                       onChange={handleInputChange}
+                      style={{ flex: "1", padding: "8px", borderRadius: "4px", border: "1px solid #ccc" }}
                     />
                   </div>
 
-                  <div style={{ marginBottom: 30 }}>
-                    <label>Cumple termografo </label>
-
-                    <div style={{ marginBottom: 20 }}>
-                      <Button
-                        style={{ flex: 5, marginRight: '10px' }}
-                        name='option'
-                        value='Si'
-                        onClick={handleInputChange}
-                      >
-                        Sí
-                      </Button>
-                      <Button
-                        name='option'
-                        value='No'
-                        onClick={handleInputChange}
-                      >
-                        No
-                      </Button>
+                  {[
+                    { label: "Cumple termógrafo:", name: "option" },
+                    { label: "Cumple termógrafo2:", name: "option2" },
+                  ].map(({ label, name }) => (
+                    <div key={name} style={{ display: "flex", alignItems: "center", marginBottom: "20px" }}>
+                      <label style={{ flex: "0 0 250px", fontWeight: "bold" }}>{label}</label>
+                      <div style={{ display: "flex", gap: "10px" }}>
+                        <Button
+                          style={{
+                            padding: "8px 16px",
+                            borderRadius: "4px",
+                            backgroundColor: "#9A3324",
+                            color: "#fff",
+                            cursor: "pointer",
+                          }}
+                          name={name}
+                          value="Si"
+                          onClick={handleInputChange}
+                        >
+                          Sí
+                        </Button>
+                        <Button
+                          style={{
+                            padding: "8px 16px",
+                            borderRadius: "4px",
+                            backgroundColor: "#ccc",
+                            color: "#000",
+                            cursor: "pointer",
+                          }}
+                          name={name}
+                          value="No"
+                          onClick={handleInputChange}
+                        >
+                          No
+                        </Button>
+                      </div>
                     </div>
-                  </div>
-
-                  <div style={{ marginBottom: 30 }}>
-                    <label>Cumple termografo2 </label>
-
-                    <div style={{ marginBottom: 20 }}>
-                      <Button
-                        style={{ flex: 5, marginRight: '10px' }}
-                        name='option2'
-                        value='Si'
-                        onClick={handleInputChange}
-                      >
-                        Sí
-                      </Button>
-                      <Button
-                        name='option2'
-                        value='No'
-                        onClick={handleInputChange}
-                      >
-                        No
-                      </Button>
-                    </div>
-                  </div>
-
-                  <div style={{ marginBottom: 10 }}>
-                    <label>Temperatura de origen: </label>
-                    <Input
-                      type='text'
-                      name='tempOrigen'
-                      value={formData.tempOrigen}
-                      onChange={handleInputChange}
-                    />
-                  </div>
-
-                  <label>Temperatura de destino: </label>
-                  <Input
-                    type='text'
-                    name='tempDestino'
-                    value={formData.tempDestino}
-                    onChange={handleInputChange}
-                  />
+                  ))}
                 </AccordionContent>
               </AccordionItem>
             </Accordion>
 
+
             <Accordion type='single' collapsible>
               <AccordionItem value='item-2'>
-                <AccordionTrigger>Inspección de Transporte</AccordionTrigger>
+                <AccordionTrigger
+                  style={{
+                    fontSize: '20px', // Tamaño de fuente grande
+                    fontWeight: 'bold', // Negrita para mayor visibilidad
+                    padding: '12px 16px', // Más espacio alrededor del texto
+                    // backgroundColor: '#9A3324', // Fondo destacado (puedes cambiar el color si es necesario)
+                    color: '#fff', // Texto en color blanco para contraste
+                    borderRadius: '8px', // Bordes redondeados para un diseño moderno
+                    border: '2px solid #7A2A1E', // Borde para resaltar el elemento
+                    textAlign: 'center', // Centrar el texto
+                    cursor: 'pointer' // Cambia el cursor para que parezca un botón
+                  }}
+                >
+                  Inspección de transporte
+                </AccordionTrigger>
                 <AccordionContent>
                   <div style={{ marginBottom: 30 }}>
                     <label>Limpio </label>
@@ -1958,7 +1889,21 @@ const ActaDeLlegada = () => {
 
             <Accordion type='single' collapsible>
               <AccordionItem value='item-6'>
-                <AccordionTrigger>Placas Caja</AccordionTrigger>
+                <AccordionTrigger
+                    style={{
+                      fontSize: '20px', // Tamaño de fuente grande
+                      fontWeight: 'bold', // Negrita para mayor visibilidad
+                      padding: '12px 16px', // Más espacio alrededor del texto
+                      // backgroundColor: '#9A3324', // Fondo destacado (puedes cambiar el color si es necesario)
+                      color: '#fff', // Texto en color blanco para contraste
+                      borderRadius: '8px', // Bordes redondeados para un diseño moderno
+                      border: '2px solid #7A2A1E', // Borde para resaltar el elemento
+                      textAlign: 'center', // Centrar el texto
+                      cursor: 'pointer' // Cambia el cursor para que parezca un botón
+                    }}
+                  >
+                    Placas Caja
+                  </AccordionTrigger>
                 <AccordionContent>
                   <label>Hay tarimas dañadas?: </label>
                   <Input
@@ -1987,7 +1932,21 @@ const ActaDeLlegada = () => {
 
             <Accordion type='single' collapsible>
               <AccordionItem value='item-2'>
-                <AccordionTrigger>Temperatura de Pulpa</AccordionTrigger>
+                <AccordionTrigger
+                    style={{
+                      fontSize: '20px', // Tamaño de fuente grande
+                      fontWeight: 'bold', // Negrita para mayor visibilidad
+                      padding: '12px 16px', // Más espacio alrededor del texto
+                      // backgroundColor: '#9A3324', // Fondo destacado (puedes cambiar el color si es necesario)
+                      color: '#fff', // Texto en color blanco para contraste
+                      borderRadius: '8px', // Bordes redondeados para un diseño moderno
+                      border: '2px solid #7A2A1E', // Borde para resaltar el elemento
+                      textAlign: 'center', // Centrar el texto
+                      cursor: 'pointer' // Cambia el cursor para que parezca un botón
+                    }}
+                  >
+                    Temperatura de Pulpa
+                  </AccordionTrigger>
                 <AccordionContent>
                   <table>
                     <thead>
@@ -2209,7 +2168,7 @@ const ActaDeLlegada = () => {
           </div>
         </ResizablePanel>
 
-        <ResizableHandle />
+        <ResizableHandle withHandle />
 
         <ResizablePanel>
           <div

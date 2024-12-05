@@ -1357,16 +1357,26 @@ const ActaDeLlegada = () => {
                                 Seleccionar Imagen
                               </label>
                             </Button>
-
-                            <input
-                              type='file'
-                              id='file-input-limpio'
-                              accept='image/*'
-                              multiple
-                              style={{ display: 'none' }}
-                              onChange={(e) =>
-                                handleFileChange3(e, 'imageLimpio')}
-                            />
+                            {formData.imageLimpio.length <8 ? (
+                            
+                               <input
+                               type='file'
+                               id='file-input-limpio'
+                               accept='image/*'
+                               multiple
+                               style={{ display: 'none' }}
+                               onChange={(e) =>
+                                 handleFileChange3(e, 'imageLimpio')}
+                             />
+                                 )
+                                 : <p style={{ color: 'red', marginTop: '10px' }}>
+                                 No puedes agregar más de 8 imágenes
+                               </p>
+                            
+                                
+                                }
+                                  
+                           
 
                             <div
                               style={{

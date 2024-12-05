@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react'
 import {
   Page,
   Text,
@@ -9,53 +9,52 @@ import {
   PDFDownloadLink,
   Image,
   Font
-} from '@react-pdf/renderer';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import Layout from '../components/Layout';
+} from '@react-pdf/renderer'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import Layout from '../components/Layout'
 import {
   ResizableHandle,
   ResizablePanel,
   ResizablePanelGroup
-} from '@/components/ui/resizable';
-import SignatureCanvas from 'react-signature-canvas';
-import { IconCheck } from '@tabler/icons-react';
+} from '@/components/ui/resizable'
+import SignatureCanvas from 'react-signature-canvas'
+import { IconCheck } from '@tabler/icons-react'
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger
-} from '@/components/ui/accordion';
+} from '@/components/ui/accordion'
 import {
   Select,
   SelectTrigger,
   SelectValue,
   SelectContent,
   SelectItem
-} from '@/components/ui/select';
-import { Bold , Check, ChevronsUpDown } from "lucide-react";
-import { WidthIcon } from "@radix-ui/react-icons";
+} from '@/components/ui/select'
+import { Bold, Check, ChevronsUpDown } from 'lucide-react'
+import { WidthIcon } from '@radix-ui/react-icons'
 
-import GothamNarrowMedium from "../../public/fonts/GothamNarrow-Medium.otf";
-import { format } from "path";
-import { supabase } from "../../connections/supabase";
-import { insert, query } from "../../connections/querys";
+import GothamNarrowMedium from '../../public/fonts/GothamNarrow-Medium.otf'
+import { format } from 'path'
+import { supabase } from '../../connections/supabase'
+import { insert, query } from '../../connections/querys'
 
-import { cn } from "@/lib/utils";
+import { cn } from '@/lib/utils'
 import {
   Command,
   CommandEmpty,
   CommandGroup,
   CommandInput,
   CommandItem,
-  CommandList,
-} from "@/components/ui/command";
+  CommandList
+} from '@/components/ui/command'
 import {
   Popover,
   PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-
+  PopoverTrigger
+} from '@/components/ui/popover'
 
 Font.register({
   family: 'GothamNarrow',
@@ -63,16 +62,16 @@ Font.register({
 })
 
 const styles = StyleSheet.create({
-  page: { padding: 30 },
+  page: { padding: 20 },
   logoSection: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 20
+    marginBottom: 0
   },
   logo: {
     width: 100,
     height: 100,
-    marginVertical: 10
+    marginVertical: 5
   },
   row: {
     flexDirection: 'row',
@@ -85,18 +84,18 @@ const styles = StyleSheet.create({
     borderColor: '#000',
     border: '1px solid #ccc',
     padding: '10px',
-    marginTop: '20px',
+    marginTop: '20px'
   },
   table: {
     width: '100%',
     borderWidth: 2,
     borderColor: '#000',
     marginTop: 15,
-    height: 'auto',
+    height: 'auto'
   },
   tableRow: {
     flexDirection: 'row',
-    height: 'auto',
+    height: 'auto'
   },
   cellLabel: {
     flex: 1,
@@ -111,7 +110,7 @@ const styles = StyleSheet.create({
     fontFamily: 'GothamNarrow',
     flexWrap: 'wrap', // Permite que el texto se envuelva si no cabe
     overflow: 'hidden',
-    height: 'auto',
+    height: 'auto'
   },
   cellValue: {
     flex: 1,
@@ -121,7 +120,7 @@ const styles = StyleSheet.create({
     fontSize: 8,
 
     fontFamily: 'GothamNarrow',
-    height: 'auto',
+    height: 'auto'
   },
   cellLabelWhite: {
     backgroundColor: '#FFFFFF',
@@ -137,7 +136,7 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     fontFamily: 'GothamNarrow',
     minHeight: 20,
-    height: 'auto',
+    height: 'auto'
   }
 })
 
@@ -158,7 +157,7 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer }) => (
             style={{
               fontSize: 24,
               fontWeight: 'bold',
-              fontFamily: 'GothamNarrow',
+              fontFamily: 'GothamNarrow'
             }}
           >
             ACTA DE DESCARGA
@@ -610,264 +609,264 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer }) => (
       formData.optionSeguridad === 'No' ||
       formData.optionSellado === 'No') && (
         <Page>
-        <View style={{ padding: '100px' }}>
-          <Text>Anexa las imágenes de termógrafo</Text>
+          <View style={{ padding: '100px' }}>
+            <Text>Anexa las imágenes de termógrafo</Text>
 
-          {/* Mostrar imágenes del termógrafo */}
-          {/* Mostrar imágenes del termógrafo */}
-          {formData.imageLimpio && (
-            <>
-              {/* Título */}
-              <Text
-                style={{
-                  fontSize: '20px',
-                  fontWeight: 'bold',
-                  color: '#333',
-                  marginBottom: '20px',
-                }}
-              >
-                Option Limpio
-              </Text>
-              <div style={{ marginBottom: '20px' }}>
-                <label
-                  htmlFor='imageInput'
+            {/* Mostrar imágenes del termógrafo */}
+            {/* Mostrar imágenes del termógrafo */}
+            {formData.imageLimpio && (
+              <>
+                {/* Título */}
+                <Text
                   style={{
-                    display: 'inline-block',
-                    padding: '10px 20px',
-                    backgroundColor: '#4CAF50',
-                    color: '#fff',
-                    borderRadius: '5px',
-                    cursor: 'pointer',
-                    fontSize: '16px',
+                    fontSize: '20px',
+                    fontWeight: 'bold',
+                    color: '#333',
+                    marginBottom: '20px'
                   }}
                 >
-                  Cargar Imágenes
-                </label>
-                <input
-                  id='imageInput'
-                  type='file'
-                  accept='image/*'
-                  multiple
-                  onChange={(e) => {
-                    const files = Array.from(e.target.files).map((file) =>
-                      URL.createObjectURL(file)
-                    )
-                    setFormData({
-                      ...formData,
-                      imageLimpio: [...formData.imageLimpio, ...files]
-                    })
-                  }}
-                  style={{ display: 'none' }} // Ocultamos el input real
-                />
-              </div>
-
-              <div
-                style={{
-                  display: 'flex',
-                  flexWrap: 'wrap',
-                  marginTop: '10px',
-                  flexDirection: 'row',
-                  gap: '15px',
-                  justifyContent: 'flex-start',
-                }}
-              >
-                {formData.imageLimpio.map((imageUrl, index) => (
-                  <div
-                    key={index}
+                  Option Limpio
+                </Text>
+                <div style={{ marginBottom: '20px' }}>
+                  <label
+                    htmlFor='imageInput'
                     style={{
-                      padding: '10px',
-                      border: '1px solid #ccc',
-                      borderRadius: '10px',
-                      boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
-                      backgroundColor: '#fff',
-                      textAlign: 'center',
-                      maxWidth: '120px',
+                      display: 'inline-block',
+                      padding: '10px 20px',
+                      backgroundColor: '#4CAF50',
+                      color: '#fff',
+                      borderRadius: '5px',
+                      cursor: 'pointer',
+                      fontSize: '16px'
                     }}
                   >
-                    <Image
-                      src={imageUrl}
-                      alt={`Imagen ${index + 1}`}
-                      style={{
-                        width: '100px',
-                        height: '100px',
-                        objectFit: 'cover',
-                        borderRadius: '5px',
-                        marginBottom: '10px',
-                      }}
-                    />
-                  </div>
-                ))}
-              </div>
-            </>
-          )}
+                    Cargar Imágenes
+                  </label>
+                  <input
+                    id='imageInput'
+                    type='file'
+                    accept='image/*'
+                    multiple
+                    onChange={(e) => {
+                      const files = Array.from(e.target.files).map((file) =>
+                        URL.createObjectURL(file)
+                      )
+                      setFormData({
+                        ...formData,
+                        imageLimpio: [...formData.imageLimpio, ...files]
+                      })
+                    }}
+                    style={{ display: 'none' }}
+                  />
+                </div>
 
-          {/* Bloque para "Option Libre" */}
-          {formData.optionLibre === 'No' && (
-            <>
-              <Text>Option libre</Text>
-              <div
-                style={{
-                  display: 'flex',
-                  flexWrap: 'wrap',
-                  marginTop: '30px',
-                  flexDirection: 'row',
-                }}
-              >
-                {formData.opcionLibre.map((imageUrl, index) => (
-                  <div key={index} style={{ margin: '10px' }}>
-                    <Image
-                      src={imageUrl}
-                      alt={`Selected ${index}`}
+                <div
+                  style={{
+                    display: 'flex',
+                    flexWrap: 'wrap',
+                    marginTop: '10px',
+                    flexDirection: 'row',
+                    gap: '15px',
+                    justifyContent: 'flex-start'
+                  }}
+                >
+                  {formData.imageLimpio.map((imageUrl, index) => (
+                    <div
+                      key={index}
                       style={{
-                        width: '100px',
-                        height: '100px',
-                        marginBottom: '10px', // Espaciado debajo de las imágenes
+                        padding: '10px',
+                        border: '1px solid #ccc',
+                        borderRadius: '10px',
+                        boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
+                        backgroundColor: '#fff',
+                        textAlign: 'center',
+                        maxWidth: '120px'
                       }}
-                    />
-                  </div>
-                ))}
-              </div>
-            </>
-          )}
+                    >
+                      <Image
+                        src={imageUrl}
+                        alt={`Imagen ${index + 1}`}
+                        style={{
+                          width: '100px',
+                          height: '100px',
+                          objectFit: 'cover',
+                          borderRadius: '5px',
+                          marginBottom: '10px'
+                        }}
+                      />
+                    </div>
+                  ))}
+                </div>
+              </>
+            )}
 
-          {formData.optionCaja === 'No' && (
-            <>
-              <Text>Option Caja</Text>
-              <div
-                style={{
-                  display: 'flex',
-                  flexWrap: 'wrap',
-                  marginTop: '30px',
-                  flexDirection: 'row',
-                }}
-              >
-                {formData. imageCajaCerrada.map((imageUrl, index) => (
-                  <div key={index} style={{ margin: '10px' }}>
-                    <Image
-                      src={imageUrl}
-                      alt={`Selected ${index}`}
-                      style={{
-                        width: '100px',
-                        height: '100px',
-                        marginBottom: '10px', // Espaciado debajo de las imágenes
-                      }}
-                    />
-                  </div>
-                ))}
-              </div>
-            </>
-          )}
-          {formData.optionLona === 'No' && (
-            <>
-              <Text>Option Lona</Text>
-              <div
-                style={{
-                  display: 'flex',
-                  flexWrap: 'wrap',
-                  marginTop: '30px',
-                  flexDirection: 'row',
-                }}
-              >
-                {formData.imageLonaBuenEstado.map((imageUrl, index) => (
-                  <div key={index} style={{ margin: '10px' }}>
-                    <Image
-                      src={imageUrl}
-                      alt={`Selected ${index}`}
-                      style={{
-                        width: '100px',
-                        height: '100px',
-                        marginBottom: '10px', // Espaciado debajo de las imágenes
-                      }}
-                    />
-                  </div>
-                ))}
-              </div>
-            </>
-          )}
-          {formData.optionCarga === 'No' && (
-            <>
-              <Text>Option CArga</Text>
-              <div
-                style={{
-                  display: 'flex',
-                  flexWrap: 'wrap',
-                  marginTop: '30px',
-                  flexDirection: 'row',
-                }}
-              >
-                {formData.imageCargaBuenEstado.map((imageUrl, index) => (
-                  <div key={index} style={{ margin: '10px' }}>
-                    <Image
-                      src={imageUrl}
-                      alt={`Selected ${index}`}
-                      style={{
-                        width: '100px',
-                        height: '100px',
-                        marginBottom: '10px', // Espaciado debajo de las imágenes
-                      }}
-                    />
-                  </div>
-                ))}
-              </div>
-            </>
-          )}
-          {formData.optionSeguridad === 'No' && (
-            <>
-              <Text>Seguridad</Text>
-              <div
-                style={{
-                  display: 'flex',
-                  flexWrap: 'wrap',
-                  marginTop: '30px',
-                  flexDirection: 'row',
-                }}
-              >
-                {formData.imageSeguridadCarga.map((imageUrl, index) => (
-                  <div key={index} style={{ margin: '10px' }}>
-                    <Image
-                      src={imageUrl}
-                      alt={`Selected ${index}`}
-                      style={{
-                        width: '100px',
-                        height: '100px',
-                        marginBottom: '10px', // Espaciado debajo de las imágenes
-                      }}
-                    />
-                  </div>
-                ))}
-              </div>
-            </>
-          )}
+            {/* Bloque para "Option Libre" */}
+            {formData.optionLibre === 'No' && (
+              <>
+                <Text>Option libre</Text>
+                <div
+                  style={{
+                    display: 'flex',
+                    flexWrap: 'wrap',
+                    marginTop: '30px',
+                    flexDirection: 'row'
+                  }}
+                >
+                  {formData.opcionLibre.map((imageUrl, index) => (
+                    <div key={index} style={{ margin: '10px' }}>
+                      <Image
+                        src={imageUrl}
+                        alt={`Selected ${index}`}
+                        style={{
+                          width: '100px',
+                          height: '100px',
+                          marginBottom: '10px' // Espaciado debajo de las imágenes
+                        }}
+                      />
+                    </div>
+                  ))}
+                </div>
+              </>
+            )}
 
-          {formData.optionSellado === 'No' && (
-            <>
-              <Text>Option libre</Text>
-              <div
-                style={{
-                  display: 'flex',
-                  flexWrap: 'wrap',
-                  marginTop: '30px',
-                  flexDirection: 'row',
-                }}
-              >
-                {formData. imageSellado.map((imageUrl, index) => (
-                  <div key={index} style={{ margin: '10px' }}>
-                    <Image
-                      src={imageUrl}
-                      alt={`Selected ${index}`}
-                      style={{
-                        width: '100px',
-                        height: '100px',
-                        marginBottom: '10px', // Espaciado debajo de las imágenes
-                      }}
-                    />
-                  </div>
-                ))}
-              </div>
-            </>
-          )}
-        </View>
-      </Page>
+            {formData.optionCaja === 'No' && (
+              <>
+                <Text>Option Caja</Text>
+                <div
+                  style={{
+                    display: 'flex',
+                    flexWrap: 'wrap',
+                    marginTop: '30px',
+                    flexDirection: 'row'
+                  }}
+                >
+                  {formData.imageCajaCerrada.map((imageUrl, index) => (
+                    <div key={index} style={{ margin: '10px' }}>
+                      <Image
+                        src={imageUrl}
+                        alt={`Selected ${index}`}
+                        style={{
+                          width: '100px',
+                          height: '100px',
+                          marginBottom: '10px' // Espaciado debajo de las imágenes
+                        }}
+                      />
+                    </div>
+                  ))}
+                </div>
+              </>
+            )}
+            {formData.optionLona === 'No' && (
+              <>
+                <Text>Option Lona</Text>
+                <div
+                  style={{
+                    display: 'flex',
+                    flexWrap: 'wrap',
+                    marginTop: '30px',
+                    flexDirection: 'row'
+                  }}
+                >
+                  {formData.imageLonaBuenEstado.map((imageUrl, index) => (
+                    <div key={index} style={{ margin: '10px' }}>
+                      <Image
+                        src={imageUrl}
+                        alt={`Selected ${index}`}
+                        style={{
+                          width: '100px',
+                          height: '100px',
+                          marginBottom: '10px' // Espaciado debajo de las imágenes
+                        }}
+                      />
+                    </div>
+                  ))}
+                </div>
+              </>
+            )}
+            {formData.optionCarga === 'No' && (
+              <>
+                <Text>Option CArga</Text>
+                <div
+                  style={{
+                    display: 'flex',
+                    flexWrap: 'wrap',
+                    marginTop: '30px',
+                    flexDirection: 'row'
+                  }}
+                >
+                  {formData.imageCargaBuenEstado.map((imageUrl, index) => (
+                    <div key={index} style={{ margin: '10px' }}>
+                      <Image
+                        src={imageUrl}
+                        alt={`Selected ${index}`}
+                        style={{
+                          width: '100px',
+                          height: '100px',
+                          marginBottom: '10px' // Espaciado debajo de las imágenes
+                        }}
+                      />
+                    </div>
+                  ))}
+                </div>
+              </>
+            )}
+            {formData.optionSeguridad === 'No' && (
+              <>
+                <Text>Seguridad</Text>
+                <div
+                  style={{
+                    display: 'flex',
+                    flexWrap: 'wrap',
+                    marginTop: '30px',
+                    flexDirection: 'row'
+                  }}
+                >
+                  {formData.imageSeguridadCarga.map((imageUrl, index) => (
+                    <div key={index} style={{ margin: '10px' }}>
+                      <Image
+                        src={imageUrl}
+                        alt={`Selected ${index}`}
+                        style={{
+                          width: '100px',
+                          height: '100px',
+                          marginBottom: '10px' // Espaciado debajo de las imágenes
+                        }}
+                      />
+                    </div>
+                  ))}
+                </div>
+              </>
+            )}
+
+            {formData.optionSellado === 'No' && (
+              <>
+                <Text>Option libre</Text>
+                <div
+                  style={{
+                    display: 'flex',
+                    flexWrap: 'wrap',
+                    marginTop: '30px',
+                    flexDirection: 'row'
+                  }}
+                >
+                  {formData.imageSellado.map((imageUrl, index) => (
+                    <div key={index} style={{ margin: '10px' }}>
+                      <Image
+                        src={imageUrl}
+                        alt={`Selected ${index}`}
+                        style={{
+                          width: '100px',
+                          height: '100px',
+                          marginBottom: '10px' // Espaciado debajo de las imágenes
+                        }}
+                      />
+                    </div>
+                  ))}
+                </div>
+              </>
+            )}
+          </View>
+        </Page>
     )}
   </Document>
 )
@@ -948,7 +947,7 @@ const ActaDeLlegada = () => {
 
   const handleInsert = () => {
     insert(formData) // Llama a la función insert y pasa formData
-  };
+  }
 
   const [open, setOpen] = useState(false)
   const [value, setValue] = useState('')
@@ -964,7 +963,7 @@ const ActaDeLlegada = () => {
   const handleInputChange = (e) => {
     const { name, value } = e.target
     setFormData((prevData) => ({ ...prevData, [name]: value }))
-  };
+  }
 
   const handleFileChange3 = (event, key) => {
     const files = event.target.files
@@ -976,7 +975,7 @@ const ActaDeLlegada = () => {
       // Buscar detalles de la acta seleccionada
       const selectedActa = actasList.find((acta) => acta.id === idActa)
       setActaDetails(selectedActa)
-    };
+    }
 
     const fileArray = Array.from(files).map((file) =>
       URL.createObjectURL(file)
@@ -992,14 +991,14 @@ const ActaDeLlegada = () => {
       'la longitud imageCajacerrada es ',
       formData.imageCajaCerrada.length + 1
     )
-  };
+  }
 
   useEffect(() => {
     const fetchActas = async () => {
       const { data, error } = await supabase
         .from('ActaDescarga')
         .select('id, fecha') // Selecciona los campos que necesitas
-      if (error) {
+      if (error != null) {
         console.error('Error fetching actas:', error)
       } else {
         setActasList(data)
@@ -1058,7 +1057,7 @@ const ActaDeLlegada = () => {
       signaturePadChofer.current.clear()
     }
     setFirmaBase64Chofer(null) // Estado para la firma del chofer
-  };
+  }
 
   // Función para guardar ambas firmas
   const saveSignature = () => {
@@ -1084,17 +1083,17 @@ const ActaDeLlegada = () => {
 
     if (existingImages >= 8) {
       alert('Solo puedes subir un máximo de 8 imágenes.')
-      return;
+      return
     }
 
     // Crear una URL temporal para la imagen y actualizar el campo correspondiente
     const imageUrl = URL.createObjectURL(file)
     setFormData((prevData) => ({ ...prevData, [key]: imageUrl }))
-  };
+  }
 
   const handleImageDelete = (key) => {
     setFormData((prevData) => ({ ...prevData, [key]: '' }))
-  };
+  }
 
   return (
     <Layout>
@@ -1462,19 +1461,19 @@ const ActaDeLlegada = () => {
                               style={{
                                 display: 'flex',
                                 flexWrap: 'wrap',
-                                marginTop: '20px',
+                                marginTop: '20px'
                               }}
                             >
                               {formData.imageLimpio.map((imageUrl, index) => (
                                 <img
                                   key={index}
                                   src={imageUrl}
-                                  alt="imageLimpio"
+                                  alt='imageLimpio'
                                   style={{
                                     width: '200px',
                                     height: '200px',
                                     margin: '10px',
-                                    objectFit: 'cover',
+                                    objectFit: 'cover'
                                   }}
                                 />
                               ))}
@@ -1539,7 +1538,7 @@ const ActaDeLlegada = () => {
                               style={{
                                 display: 'flex',
                                 flexWrap: 'wrap',
-                                marginTop: '20px',
+                                marginTop: '20px'
                               }}
                             >
                               {formData.imageCajaCerrada.map(
@@ -1547,12 +1546,12 @@ const ActaDeLlegada = () => {
                                   <img
                                     key={index}
                                     src={imageUrl}
-                                    alt="imageCajaCerrada"
+                                    alt='imageCajaCerrada'
                                     style={{
                                       width: '200px',
                                       height: '200px',
                                       margin: '10px',
-                                      objectFit: 'cover',
+                                      objectFit: 'cover'
                                     }}
                                   />
                                 )
@@ -1616,7 +1615,7 @@ const ActaDeLlegada = () => {
                               style={{
                                 display: 'flex',
                                 flexWrap: 'wrap',
-                                marginTop: '20px',
+                                marginTop: '20px'
                               }}
                             >
                               {formData.imageLonaBuenEstado.map(
@@ -1629,7 +1628,7 @@ const ActaDeLlegada = () => {
                                       width: '200px',
                                       height: '200px',
                                       margin: '10px',
-                                      objectFit: 'cover',
+                                      objectFit: 'cover'
                                     }}
                                   />
                                 )
@@ -1693,7 +1692,7 @@ const ActaDeLlegada = () => {
                               style={{
                                 display: 'flex',
                                 flexWrap: 'wrap',
-                                marginTop: '20px',
+                                marginTop: '20px'
                               }}
                             >
                               {formData.imageLibreFauna.map(
@@ -1706,7 +1705,7 @@ const ActaDeLlegada = () => {
                                       width: '200px',
                                       height: '200px',
                                       margin: '10px',
-                                      objectFit: 'cover',
+                                      objectFit: 'cover'
                                     }}
                                   />
                                 )
@@ -1770,7 +1769,7 @@ const ActaDeLlegada = () => {
                               style={{
                                 display: 'flex',
                                 flexWrap: 'wrap',
-                                marginTop: '20px',
+                                marginTop: '20px'
                               }}
                             >
                               {formData.imageCargaBuenEstado.map(
@@ -1783,7 +1782,7 @@ const ActaDeLlegada = () => {
                                       width: '200px',
                                       height: '200px',
                                       margin: '10px',
-                                      objectFit: 'cover',
+                                      objectFit: 'cover'
                                     }}
                                   />
                                 )
@@ -1847,7 +1846,7 @@ const ActaDeLlegada = () => {
                               style={{
                                 display: 'flex',
                                 flexWrap: 'wrap',
-                                marginTop: '20px',
+                                marginTop: '20px'
                               }}
                             >
                               {formData.imageSeguridadCarga.map(
@@ -1860,7 +1859,7 @@ const ActaDeLlegada = () => {
                                       width: '200px',
                                       height: '200px',
                                       margin: '10px',
-                                      objectFit: 'cover',
+                                      objectFit: 'cover'
                                     }}
                                   />
                                 )
@@ -1924,7 +1923,7 @@ const ActaDeLlegada = () => {
                               style={{
                                 display: 'flex',
                                 flexWrap: 'wrap',
-                                marginTop: '20px',
+                                marginTop: '20px'
                               }}
                             >
                               {formData.imageSellado.map((imageUrl, index) => (
@@ -1936,7 +1935,7 @@ const ActaDeLlegada = () => {
                                     width: '200px',
                                     height: '200px',
                                     margin: '10px',
-                                    objectFit: 'cover',
+                                    objectFit: 'cover'
                                   }}
                                 />
                               ))}
@@ -2162,7 +2161,7 @@ const ActaDeLlegada = () => {
                 border: '2px solid black',
                 padding: 10,
                 display: 'inline-block',
-                boxSizing: 'border-box',
+                boxSizing: 'border-box'
               }}
             >
               <SignatureCanvas
@@ -2171,7 +2170,7 @@ const ActaDeLlegada = () => {
                 canvasProps={{
                   width: 500,
                   height: 200,
-                  className: 'signature-canvas',
+                  className: 'signature-canvas'
                 }}
               />
             </div>
@@ -2189,7 +2188,7 @@ const ActaDeLlegada = () => {
                 border: '2px solid black',
                 padding: 10,
                 display: 'inline-block',
-                boxSizing: 'border-box',
+                boxSizing: 'border-box'
               }}
             >
               <SignatureCanvas
@@ -2198,7 +2197,7 @@ const ActaDeLlegada = () => {
                 canvasProps={{
                   width: 500,
                   height: 200,
-                  className: 'signature-canvas',
+                  className: 'signature-canvas'
                 }}
               />
             </div>
@@ -2228,6 +2227,6 @@ const ActaDeLlegada = () => {
       </ResizablePanelGroup>
     </Layout>
   )
-};
+}
 
 export default ActaDeLlegada

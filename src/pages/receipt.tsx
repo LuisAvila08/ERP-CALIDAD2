@@ -1109,8 +1109,7 @@ const ActaDeLlegada = () => {
                     fontSize: '20px', // Tamaño de fuente grande
                     fontWeight: 'bold', // Negrita para mayor visibilidad
                     padding: '12px 16px', // Más espacio alrededor del texto
-                    // backgroundColor: '#9A3324', // Fondo destacado (puedes cambiar el color si es necesario)
-                    color: '#fff', // Texto en color blanco para contraste
+      
                     borderRadius: '8px', // Bordes redondeados para un diseño moderno
                     border: '2px solid #7A2A1E', // Borde para resaltar el elemento
                     textAlign: 'center', // Centrar el texto
@@ -1149,7 +1148,6 @@ const ActaDeLlegada = () => {
                     fontSize: '20px',
                     fontWeight: 'bold',
                     padding: '12px 16px',
-                    color: '#fff',
                     borderRadius: '8px',
                     border: '2px solid #7A2A1E',
                     textAlign: 'center',
@@ -1203,7 +1201,7 @@ const ActaDeLlegada = () => {
                             padding: '8px 16px',
                             borderRadius: '4px',
                             backgroundColor: '#9A3324',
-                            color: '#fff',
+                  
                             cursor: 'pointer',
                           }}
                           name={name}
@@ -1241,7 +1239,7 @@ const ActaDeLlegada = () => {
                     fontWeight: 'bold', // Negrita para mayor visibilidad
                     padding: '12px 16px', // Más espacio alrededor del texto
                     // backgroundColor: '#9A3324', // Fondo destacado (puedes cambiar el color si es necesario)
-                    color: '#fff', // Texto en color blanco para contraste
+              
                     borderRadius: '8px', // Bordes redondeados para un diseño moderno
                     border: '2px solid #7A2A1E', // Borde para resaltar el elemento
                     textAlign: 'center', // Centrar el texto
@@ -1368,8 +1366,10 @@ const ActaDeLlegada = () => {
                                 Seleccionar Imagen
                               </label>
                             </Button>
+                            {formData.imageCajaCerrada.length < 8
+? (
 
-                            <input
+                              <input
                               type='file'
                               id='file-input-caja'
                               accept='image/*'
@@ -1378,6 +1378,12 @@ const ActaDeLlegada = () => {
                               onChange={(e) =>
                                 handleFileChange3(e, 'imageCajaCerrada')}
                             />
+                            )
+                              : <p style={{ color: 'red', marginTop: '10px' }}>
+                                   No puedes agregar más de 8 imágenes
+                               </p>}
+
+                           
 
                             <div
                               style={{
@@ -1809,7 +1815,7 @@ const ActaDeLlegada = () => {
                       fontWeight: 'bold', // Negrita para mayor visibilidad
                       padding: '12px 16px', // Más espacio alrededor del texto
                       // backgroundColor: '#9A3324', // Fondo destacado (puedes cambiar el color si es necesario)
-                      color: '#fff', // Texto en color blanco para contraste
+             
                       borderRadius: '8px', // Bordes redondeados para un diseño moderno
                       border: '2px solid #7A2A1E', // Borde para resaltar el elemento
                       textAlign: 'center', // Centrar el texto
@@ -1852,7 +1858,7 @@ const ActaDeLlegada = () => {
                       fontWeight: 'bold', // Negrita para mayor visibilidad
                       padding: '12px 16px', // Más espacio alrededor del texto
                       // backgroundColor: '#9A3324', // Fondo destacado (puedes cambiar el color si es necesario)
-                      color: '#fff', // Texto en color blanco para contraste
+                      
                       borderRadius: '8px', // Bordes redondeados para un diseño moderno
                       border: '2px solid #7A2A1E', // Borde para resaltar el elemento
                       textAlign: 'center', // Centrar el texto

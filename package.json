@@ -61,6 +61,7 @@
     "embla-carousel-react": "^8.1.8",
     "express": "^4.21.0",
     "input-otp": "^1.2.4",
+    "install": "^0.13.0",
     "lucide-react": "^0.414.0",
     "luxon": "^3.5.0",
     "mysql2": "^3.11.3",

@@ -899,13 +899,91 @@ const ActaDeLlegada = () => {
   }
 
   const handleSelect = (idActa) => {
-    setValue(idActa)
-    setOpen(false)
-
-    // Buscar detalles de la acta seleccionada
-    const selectedActa = actasList.find((acta) => acta.id === idActa)
-    setActaDetails(selectedActa)
-  }
+    setValue(idActa);
+    setOpen(false);
+  
+    // Buscar detalles del acta seleccionada
+    const selectedActa = actasList.find((acta) => acta.id === idActa);
+  
+    if (selectedActa) {
+      // Actualizar formData con los datos del acta seleccionada
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        id: selectedActa.id,
+        fecha: selectedActa.fecha || "",
+        inicioVerificacion: selectedActa.start_verification || "",
+        terminoVerificacion: selectedActa.end_verification || "",
+        oc: selectedActa.oc || "",
+        proveedor: selectedActa.provider || "",
+        origen: selectedActa.origin || "",
+        factura: selectedActa.bill || "",
+        // especie: "", hace falta especie en la bd
+        variedades: selectedActa.varieties || "",
+        frioDescarga: selectedActa.cold_disc || "",
+        cajasRecibidas: selectedActa.boxes_received || "",
+        lineaTransportista: selectedActa.carrier_line || "",
+        numeroContenedor: selectedActa.num_cont || "",
+        placasCamion: selectedActa.truck_plt || "",
+        placasCaja: selectedActa.box_plt || "",
+        chofer: selectedActa.driver || "",
+        tempSetPoint: selectedActa.setpoint_temp || "",
+        observacionesSetPoint: selectedActa.setpoint_obs || "",
+        tempPantalla: selectedActa.screen_temp || "",
+        observacionesPantalla: selectedActa.screen_obs || "",
+        termografo: selectedActa.therm_org || "",
+        tempOrigen: selectedActa.therm_org || "",
+        tempDestino: selectedActa.therm_dst || "",
+        limpio: selectedActa.clean_free || "",
+        cajaCerrada: selectedActa.close || "",
+        lona: selectedActa.tarp_state || "",
+        fauna: selectedActa.pest_free || "",
+        carga: selectedActa.load_state || "",
+        seguridadCarga: selectedActa.load_sec || "",
+        sellado: selectedActa.seal || "",
+        numeroSerie: selectedActa.box_id || "",
+        resultadosInv: selectedActa.invest_res || "",
+        tempAPuerta: selectedActa.tempa_door || "",
+        tempAMedio: selectedActa.tempa_mid || "",
+        tempAFondo: selectedActa.tempa_back || "",
+        tempMPuerta: selectedActa.tempm_door || "",
+        tempMMedio: selectedActa.tempm_mid || "",
+        tempMFondo: selectedActa.tempm_back || "",
+        tempBPuerta: selectedActa.tempb_door || "",
+        tempBMedio: selectedActa.tempb_mid || "",
+        tempBFondo: selectedActa.tempb_back || "",
+        tempMax: selectedActa.temp_max || "",
+        tempMin: selectedActa.temp_min || "",
+        tempIdeal: selectedActa.temp_ideal || "",
+        nombreInspector: selectedActa.insp_name || "",
+        nombreChofer: selectedActa.driver || "",
+        // option: "", 
+        // option2: "", buscar estas opciones en la bd
+        optionLimpio: selectedActa.clean_obs || "",
+        optionCaja: selectedActa.close_obs || "",
+        optionLona: selectedActa.tarp_obs || "",
+        optionLibre: selectedActa.pest_obs || "",
+        optionCarga: selectedActa.load_obs || "",
+        optionSeguridad: selectedActa.sec_obs || "",
+        optionSellado: selectedActa.seal_obs || "",
+        // Imagenes y otros campos específicos
+        // imageTermografo: [],
+        // imageLimpio: [],
+        // imageMalosOlores: [],
+        // imageCajaCerrada: [],
+        // imageLonaBuenEstado: [],
+        // imageLibreFauna: [],
+        // imageCargaBuenEstado: [],
+        // imageSeguridadCarga: [],
+        // imageSellado: [],
+        tarimasDanadas: selectedActa.pallet_dmg || "",
+        cajasIdentificadas: selectedActa.box_num || "",
+        danadasManiobra: selectedActa.dmg_num || "",
+        // image2: [],
+        // image3: []
+      }));
+    }
+  };
+  
 
   const handleFileChange3 = (event, key) => {
     const files = event.target.files
@@ -929,14 +1007,64 @@ const ActaDeLlegada = () => {
     const fetchActas = async () => {
       const { data, error } = await supabase
         .from('ActaDescarga')
-        .select('id, fecha') // Selecciona los campos que necesitas
+        .select(`
+          id,
+          fecha,
+          start_verification,
+          end_verification,
+          oc,
+          provider,
+          origin,
+          bill,
+          varieties,
+          cold_disc,
+          boxes_received,
+          carrier_line,
+          num_cont,
+          truck_plt,
+          box_plt,
+          driver,
+          setpoint_temp,
+          setpoint_obs,
+          screen_temp,
+          screen_obs,
+          therm_org,
+          therm_dst,
+          clean_free,
+          close,
+          tarp_state,
+          pest_free,
+          load_state,
+          load_sec,
+          seal,
+          box_id,
+          invest_res,
+          tempa_door,
+          tempa_mid,
+          tempa_back,
+          tempm_door,
+          tempm_mid,
+          tempm_back,
+          tempb_door,
+          tempb_mid,
+          tempb_back,
+          temp_max,
+          temp_min,
+          temp_ideal,
+          insp_name,
+          pallet_dmg,
+          pallet_num,
+          box_num,
+          dmg_num
+        `); 
+    
       if (error != null) {
-        console.error('Error fetching actas:', error)
+        console.error('Error fetching actas:', error);
       } else {
-        setActasList(data)
+        setActasList(data);
       }
-    }
-    fetchActas()
+    };
+    fetchActas();
 
     const allTemperatures = [
       formData.tempAPuerta,

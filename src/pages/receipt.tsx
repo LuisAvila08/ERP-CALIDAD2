@@ -1,5 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react'
-import { Page, Text, View, Document, StyleSheet, PDFViewer, PDFDownloadLink, Image, Font } from '@react-pdf/renderer'
+import { Page, Text, View, Document, StyleSheet, PDFViewer, PDFDownloadLink, Image, Font,pdf } from '@react-pdf/renderer'
+import * as pdfjsLib from 'pdfjs-dist';
+
+pdfjsLib.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@2.11.338/es5/build/pdf.worker.min.js`;
+
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import Layout from '../components/Layout'
@@ -18,6 +22,12 @@ import { fetchActas, insert, query } from '../../connections/querys'
 import { cn } from '@/lib/utils'
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
+
+
+
+
+
+
 
 Font.register({
   family: 'GothamNarrow',
@@ -212,7 +222,7 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer }) => (
 
           <Text style={styles.cellLabelWhite}>Observaciones</Text>
         </View>
-        <View style={{ width: '100%' , textAlign: 'center' }}>
+        <View style={{ width: '100%', textAlign: 'center' }}>
           <View style={styles.tableRow}>
             <View style={{ flex: 1, flexDirection: 'column' }}>
               <View style={styles.tableRow}>
@@ -550,15 +560,15 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer }) => (
 
           <View>
             <Text style={{ justifyContent: 'center', textAlign: 'center', borderWidth: 1, borderColor: '#000', backgroundColor: '#ccc' }}>
-            Anexos
-          </Text>
+              Anexos
+            </Text>
           </View>
 
           <View>
 
             {formData.optionLimpio === 'No' && (
-            <>
-              <View style={{ borderWidth: 1, borderColor: '#000' }}>
+              <>
+                <View style={{ borderWidth: 1, borderColor: '#000' }}>
 
                 <Text style={{ fontSize: '15px' }}>  Evidencia No cumple con Limpio, libre de malos olores  </Text>
 
@@ -569,21 +579,21 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer }) => (
                   {formData.imageLimpio.map((imageUrl, index) => (
 
                     <div key={index} style={{ padding: '4px', borderRadius: '10px', textAlign: 'center' }}>
-                    <Image
-                      src={imageUrl}
-                      alt={`Imagen ${index + 1}`}
-                      style={{ width: '150px', height: '150px', borderRadius: '5px', marginBottom: '10px' }}
-                    />
-                  </div>
+                      <Image
+                        src={imageUrl}
+                        alt={`Imagen ${index + 1}`}
+                        style={{ width: '150px', height: '150px', borderRadius: '5px', marginBottom: '10px' }}
+                      />
+                    </div>
                   ))}
                 </div>
               </View>
-            </>
-          )}
+              </>
+            )}
 
             {formData.optionLibre === 'No' && (
-            <>
-              <View style={{ borderWidth: 1, borderColor: '#000' }}>
+              <>
+                <View style={{ borderWidth: 1, borderColor: '#000' }}>
 
                 <Text style={{ fontSize: '15px' }}>  Evidencia No cumple libre de Fauna nociva  </Text>
 
@@ -595,21 +605,21 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer }) => (
 
                     <div key={index} style={{ padding: '4px', borderRadius: '10px', textAlign: 'center' }}>
 
-                    <Image
-                      src={imageUrl}
-                      alt={`Imagen ${index + 1}`}
-                      style={{ width: '150px', height: '150px', borderRadius: '5px', marginBottom: '10px' }}
-                    />
-                  </div>
+                      <Image
+                        src={imageUrl}
+                        alt={`Imagen ${index + 1}`}
+                        style={{ width: '150px', height: '150px', borderRadius: '5px', marginBottom: '10px' }}
+                      />
+                    </div>
                   ))}
                 </div>
               </View>
-            </>
-          )}
+              </>
+            )}
 
             {formData.optionCaja === 'No' && (
-            <>
-              <View style={{ borderWidth: 1, borderColor: '#000' }}>
+              <>
+                <View style={{ borderWidth: 1, borderColor: '#000' }}>
                 <Text style={{ fontSize: '15px' }}>  Evidencia No cumple Caja cerrada, en buen estado(sin hoyos o endiduras ):  </Text>
 
                 <Text style={{ fontSize: '10px', paddingTop: 10 }}> {formData.cajaCerrada || ''} </Text>
@@ -617,21 +627,21 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer }) => (
                 <div style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'flex-start' }}>
 
                   {formData.imageCajaCerrada.map((imageUrl, index) => (
-                  <div key={index} style={{ margin: '10px' }}>
-                    <Image
+                    <div key={index} style={{ margin: '10px' }}>
+                      <Image
                       src={imageUrl}
                       alt={`Imagen ${index + 1}`}
                       style={{ width: '150px', height: '150px', borderRadius: '5px', marginBottom: '10px' }}
                     />
-                  </div>
-                ))}
+                    </div>
+                  ))}
                 </div>
               </View>
-            </>
-          )}
+              </>
+            )}
             {formData.optionLona === 'No' && (
-            <>
-              <View style={{ borderWidth: 1, borderColor: '#000' }}>
+              <>
+                <View style={{ borderWidth: 1, borderColor: '#000' }}>
 
                 <Text style={{ fontSize: '15px' }}>  Evidencia No cumple  Lona en buen estado  </Text>
 
@@ -639,22 +649,22 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer }) => (
 
                 <div style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'flex-start' }}>
 
-                {formData.imageLonaBuenEstado.map((imageUrl, index) => (
-                <div key={index} style={{ margin: '10px' }}>
-                  <Image
+                  {formData.imageLonaBuenEstado.map((imageUrl, index) => (
+                    <div key={index} style={{ margin: '10px' }}>
+                    <Image
                     src={imageUrl}
                     alt={`Imagen ${index + 1}`}
                     style={{ width: '150px', height: '150px', borderRadius: '5px', marginBottom: '10px' }}
                   />
+                  </div>
+                  ))}
                 </div>
-              ))}
-              </div>
               </View>
-            </>
-          )}
+              </>
+            )}
             {formData.optionCarga === 'No' && (
-            <>
-              <View style={{ borderWidth: 1, borderColor: '#000' }}>
+              <>
+                <View style={{ borderWidth: 1, borderColor: '#000' }}>
 
                 <Text style={{ fontSize: '15px' }}>  Evidencia No cumple Carga en buen estado</Text>
 
@@ -662,22 +672,22 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer }) => (
 
                 <div style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'flex-start' }}>
 
-                {formData.imageCargaBuenEstado.map((imageUrl, index) => (
-                <div key={index} style={{ margin: '10px' }}>
-                  <Image
+                  {formData.imageCargaBuenEstado.map((imageUrl, index) => (
+                    <div key={index} style={{ margin: '10px' }}>
+                    <Image
                     src={imageUrl}
                     alt={`Imagen ${index + 1}`}
                     style={{ width: '150px', height: '150px', borderRadius: '5px', marginBottom: '10px' }}
                   />
+                  </div>
+                  ))}
                 </div>
-              ))}
-              </div>
               </View>
-            </>
-          )}
+              </>
+            )}
             {formData.optionSeguridad === 'No' && (
-            <>
-              <View style={{ borderWidth: 1, borderColor: '#000' }}>
+              <>
+                <View style={{ borderWidth: 1, borderColor: '#000' }}>
 
                 <Text style={{ fontSize: '15px' }}>  Evidencia No cumple seguridad de carga </Text>
 
@@ -685,23 +695,23 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer }) => (
 
                 <div style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'flex-start' }}>
 
-                {formData.imageSeguridadCarga.map((imageUrl, index) => (
-                <div key={index} style={{ margin: '10px' }}>
-                  <Image
+                  {formData.imageSeguridadCarga.map((imageUrl, index) => (
+                    <div key={index} style={{ margin: '10px' }}>
+                    <Image
                     src={imageUrl}
                     alt={`Imagen ${index + 1}`}
                     style={{ width: '150px', height: '150px', borderRadius: '5px', marginBottom: '10px' }}
                   />
+                  </div>
+                  ))}
                 </div>
-              ))}
-              </div>
               </View>
-            </>
-          )}
+              </>
+            )}
 
             {formData.optionSellado === 'No' && (
-            <>
-              <View style={{ borderWidth: 1, borderColor: '#000' }}>
+              <>
+                <View style={{ borderWidth: 1, borderColor: '#000' }}>
 
                 <Text style={{ fontSize: '15px' }}>  Evidencia No cumple con el sellado  </Text>
 
@@ -709,24 +719,83 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer }) => (
 
                 <div style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'flex-start' }}>
 
-                {formData.imageSellado.map((imageUrl, index) => (
-                <div key={index} style={{ margin: '10px' }}>
-                  <Image
+                  {formData.imageSellado.map((imageUrl, index) => (
+                    <div key={index} style={{ margin: '10px' }}>
+                    <Image
                     src={imageUrl}
                     alt={`Imagen ${index + 1}`}
                     style={{ width: '150px', height: '150px', borderRadius: '5px', marginBottom: '10px' }}
                   />
+                  </div>
+                  ))}
                 </div>
-              ))}
-              </div>
               </View>
-            </>
-          )}
+              </>
+            )}
           </View>
         </Page>
     )}
   </Document>
 )
+const handlePDFDownload = async (formData, firmaBase64) => {
+  try {
+    
+    const pdfDocument = <ActaPDF formData={formData} firmaBase64={firmaBase64} />;
+    const pdfBlob = await pdf(pdfDocument).toBlob();  // Obtener el PDF como Blob
+    
+    // Convertir el Blob del PDF a imagen
+    //const imageUrl = await convertPDFToImage(pdfBlob);
+   // console.log("Imagen generada desde el PDF:", imageUrl);}
+   console.log("holssssss")
+   
+   convertPDFToImage('C:/Users/Sistemas/Downloads/documento.pdf')
+  .then((image) => {
+    if (image) {
+      console.log('Imagen generada desde el PDF:', image);
+    } else {
+      console.error('No se pudo generar la imagen');
+    }
+  });
+
+  } catch (error) {
+    console.error("Error al generar el PDF o convertir a imagen:", error);
+  }
+};
+
+// Función para convertir el PDF a imagen
+const convertPDFToImage = async (pdfBlob) => {
+  try {
+    // Convertir el Blob a ArrayBuffer (pdf.js necesita este formato)
+    const pdfData = await pdfBlob.arrayBuffer();
+
+    // Cargar el PDF en pdf.js
+    const pdf = await pdfjsLib.getDocument({ data: pdfData }).promise;
+
+    // Obtener la primera página del PDF
+    const page = await pdf.getPage(1);
+
+    // Configurar el viewport (escala) de la página
+    const viewport = page.getViewport({ scale: 1.5 });
+    
+    // Crear un canvas para renderizar la página
+    const canvas = document.createElement('canvas');
+    const context = canvas.getContext('2d');
+    canvas.width = viewport.width;
+    canvas.height = viewport.height;
+
+    // Renderizar la página del PDF en el canvas
+    await page.render({ canvasContext: context, viewport }).promise;
+
+    // Convertir el canvas a una imagen base64
+    const image = canvas.toDataURL();
+    return image;  // Retorna la imagen en formato base64
+  } catch (error) {
+    console.error('Error al convertir el PDF a imagen:', error);
+    return null;
+  }
+};
+
+
 
 const ActaDeLlegada = () => {
   const [formData, setFormData] = useState({
@@ -825,10 +894,10 @@ const ActaDeLlegada = () => {
   const handleSelect = (idActa) => {
     setValue(idActa)
     setOpen(false)
-  
+
     // Buscar detalles del acta seleccionada
     const selectedActa = actasList.find((acta) => acta.id === idActa)
-  
+
     if (selectedActa) {
       // Actualizar formData con los datos del acta seleccionada
       setFormData((prevFormData) => ({
@@ -901,13 +970,12 @@ const ActaDeLlegada = () => {
         // imageSellado: [],
         tarimasDanadas: selectedActa.pallet_dmg || '',
         cajasIdentificadas: selectedActa.box_num || '',
-        danadasManiobra: selectedActa.dmg_num || '',
+        danadasManiobra: selectedActa.dmg_num || ''
         // image2: [],
         // image3: []
       }))
     }
   }
-  
 
   const handleFileChange3 = (event, key) => {
     const files = event.target.files
@@ -930,11 +998,11 @@ const ActaDeLlegada = () => {
   useEffect(() => {
     const getActasData = async () => {
       const data = await fetchActas()
-      if (data) {
+      if (data != null) {
         setActasList(data)
       }
     }
-  
+
     getActasData()
 
     const allTemperatures = [
@@ -1038,7 +1106,7 @@ const ActaDeLlegada = () => {
                             value={acta.id}
                             onSelect={() => handleSelect(acta.id)}
                           >
-                            
+
                             <Check
                               className={`mr-2 h-4 w-4 ${value === acta.id ? 'opacity-100' : 'opacity-0'}`}
                             />
@@ -1145,15 +1213,15 @@ const ActaDeLlegada = () => {
             <Accordion type='single' collapsible>
               <AccordionItem value='item-2'>
                 <AccordionTrigger
-                  style={{ 
-fontSize: '20px', 
-fontWeight: 'bold', 
-padding: '12px 16px', 
-borderRadius: '8px', 
-border: '2px solid #7A2A1E',
-                    textAlign: 'center', 
-cursor: 'pointer' 
-}}
+                  style={{
+                    fontSize: '20px',
+                    fontWeight: 'bold',
+                    padding: '12px 16px',
+                    borderRadius: '8px',
+                    border: '2px solid #7A2A1E',
+                    textAlign: 'center',
+                    cursor: 'pointer'
+                  }}
                 >
                   Condiciones de transporte
                 </AccordionTrigger>
@@ -1223,14 +1291,14 @@ cursor: 'pointer'
               <AccordionItem value='item-2'>
                 <AccordionTrigger
                   style={{
-                    fontSize: '20px', 
-fontWeight: 'bold', 
-padding: '12px 16px',
-                    borderRadius: '8px', 
-border: '2px solid #7A2A1E', 
-textAlign: 'center', 
-cursor: 'pointer' 
-}}
+                    fontSize: '20px',
+                    fontWeight: 'bold',
+                    padding: '12px 16px',
+                    borderRadius: '8px',
+                    border: '2px solid #7A2A1E',
+                    textAlign: 'center',
+                    cursor: 'pointer'
+                  }}
                 >
                   Inspección de transporte
                 </AccordionTrigger>
@@ -1267,21 +1335,21 @@ cursor: 'pointer'
                                 Seleccionar Imagen
                               </label>
                             </Button>
-                            {formData.imageLimpio.length < 8 
-                            ? (
-                              <input
+                            {formData.imageLimpio.length < 8
+                              ? (
+                                <input
                                 type='file'
                                 id='file-input-limpio'
                                 accept='image/*'
                                 multiple
                                 style={{ display: 'none' }}
                                 onChange={(e) =>
-                                   handleFileChange3(e, 'imageLimpio')}
+                                  handleFileChange3(e, 'imageLimpio')}
                               />
                                 )
                               : <p style={{ color: 'red', marginTop: '10px' }}>
                                 No puedes agregar más de 8 imágenes
-                               </p>}
+                              </p>}
                             <div style={{ display: 'flex', flexWrap: 'wrap', marginTop: '20px' }}>
                               {formData.imageLimpio.map((imageUrl, index) => (
                                 <img
@@ -1345,19 +1413,19 @@ cursor: 'pointer'
                             {formData.imageCajaCerrada.length < 8
                               ? (
 
-  <input
-                                type='file'
-                                id='file-input-caja'
-                                accept='image/*'
-                                multiple
-                                style={{ display: 'none' }}
-                                onChange={(e) =>
-                                handleFileChange3(e, 'imageCajaCerrada')}
-                              />
+                                <input
+                                  type='file'
+                                  id='file-input-caja'
+                                  accept='image/*'
+                                  multiple
+                                  style={{ display: 'none' }}
+                                  onChange={(e) =>
+      handleFileChange3(e, 'imageCajaCerrada')}
+                                />
                                 )
                               : <p style={{ color: 'red', marginTop: '10px' }}>
                                 No puedes agregar más de 8 imágenes
-                               </p>}
+                              </p>}
 
                             <div style={{ display: 'flex', flexWrap: 'wrap', marginTop: '20px' }}>
                               {formData.imageCajaCerrada.map(
@@ -1729,15 +1797,15 @@ cursor: 'pointer'
             <Accordion type='single' collapsible>
               <AccordionItem value='item-6'>
                 <AccordionTrigger
-                  style={{ 
-fontSize: '20px', 
-fontWeight: 'bold', 
-padding: '12px 16px', 
-borderRadius: '8px',
-                    border: '2px solid #7A2A1E', 
-textAlign: 'center', 
-cursor: 'pointer' 
-}}
+                  style={{
+                    fontSize: '20px',
+                    fontWeight: 'bold',
+                    padding: '12px 16px',
+                    borderRadius: '8px',
+                    border: '2px solid #7A2A1E',
+                    textAlign: 'center',
+                    cursor: 'pointer'
+                  }}
                 >
                   Placas Caja
                 </AccordionTrigger>
@@ -1993,7 +2061,13 @@ cursor: 'pointer'
                 firmaBase64Inspector={firmaBase64Inspector}
                 firmaBase64Chofer={firmaBase64Chofer}
               />
+
+
+             
             </PDFViewer>
+            <div style={{ padding: '10px', display: 'flex', justifyContent: 'center' }}>
+  <Button onClick={() => handlePDFDownload(formData,firmaBase64Inspector,firmaBase64Chofer)}>Descargar PDF</Button>
+</div>
           </div>
         </ResizablePanel>
       </ResizablePanelGroup>

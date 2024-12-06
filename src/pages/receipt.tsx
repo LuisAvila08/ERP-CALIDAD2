@@ -1,60 +1,24 @@
 import React, { useState, useRef, useEffect } from 'react'
-import {
-  Page,
-  Text,
-  View,
-  Document,
-  StyleSheet,
-  PDFViewer,
-  PDFDownloadLink,
-  Image,
-  Font
-} from '@react-pdf/renderer'
+import { Page, Text, View, Document, StyleSheet, PDFViewer, PDFDownloadLink, Image, Font } from '@react-pdf/renderer'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import Layout from '../components/Layout'
-import {
-  ResizableHandle,
-  ResizablePanel,
-  ResizablePanelGroup
-} from '@/components/ui/resizable'
+import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable'
 import SignatureCanvas from 'react-signature-canvas'
 import { IconCheck } from '@tabler/icons-react'
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger
-} from '@/components/ui/accordion'
-import {
-  Select,
-  SelectTrigger,
-  SelectValue,
-  SelectContent,
-  SelectItem
-} from '@/components/ui/select'
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select'
 import { Bold, Check, ChevronsUpDown } from 'lucide-react'
 import { WidthIcon } from '@radix-ui/react-icons'
 
 import GothamNarrowMedium from '../../public/fonts/GothamNarrow-Medium.otf'
 import { format } from 'path'
 import { supabase } from '../../connections/supabase'
-import { insert, query } from '../../connections/querys'
+import { fetchActas, insert, query } from '../../connections/querys'
 
 import { cn } from '@/lib/utils'
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList
-} from '@/components/ui/command'
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger
-} from '@/components/ui/popover'
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command'
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 
 Font.register({
   family: 'GothamNarrow',
@@ -73,11 +37,6 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
     marginVertical: 5
-  },
-  row: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 5
   },
   inputLabel: { fontSize: 12, fontWeight: 'bold', fontFamily: 'GothamNarrow' },
   signatureCanvasContainer: {
@@ -117,9 +76,8 @@ const styles = StyleSheet.create({
     flex: 1,
     borderWidth: 1,
     borderColor: '#000',
-    padding: 5,
-    fontSize: 8,
-
+    padding: 1,
+    fontSize: 12,
     fontFamily: 'GothamNarrow',
     height: 'auto'
   },
@@ -153,16 +111,7 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer }) => (
         />
         <View style={{ alignItems: 'center' }}>
           {' '}
-          {/* Centra los textos */}
-          <Text
-            style={{
-              fontSize: 24,
-              fontWeight: 'bold',
-              fontFamily: 'GothamNarrow'
-            }}
-          >
-            ACTA DE DESCARGA
-          </Text>
+          <Text style={{ fontSize: 24, fontWeight: 'bold', fontFamily: 'GothamNarrow' }}>ACTA DE DESCARGA </Text>
           <View style={{ alignItems: 'center', marginTop: 5 }}>
             <Text style={{ fontSize: 14, fontFamily: 'GothamNarrow' }}>
               F-I-CAL-02-01
@@ -220,9 +169,7 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer }) => (
         </View>
       </View>
 
-      {/* Tabla */}
       <View style={styles.table}>
-        {/* Fila 1 */}
         <View style={styles.tableRow}>
           <Text style={[styles.cellLabel, { flex: 0.35 }]}>
             Línea Transportista
@@ -231,7 +178,6 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer }) => (
             {formData.lineaTransportista || ''}
           </Text>
         </View>
-        {/* Fila 2 */}
         <View style={styles.tableRow}>
           <Text style={[styles.cellLabel, { flex: 0.35 }]}>
             No. de Contenedor
@@ -240,19 +186,16 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer }) => (
             {formData.numeroContenedor || ''}
           </Text>
         </View>
-        {/* Fila 3 */}
         <View style={styles.tableRow}>
           <Text style={[styles.cellLabel, { flex: 0.35 }]}>
             Placas de Camión
           </Text>
           <Text style={styles.cellValue}>{formData.placasCamion || ''}</Text>
         </View>
-        {/* Fila 4 */}
         <View style={styles.tableRow}>
           <Text style={[styles.cellLabel, { flex: 0.35 }]}>Placas Caja</Text>
           <Text style={styles.cellValue}>{formData.placasCaja || ''}</Text>
         </View>
-        {/* Fila 5 */}
         <View style={styles.tableRow}>
           <Text style={[styles.cellLabel, { flex: 0.35 }]}>Chofer</Text>
           <Text style={styles.cellValue}>{formData.chofer || ''}</Text>
@@ -261,17 +204,16 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer }) => (
       <View style={{ marginBottom: 20 }} />
 
       <View style={{ width: '100%' }}>
-        <Text style={[styles.cellLabel, { width: '100%' }]}>
+        <Text style={[styles.cellLabel, { paddingVertical: 10, paddingTop: 1, width: '100%' }]}>
           Condiciones de transporte:
         </Text>
 
         <View style={styles.tableRow}>
-          <Text />
-          <Text style={{ width: '60.5%' }} />
+          <Text style={{ width: '60%' }} />
 
           <Text style={styles.cellLabelWhite}>Observaciones</Text>
         </View>
-        <View style={{ width: '100%' }}>
+        <View style={{ width: '100%' , textAlign: 'center' }}>
           <View style={styles.tableRow}>
             <View style={{ flex: 1, flexDirection: 'column' }}>
               <View style={styles.tableRow}>
@@ -279,7 +221,7 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer }) => (
                   Temperatura del set point:
                 </Text>
                 <Text style={[styles.cellValue, { flex: 0.4 }]}>
-                  {formData.tempSetPoint || ''}
+                  {'\n'}  {formData.tempSetPoint || ''}
                 </Text>
 
                 <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>
@@ -291,7 +233,7 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer }) => (
                   Temperatura de pantalla:
                 </Text>
                 <Text style={[styles.cellValue, { flex: 0.4 }]}>
-                  {formData.tempPantalla || ''}
+                  {'\n'} {formData.tempPantalla || ''}
                 </Text>
                 <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>
                   {formData.observacionesPantalla || ''}
@@ -308,7 +250,6 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer }) => (
                   observaciones
                 </Text>
               </View>
-              {/* concatenacion */}
               <View style={[styles.tableRow, { height: 'auto' }]}>
                 <Text style={[styles.cellLabelWhite, { flex: 0.66 }]}>
                   Termografo:
@@ -451,8 +392,8 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer }) => (
           </View>
         </View>
 
-        <Text style={[styles.cellLabel, { height: 15, fontSize: 10 }]}>
-          Placas caja:
+        <Text style={[styles.cellLabel, { paddingTop: 4, fontSize: 10 }]}>
+          Condiciones de Carga (Maniobra)
         </Text>
         <View style={{ width: '100%' }}>
           <View style={styles.tableRow}>
@@ -554,12 +495,7 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer }) => (
 
       <View>
         <View style={styles.tableRow}>
-          <Text
-            style={[
-              styles.cellLabel,
-              { width: '12%', textAlign: 'center', fontSize: 10, height: 200 }
-            ]}
-          >
+          <Text style={[styles.cellLabel, { width: '12%', textAlign: 'center', fontSize: 10, height: 200 }]}>
             {' '}
             Verifico descarga{'\n'} (Inspector de Calidad)
           </Text>
@@ -614,14 +550,14 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer }) => (
         <Page style={styles.page}>
 
           <View>
-          <Text style={{ justifyContent: 'center', textAlign: 'center', borderWidth: 1, borderColor: '#000', backgroundColor: '#ccc' }}>
+            <Text style={{ justifyContent: 'center', textAlign: 'center', borderWidth: 1, borderColor: '#000', backgroundColor: '#ccc' }}>
             Anexos
           </Text>
-        </View>
+          </View>
 
           <View>
 
-          {formData.optionLimpio === 'No' && (
+            {formData.optionLimpio === 'No' && (
             <>
               <View style={{ borderWidth: 1, borderColor: '#000' }}>
 
@@ -633,29 +569,21 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer }) => (
 
                   {formData.imageLimpio.map((imageUrl, index) => (
 
-                  <div key={index} style={{ padding: '4px', borderRadius: '10px', textAlign: 'center' }}>
+                    <div key={index} style={{ padding: '4px', borderRadius: '10px', textAlign: 'center' }}>
                     <Image
                       src={imageUrl}
                       alt={`Imagen ${index + 1}`}
-                      style={{
-                        width: '150px',
-                        height: '150px',
-                        borderRadius: '5px',
-                        marginBottom: '10px'
-                      }}
+                      style={{ width: '150px', height: '150px', borderRadius: '5px', marginBottom: '10px' }}
                     />
                   </div>
-
-                ))}
+                  ))}
                 </div>
-
               </View>
             </>
           )}
 
-          {formData.optionLibre === 'No' && (
+            {formData.optionLibre === 'No' && (
             <>
-
               <View style={{ borderWidth: 1, borderColor: '#000' }}>
 
                 <Text style={{ fontSize: '15px' }}>  Evidencia No cumple libre de Fauna nociva  </Text>
@@ -666,7 +594,7 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer }) => (
 
                   {formData.imageLibreFauna.map((imageUrl, index) => (
 
-                  <div key={index} style={{ padding: '4px', borderRadius: '10px', textAlign: 'center' }}>
+                    <div key={index} style={{ padding: '4px', borderRadius: '10px', textAlign: 'center' }}>
 
                     <Image
                       src={imageUrl}
@@ -674,25 +602,22 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer }) => (
                       style={{ width: '150px', height: '150px', borderRadius: '5px', marginBottom: '10px' }}
                     />
                   </div>
-
-                ))}
+                  ))}
                 </div>
-
               </View>
             </>
           )}
 
-          {formData.optionCaja === 'No' && (
+            {formData.optionCaja === 'No' && (
             <>
               <View style={{ borderWidth: 1, borderColor: '#000' }}>
-
                 <Text style={{ fontSize: '15px' }}>  Evidencia No cumple Caja cerrada, en buen estado(sin hoyos o endiduras ):  </Text>
 
                 <Text style={{ fontSize: '10px', paddingTop: 10 }}> {formData.cajaCerrada || ''} </Text>
 
                 <div style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'flex-start' }}>
 
-                {formData.imageCajaCerrada.map((imageUrl, index) => (
+                  {formData.imageCajaCerrada.map((imageUrl, index) => (
                   <div key={index} style={{ margin: '10px' }}>
                     <Image
                       src={imageUrl}
@@ -701,21 +626,44 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer }) => (
                     />
                   </div>
                 ))}
+                </div>
+              </View>
+            </>
+          )}
+            {formData.optionLona === 'No' && (
+            <>
+              <View style={{ borderWidth: 1, borderColor: '#000' }}>
+
+                <Text style={{ fontSize: '15px' }}>  Evidencia No cumple  Lona en buen estado  </Text>
+
+                <Text style={{ fontSize: '10px', paddingTop: 10 }}> {formData.lona || ''} </Text>
+
+                <div style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'flex-start' }}>
+
+                {formData.imageLonaBuenEstado.map((imageUrl, index) => (
+                <div key={index} style={{ margin: '10px' }}>
+                  <Image
+                    src={imageUrl}
+                    alt={`Imagen ${index + 1}`}
+                    style={{ width: '150px', height: '150px', borderRadius: '5px', marginBottom: '10px' }}
+                  />
+                </div>
+              ))}
               </div>
               </View>
             </>
           )}
-          {formData.optionLona === 'No' && (
+            {formData.optionCarga === 'No' && (
             <>
               <View style={{ borderWidth: 1, borderColor: '#000' }}>
 
-              <Text style={{ fontSize: '15px' }}>  Evidencia No cumple  Lona en buen estado  </Text>
+                <Text style={{ fontSize: '15px' }}>  Evidencia No cumple Carga en buen estado</Text>
 
-              <Text style={{ fontSize: '10px', paddingTop: 10 }}> {formData.lona || ''} </Text>
+                <Text style={{ fontSize: '10px', paddingTop: 10 }}> {formData.carga || ''} </Text>
 
-              <div style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'flex-start' }}>
+                <div style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'flex-start' }}>
 
-              {formData.imageLonaBuenEstado.map((imageUrl, index) => (
+                {formData.imageCargaBuenEstado.map((imageUrl, index) => (
                 <div key={index} style={{ margin: '10px' }}>
                   <Image
                     src={imageUrl}
@@ -724,21 +672,21 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer }) => (
                   />
                 </div>
               ))}
-            </div>
-            </View>
+              </div>
+              </View>
             </>
           )}
-          {formData.optionCarga === 'No' && (
+            {formData.optionSeguridad === 'No' && (
             <>
               <View style={{ borderWidth: 1, borderColor: '#000' }}>
 
-              <Text style={{ fontSize: '15px' }}>  Evidencia No cumple Carga en buen estado</Text>
+                <Text style={{ fontSize: '15px' }}>  Evidencia No cumple seguridad de carga </Text>
 
-              <Text style={{ fontSize: '10px', paddingTop: 10 }}> {formData.carga || ''} </Text>
+                <Text style={{ fontSize: '10px', paddingTop: 10 }}> {formData.seguridadCarga || ''} </Text>
 
-              <div style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'flex-start' }}>
+                <div style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'flex-start' }}>
 
-              {formData.imageCargaBuenEstado.map((imageUrl, index) => (
+                {formData.imageSeguridadCarga.map((imageUrl, index) => (
                 <div key={index} style={{ margin: '10px' }}>
                   <Image
                     src={imageUrl}
@@ -747,21 +695,22 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer }) => (
                   />
                 </div>
               ))}
-            </div>
-            </View>
+              </div>
+              </View>
             </>
           )}
-          {formData.optionSeguridad === 'No' && (
+
+            {formData.optionSellado === 'No' && (
             <>
               <View style={{ borderWidth: 1, borderColor: '#000' }}>
 
-              <Text style={{ fontSize: '15px' }}>  Evidencia No cumple seguridad de carga </Text>
+                <Text style={{ fontSize: '15px' }}>  Evidencia No cumple con el sellado  </Text>
 
-              <Text style={{ fontSize: '10px', paddingTop: 10 }}> {formData.seguridadCarga || ''} </Text>
+                <Text style={{ fontSize: '10px', paddingTop: 10 }}> {formData.sellado || ''} </Text>
 
-              <div style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'flex-start' }}>
+                <div style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'flex-start' }}>
 
-              {formData.imageSeguridadCarga.map((imageUrl, index) => (
+                {formData.imageSellado.map((imageUrl, index) => (
                 <div key={index} style={{ margin: '10px' }}>
                   <Image
                     src={imageUrl}
@@ -770,35 +719,11 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer }) => (
                   />
                 </div>
               ))}
-            </div>
-            </View>
+              </div>
+              </View>
             </>
           )}
-
-          {formData.optionSellado === 'No' && (
-            <>
-              <View style={{ borderWidth: 1, borderColor: '#000' }}>
-
-              <Text style={{ fontSize: '15px' }}>  Evidencia No cumple con el sellado  </Text>
-
-              <Text style={{ fontSize: '10px', paddingTop: 10 }}> {formData.sellado || ''} </Text>
-
-              <div style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'flex-start' }}>
-
-              {formData.imageSellado.map((imageUrl, index) => (
-                <div key={index} style={{ margin: '10px' }}>
-                  <Image
-                    src={imageUrl}
-                    alt={`Imagen ${index + 1}`}
-                    style={{ width: '150px', height: '150px', borderRadius: '5px', marginBottom: '10px' }}
-                  />
-                </div>
-              ))}
-            </div>
-            </View>
-            </>
-          )}
-        </View>
+          </View>
         </Page>
     )}
   </Document>
@@ -901,11 +826,89 @@ const ActaDeLlegada = () => {
   const handleSelect = (idActa) => {
     setValue(idActa)
     setOpen(false)
-
-    // Buscar detalles de la acta seleccionada
+  
+    // Buscar detalles del acta seleccionada
     const selectedActa = actasList.find((acta) => acta.id === idActa)
-    setActaDetails(selectedActa)
+  
+    if (selectedActa) {
+      // Actualizar formData con los datos del acta seleccionada
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        id: selectedActa.id,
+        fecha: selectedActa.fecha || '',
+        inicioVerificacion: selectedActa.start_verification || '',
+        terminoVerificacion: selectedActa.end_verification || '',
+        oc: selectedActa.oc || '',
+        proveedor: selectedActa.provider || '',
+        origen: selectedActa.origin || '',
+        factura: selectedActa.bill || '',
+        // especie: "", hace falta especie en la bd
+        variedades: selectedActa.varieties || '',
+        frioDescarga: selectedActa.cold_disc || '',
+        cajasRecibidas: selectedActa.boxes_received || '',
+        lineaTransportista: selectedActa.carrier_line || '',
+        numeroContenedor: selectedActa.num_cont || '',
+        placasCamion: selectedActa.truck_plt || '',
+        placasCaja: selectedActa.box_plt || '',
+        chofer: selectedActa.driver || '',
+        tempSetPoint: selectedActa.setpoint_temp || '',
+        observacionesSetPoint: selectedActa.setpoint_obs || '',
+        tempPantalla: selectedActa.screen_temp || '',
+        observacionesPantalla: selectedActa.screen_obs || '',
+        termografo: selectedActa.therm_org || '',
+        tempOrigen: selectedActa.therm_org || '',
+        tempDestino: selectedActa.therm_dst || '',
+        limpio: selectedActa.clean_free || '',
+        cajaCerrada: selectedActa.close || '',
+        lona: selectedActa.tarp_state || '',
+        fauna: selectedActa.pest_free || '',
+        carga: selectedActa.load_state || '',
+        seguridadCarga: selectedActa.load_sec || '',
+        sellado: selectedActa.seal || '',
+        numeroSerie: selectedActa.box_id || '',
+        resultadosInv: selectedActa.invest_res || '',
+        tempAPuerta: selectedActa.tempa_door || '',
+        tempAMedio: selectedActa.tempa_mid || '',
+        tempAFondo: selectedActa.tempa_back || '',
+        tempMPuerta: selectedActa.tempm_door || '',
+        tempMMedio: selectedActa.tempm_mid || '',
+        tempMFondo: selectedActa.tempm_back || '',
+        tempBPuerta: selectedActa.tempb_door || '',
+        tempBMedio: selectedActa.tempb_mid || '',
+        tempBFondo: selectedActa.tempb_back || '',
+        tempMax: selectedActa.temp_max || '',
+        tempMin: selectedActa.temp_min || '',
+        tempIdeal: selectedActa.temp_ideal || '',
+        nombreInspector: selectedActa.insp_name || '',
+        nombreChofer: selectedActa.driver || '',
+        // option: "",
+        // option2: "", buscar estas opciones en la bd
+        optionLimpio: selectedActa.clean_obs || '',
+        optionCaja: selectedActa.close_obs || '',
+        optionLona: selectedActa.tarp_obs || '',
+        optionLibre: selectedActa.pest_obs || '',
+        optionCarga: selectedActa.load_obs || '',
+        optionSeguridad: selectedActa.sec_obs || '',
+        optionSellado: selectedActa.seal_obs || '',
+        // Imagenes y otros campos específicos
+        // imageTermografo: [],
+        // imageLimpio: [],
+        // imageMalosOlores: [],
+        // imageCajaCerrada: [],
+        // imageLonaBuenEstado: [],
+        // imageLibreFauna: [],
+        // imageCargaBuenEstado: [],
+        // imageSeguridadCarga: [],
+        // imageSellado: [],
+        tarimasDanadas: selectedActa.pallet_dmg || '',
+        cajasIdentificadas: selectedActa.box_num || '',
+        danadasManiobra: selectedActa.dmg_num || '',
+        // image2: [],
+        // image3: []
+      }))
+    }
   }
+  
 
   const handleFileChange3 = (event, key) => {
     const files = event.target.files
@@ -926,17 +929,14 @@ const ActaDeLlegada = () => {
   }
 
   useEffect(() => {
-    const fetchActas = async () => {
-      const { data, error } = await supabase
-        .from('ActaDescarga')
-        .select('id, fecha') // Selecciona los campos que necesitas
-      if (error != null) {
-        console.error('Error fetching actas:', error)
-      } else {
+    const getActasData = async () => {
+      const data = await fetchActas()
+      if (data) {
         setActasList(data)
       }
     }
-    fetchActas()
+  
+    getActasData()
 
     const allTemperatures = [
       formData.tempAPuerta,
@@ -1109,7 +1109,8 @@ const ActaDeLlegada = () => {
                     fontSize: '20px', // Tamaño de fuente grande
                     fontWeight: 'bold', // Negrita para mayor visibilidad
                     padding: '12px 16px', // Más espacio alrededor del texto
-      
+                    // backgroundColor: '#9A3324', // Fondo destacado (puedes cambiar el color si es necesario)
+                    // color: '#fff', // Texto en color blanco para contraste
                     borderRadius: '8px', // Bordes redondeados para un diseño moderno
                     border: '2px solid #7A2A1E', // Borde para resaltar el elemento
                     textAlign: 'center', // Centrar el texto
@@ -1144,16 +1145,15 @@ const ActaDeLlegada = () => {
             <Accordion type='single' collapsible>
               <AccordionItem value='item-2'>
                 <AccordionTrigger
-                  style={{
-                    fontSize: '20px',
-                    fontWeight: 'bold',
-                    padding: '12px 16px',
-                    borderRadius: '8px',
-                    border: '2px solid #7A2A1E',
-                    textAlign: 'center',
-                    cursor: 'pointer',
-                    // backgroundColor: "#9A3324", // Fondo destacado
-                  }}
+                  style={{ 
+fontSize: '20px', 
+fontWeight: 'bold', 
+padding: '12px 16px', 
+borderRadius: '8px', 
+border: '2px solid #7A2A1E',
+                    textAlign: 'center', 
+cursor: 'pointer' 
+}}
                 >
                   Condiciones de transporte
                 </AccordionTrigger>
@@ -1197,13 +1197,7 @@ const ActaDeLlegada = () => {
                       <label style={{ flex: '0 0 250px', fontWeight: 'bold' }}>{label}</label>
                       <div style={{ display: 'flex', gap: '10px' }}>
                         <Button
-                          style={{
-                            padding: '8px 16px',
-                            borderRadius: '4px',
-                            backgroundColor: '#9A3324',
-                  
-                            cursor: 'pointer',
-                          }}
+                          style={{ padding: '8px 16px', borderRadius: '4px', backgroundColor: '#9A3324', cursor: 'pointer' }}
                           name={name}
                           value='Si'
                           onClick={handleInputChange}
@@ -1211,13 +1205,7 @@ const ActaDeLlegada = () => {
                           Sí
                         </Button>
                         <Button
-                          style={{
-                            padding: '8px 16px',
-                            borderRadius: '4px',
-                            backgroundColor: '#ccc',
-                            color: '#000',
-                            cursor: 'pointer',
-                          }}
+                          style={{ padding: '8px 16px', borderRadius: '4px', backgroundColor: '#ccc', color: '#000', cursor: 'pointer' }}
                           name={name}
                           value='No'
                           onClick={handleInputChange}
@@ -1235,16 +1223,14 @@ const ActaDeLlegada = () => {
               <AccordionItem value='item-2'>
                 <AccordionTrigger
                   style={{
-                    fontSize: '20px', // Tamaño de fuente grande
-                    fontWeight: 'bold', // Negrita para mayor visibilidad
-                    padding: '12px 16px', // Más espacio alrededor del texto
-                    // backgroundColor: '#9A3324', // Fondo destacado (puedes cambiar el color si es necesario)
-              
-                    borderRadius: '8px', // Bordes redondeados para un diseño moderno
-                    border: '2px solid #7A2A1E', // Borde para resaltar el elemento
-                    textAlign: 'center', // Centrar el texto
-                    cursor: 'pointer' // Cambia el cursor para que parezca un botón
-                  }}
+                    fontSize: '20px', 
+fontWeight: 'bold', 
+padding: '12px 16px',
+                    borderRadius: '8px', 
+border: '2px solid #7A2A1E', 
+textAlign: 'center', 
+cursor: 'pointer' 
+}}
                 >
                   Inspección de transporte
                 </AccordionTrigger>
@@ -1281,32 +1267,22 @@ const ActaDeLlegada = () => {
                                 Seleccionar Imagen
                               </label>
                             </Button>
-                            {formData.imageLimpio.length < 8
-? (
-
+                            {formData.imageLimpio.length < 8 
+                            ? (
                               <input
-                                 type='file'
-                                 id='file-input-limpio'
-                                 accept='image/*'
-                                 multiple
-                                 style={{ display: 'none' }}
-                                 onChange={(e) =>
-                                 handleFileChange3(e, 'imageLimpio')}
-                               />
-                            )
+                                type='file'
+                                id='file-input-limpio'
+                                accept='image/*'
+                                multiple
+                                style={{ display: 'none' }}
+                                onChange={(e) =>
+                                   handleFileChange3(e, 'imageLimpio')}
+                              />
+                                )
                               : <p style={{ color: 'red', marginTop: '10px' }}>
-                                   No puedes agregar más de 8 imágenes
+                                No puedes agregar más de 8 imágenes
                                </p>}
-
-
-
-                            <div
-                              style={{
-                                display: 'flex',
-                                flexWrap: 'wrap',
-                                marginTop: '20px'
-                              }}
-                            >
+                            <div style={{ display: 'flex', flexWrap: 'wrap', marginTop: '20px' }}>
                               {formData.imageLimpio.map((imageUrl, index) => (
                                 <img
                                   key={index}
@@ -1367,43 +1343,30 @@ const ActaDeLlegada = () => {
                               </label>
                             </Button>
                             {formData.imageCajaCerrada.length < 8
-? (
+                              ? (
 
-                              <input
-                              type='file'
-                              id='file-input-caja'
-                              accept='image/*'
-                              multiple
-                              style={{ display: 'none' }}
-                              onChange={(e) =>
+  <input
+                                type='file'
+                                id='file-input-caja'
+                                accept='image/*'
+                                multiple
+                                style={{ display: 'none' }}
+                                onChange={(e) =>
                                 handleFileChange3(e, 'imageCajaCerrada')}
-                            />
-                            )
+                              />
+                                )
                               : <p style={{ color: 'red', marginTop: '10px' }}>
-                                   No puedes agregar más de 8 imágenes
+                                No puedes agregar más de 8 imágenes
                                </p>}
 
-                           
-
-                            <div
-                              style={{
-                                display: 'flex',
-                                flexWrap: 'wrap',
-                                marginTop: '20px'
-                              }}
-                            >
+                            <div style={{ display: 'flex', flexWrap: 'wrap', marginTop: '20px' }}>
                               {formData.imageCajaCerrada.map(
                                 (imageUrl, index) => (
                                   <img
                                     key={index}
                                     src={imageUrl}
                                     alt='imageCajaCerrada'
-                                    style={{
-                                      width: '200px',
-                                      height: '200px',
-                                      margin: '10px',
-                                      objectFit: 'cover'
-                                    }}
+                                    style={{ width: '200px', height: '200px', margin: '10px', objectFit: 'cover' }}
                                   />
                                 )
                               )}
@@ -1444,10 +1407,7 @@ const ActaDeLlegada = () => {
                         <div>
                           <div Styles={{ marginBottom: 30 }}>
                             <Button>
-                              <label
-                                htmlFor='file-input-lona'
-                                style={{ cursor: 'pointer' }}
-                              >
+                              <label htmlFor='file-input-lona' style={{ cursor: 'pointer' }}>
                                 Seleccionar Imagen
                               </label>
                             </Button>
@@ -1462,13 +1422,7 @@ const ActaDeLlegada = () => {
                                 handleFileChange3(e, 'imageLonaBuenEstado')}
                             />
 
-                            <div
-                              style={{
-                                display: 'flex',
-                                flexWrap: 'wrap',
-                                marginTop: '20px'
-                              }}
-                            >
+                            <div style={{ display: 'flex', flexWrap: 'wrap', marginTop: '20px' }}>
                               {formData.imageLonaBuenEstado.map(
                                 (imageUrl, index) => (
                                   <img
@@ -1539,13 +1493,7 @@ const ActaDeLlegada = () => {
                                 handleFileChange3(e, 'imageLibreFauna')}
                             />
 
-                            <div
-                              style={{
-                                display: 'flex',
-                                flexWrap: 'wrap',
-                                marginTop: '20px'
-                              }}
-                            >
+                            <div style={{ display: 'flex', flexWrap: 'wrap', marginTop: '20px' }}>
                               {formData.imageLibreFauna.map(
                                 (imageUrl, index) => (
                                   <img
@@ -1567,7 +1515,7 @@ const ActaDeLlegada = () => {
                       )}
                     </div>
                   </div>
-                  <label>DEscripcion: </label>
+                  <label>Descripcion: </label>
                   <Input
                     type='text'
                     name='fauna'
@@ -1598,10 +1546,7 @@ const ActaDeLlegada = () => {
                         <div>
                           <div Styles={{ marginBottom: 30 }}>
                             <Button>
-                              <label
-                                htmlFor='file-input'
-                                style={{ cursor: 'pointer' }}
-                              >
+                              <label htmlFor='file-input' style={{ cursor: 'pointer' }}>
                                 Seleccionar Imagen
                               </label>
                             </Button>
@@ -1616,13 +1561,7 @@ const ActaDeLlegada = () => {
                                 handleFileChange3(e, 'imageCargaBuenEstado')}
                             />
 
-                            <div
-                              style={{
-                                display: 'flex',
-                                flexWrap: 'wrap',
-                                marginTop: '20px'
-                              }}
-                            >
+                            <div style={{ display: 'flex', flexWrap: 'wrap', marginTop: '20px' }}>
                               {formData.imageCargaBuenEstado.map(
                                 (imageUrl, index) => (
                                   <img
@@ -1693,13 +1632,7 @@ const ActaDeLlegada = () => {
                                 handleFileChange3(e, 'imageSeguridadCarga')}
                             />
 
-                            <div
-                              style={{
-                                display: 'flex',
-                                flexWrap: 'wrap',
-                                marginTop: '20px'
-                              }}
-                            >
+                            <div style={{ display: 'flex', flexWrap: 'wrap', marginTop: '20px' }}>
                               {formData.imageSeguridadCarga.map(
                                 (imageUrl, index) => (
                                   <img
@@ -1750,12 +1683,9 @@ const ActaDeLlegada = () => {
                       </Button>
                       {formData.optionSellado === 'No' && (
                         <div>
-                          <div Styles={{ marginBottom: 30 }}>
+                          <div style={{ marginBottom: 30 }}>
                             <Button>
-                              <label
-                                htmlFor='file-input-sellado'
-                                style={{ cursor: 'pointer' }}
-                              >
+                              <label htmlFor='file-input-sellado' style={{ cursor: 'pointer' }}>
                                 Seleccionar Imagen
                               </label>
                             </Button>
@@ -1770,24 +1700,13 @@ const ActaDeLlegada = () => {
                                 handleFileChange3(e, 'imageSellado')}
                             />
 
-                            <div
-                              style={{
-                                display: 'flex',
-                                flexWrap: 'wrap',
-                                marginTop: '20px'
-                              }}
-                            >
+                            <div style={{ display: 'flex', flexWrap: 'wrap', marginTop: '20px' }}>
                               {formData.imageSellado.map((imageUrl, index) => (
                                 <img
                                   key={index}
                                   src={imageUrl}
                                   alt={`Selected ${index}`}
-                                  style={{
-                                    width: '200px',
-                                    height: '200px',
-                                    margin: '10px',
-                                    objectFit: 'cover'
-                                  }}
+                                  style={{ width: '200px', height: '200px', margin: '10px', objectFit: 'cover' }}
                                 />
                               ))}
                             </div>
@@ -1810,20 +1729,18 @@ const ActaDeLlegada = () => {
             <Accordion type='single' collapsible>
               <AccordionItem value='item-6'>
                 <AccordionTrigger
-                  style={{
-                      fontSize: '20px', // Tamaño de fuente grande
-                      fontWeight: 'bold', // Negrita para mayor visibilidad
-                      padding: '12px 16px', // Más espacio alrededor del texto
-                      // backgroundColor: '#9A3324', // Fondo destacado (puedes cambiar el color si es necesario)
-             
-                      borderRadius: '8px', // Bordes redondeados para un diseño moderno
-                      border: '2px solid #7A2A1E', // Borde para resaltar el elemento
-                      textAlign: 'center', // Centrar el texto
-                      cursor: 'pointer' // Cambia el cursor para que parezca un botón
-                    }}
+                  style={{ 
+fontSize: '20px', 
+fontWeight: 'bold', 
+padding: '12px 16px', 
+borderRadius: '8px',
+                    border: '2px solid #7A2A1E', 
+textAlign: 'center', 
+cursor: 'pointer' 
+}}
                 >
                   Placas Caja
-                  </AccordionTrigger>
+                </AccordionTrigger>
                 <AccordionContent>
                   <label>Hay tarimas dañadas?: </label>
                   <Input
@@ -1854,19 +1771,19 @@ const ActaDeLlegada = () => {
               <AccordionItem value='item-2'>
                 <AccordionTrigger
                   style={{
-                      fontSize: '20px', // Tamaño de fuente grande
-                      fontWeight: 'bold', // Negrita para mayor visibilidad
-                      padding: '12px 16px', // Más espacio alrededor del texto
-                      // backgroundColor: '#9A3324', // Fondo destacado (puedes cambiar el color si es necesario)
-                      
-                      borderRadius: '8px', // Bordes redondeados para un diseño moderno
-                      border: '2px solid #7A2A1E', // Borde para resaltar el elemento
-                      textAlign: 'center', // Centrar el texto
-                      cursor: 'pointer' // Cambia el cursor para que parezca un botón
-                    }}
+                    fontSize: '20px', // Tamaño de fuente grande
+                    fontWeight: 'bold', // Negrita para mayor visibilidad
+                    padding: '12px 16px', // Más espacio alrededor del texto
+                    // backgroundColor: '#9A3324', // Fondo destacado (puedes cambiar el color si es necesario)
+                    // color: '#fff', // Texto en color blanco para contraste
+                    borderRadius: '8px', // Bordes redondeados para un diseño moderno
+                    border: '2px solid #7A2A1E', // Borde para resaltar el elemento
+                    textAlign: 'center', // Centrar el texto
+                    cursor: 'pointer' // Cambia el cursor para que parezca un botón
+                  }}
                 >
                   Temperatura de Pulpa
-                  </AccordionTrigger>
+                </AccordionTrigger>
                 <AccordionContent>
                   <table>
                     <thead>
@@ -2035,22 +1952,11 @@ const ActaDeLlegada = () => {
               onChange={handleInputChange}
             />
             <h2>Firma Inspector de Calidad</h2>
-            <div
-              style={{
-                border: '2px solid black',
-                padding: 10,
-                display: 'inline-block',
-                boxSizing: 'border-box'
-              }}
-            >
+            <div style={{ border: '2px solid black', padding: 10, display: 'inline-block', boxSizing: 'border-box' }}>
               <SignatureCanvas
                 ref={signaturePadInspector}
                 penColor='black'
-                canvasProps={{
-                  width: 500,
-                  height: 200,
-                  className: 'signature-canvas'
-                }}
+                canvasProps={{ width: 500, height: 200, className: 'signature-canvas' }}
               />
             </div>
             <div style={{ paddingTop: 5 }} />
@@ -2062,22 +1968,11 @@ const ActaDeLlegada = () => {
               onChange={handleInputChange}
             />
             <h2>Firma del Chofer</h2>
-            <div
-              style={{
-                border: '2px solid black',
-                padding: 10,
-                display: 'inline-block',
-                boxSizing: 'border-box'
-              }}
-            >
+            <div style={{ border: '2px solid black', padding: 10, display: 'inline-block', boxSizing: 'border-box' }}>
               <SignatureCanvas
                 ref={signaturePadChofer}
                 penColor='black'
-                canvasProps={{
-                  width: 500,
-                  height: 200,
-                  className: 'signature-canvas'
-                }}
+                canvasProps={{ width: 500, height: 200, className: 'signature-canvas' }}
               />
             </div>
             <div style={{ paddingTop: 5 }} />
@@ -2091,9 +1986,7 @@ const ActaDeLlegada = () => {
         <ResizableHandle withHandle />
 
         <ResizablePanel>
-          <div
-            style={{ display: 'flex', flexDirection: 'column', height: '100%' }}
-          >
+          <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
             <PDFViewer width='100%' height='100%'>
               <ActaPDF
                 formData={formData}

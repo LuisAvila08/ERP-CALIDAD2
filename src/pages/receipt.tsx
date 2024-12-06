@@ -9,7 +9,6 @@ import { IconCheck } from '@tabler/icons-react'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select'
 import { Bold, Check, ChevronsUpDown } from 'lucide-react'
-import { WidthIcon } from '@radix-ui/react-icons'
 
 import GothamNarrowMedium from '../../public/fonts/GothamNarrow-Medium.otf'
 import { format } from 'path'
@@ -1022,7 +1021,7 @@ const ActaDeLlegada = () => {
                     className='w-[200px] justify-between'
                   >
                     {value
-                      ? actasList.find((acta) => acta.id === value)?.fecha
+                      ? actasList.find((acta) => acta.id === value)?.oc
                       : 'Select Acta...'}
                     <ChevronsUpDown className='w-4 h-4 ml-2 opacity-50 shrink-0' />
                   </Button>
@@ -1039,10 +1038,11 @@ const ActaDeLlegada = () => {
                             value={acta.id}
                             onSelect={() => handleSelect(acta.id)}
                           >
+                            
                             <Check
                               className={`mr-2 h-4 w-4 ${value === acta.id ? 'opacity-100' : 'opacity-0'}`}
                             />
-                            {acta.fecha}{' '}
+                            {acta.oc}{' '}
                             {/* Aquí puedes mostrar la fecha o cualquier otra información relevante */}
                           </CommandItem>
                         ))}

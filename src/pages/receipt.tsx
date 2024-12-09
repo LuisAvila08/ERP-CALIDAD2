@@ -815,6 +815,121 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer, currentPag
       
 
     )}
+     {currentPage == 2 && (
+      <Page>
+        <View style={{ marginBottom: 20 }} />
+
+          <View style={[styles.tableRow, { marginBottom: 15, width: '100%' }]}>
+            <View style={[{ height: 100, width: '26%' }]}>
+              <Text style={[styles.cellLabel, {}]}>Temperatura de pulpa</Text>
+              <Text style={styles.cellValue}>A</Text>
+              <Text style={styles.cellValue}>M</Text>
+              <Text style={styles.cellValue}>B</Text>
+            </View>
+            <View style={[{ width: '10%' }]}>
+              <Text style={[styles.cellLabel, { height: 20 }]}>Puerta</Text>
+              <Text style={styles.cellValue}>{formData.tempAPuerta}</Text>
+              <Text style={styles.cellValue}>{formData.tempMPuerta}</Text>
+              <Text style={styles.cellValue}>{formData.tempBPuerta}</Text>
+            </View>
+            <View style={[{ width: '10%' }]}>
+              <Text style={[styles.cellLabel, { height: 20 }]}>Medio</Text>
+              <Text style={styles.cellValue}>{formData.tempAMedio}</Text>
+              <Text style={styles.cellValue}>{formData.tempMMedio}</Text>
+              <Text style={styles.cellValue}>{formData.tempBMedio}</Text>
+            </View>
+            <View style={[{ width: '10%' }]}>
+              <Text style={[styles.cellLabel, { height: 20 }]}>Fondo</Text>
+              <Text style={styles.cellValue}>{formData.tempAFondo}</Text>
+              <Text style={styles.cellValue}>{formData.tempMFondo}</Text>
+              <Text style={styles.cellValue}>{formData.tempBFondo}</Text>
+            </View>
+            <View style={[{ width: '30%' }]}>
+              <Text style={[styles.cellLabel]}>Rango de Temperatura</Text>
+              <View style={[styles.tableRow, { height: 50 }]}>
+                <Text style={styles.cellValue}>Min:{formData.tempMin}</Text>
+                <Text style={styles.cellValue}>Max:{formData.tempMax}</Text>
+              </View>
+            </View>
+            <View style={[{ width: '30%' }]}>
+              <Text style={styles.cellLabel}>Ideal</Text>
+              <View style={[styles.tableRow, { height: 50 }]}>
+                <Text style={styles.cellValue}> {formData.tempIdeal}°C </Text>
+              </View>
+            </View>
+          </View>
+
+          <View style={[styles.tableRow, { marginBottom: 15 }]}>
+        {/* Parte en negritas y más grande */}
+        <Text
+          style={[
+            styles.cellLabel,
+            { flex: 0.35, fontSize: 11, fontWeight: 'bold' }
+          ]}
+        >
+          Resultados de la {'\n'}Investigación{'\n'}
+          <Text style={{ fontSize: 6 }}>
+            (PRODUCTO DAÑADO DESEMPLEADO SE ENVIAN A PISO O SE ARREGLAN)
+          </Text>
+        </Text>
+        <Text style={styles.cellValue}>{formData.resultadosInv || ''}</Text>
+      </View>
+      <Text style={[styles.cellLabel, { flex: 0.15, fontSize: 14 }]}>
+        Hago constar que estoy de acuerdo con lo verificado y registrado en el
+        presente{'\n'}documento
+      </Text>
+
+      <View>
+        <View style={styles.tableRow}>
+          <Text style={[styles.cellLabel, { width: '12%', textAlign: 'center', fontSize: 10, height: 200 }]}>
+            {' '}
+            Verifico descarga{'\n'} (Inspector de Calidad)
+          </Text>
+          <View style={{ width: '38%' }}>
+            <Text style={[styles.cellValue, { flex: 0.3 }]}>
+              Nombre:{formData.nombreInspector}
+            </Text>
+
+            <View style={[styles.cellValue, {}]}>
+              <Text style={[styles.inputLabel, { paddingBottom: 10 }]}>
+                Firma:
+              </Text>
+              {firmaBase64Inspector && (
+                <Image
+                  src={firmaBase64Inspector}
+                  style={{ width: 200, height: 150 }}
+                />
+              )}
+            </View>
+          </View>
+          <Text style={[styles.cellLabel, { width: '12%', fontSize: 10 }]}>
+            {' '}
+            Chofer
+          </Text>
+          <View style={{ width: '38%' }}>
+            <Text style={[styles.cellValue, { flex: 0.3 }]}>
+              Nombre:{formData.nombreChofer}
+            </Text>
+            <View style={[styles.cellValue, {}]}>
+              <Text style={[styles.inputLabel, { paddingBottom: 10 }]}>
+                Firma:
+              </Text>
+              {firmaBase64Chofer && (
+                <Image
+                  src={firmaBase64Chofer}
+                  style={{ width: 200, height: 150 }}
+                />
+              )}
+            </View>
+          </View>
+        </View>
+      </View>
+        
+        
+      </Page>
+      
+
+    )}
     {currentPage === 3 &&
           (formData.option === 'No' ||
             formData.option2 === 'No' ||
@@ -841,254 +956,179 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer, currentPag
               </View>
 
               <View>
+
                 {formData.optionLimpio === 'No' && (
-                  <View style={{ borderWidth: 1, borderColor: '#000' }}>
-                    <Text style={{ fontSize: '15px' }}>
-                      Evidencia No cumple con Limpio, libre de malos olores
-                    </Text>
-                    <Text style={{ fontSize: '10px', paddingTop: 10 }}>
-                      {formData.limpio || ''}
-                    </Text>
-                    <div
-                      style={{
-                        display: 'flex',
-                        flexWrap: 'wrap',
-                        flexDirection: 'row',
-                        justifyContent: 'flex-start'
-                      }}
-                    >
-                      {formData.imageLimpio.map((imageUrl: string, index: number) => (
-                        <div
-                          key={index}
-                          style={{ padding: '4px', borderRadius: '10px', textAlign: 'center' }}
-                        >
-                          <Image
-                            src={imageUrl}
-                            style={{
-                              width: '150px',
-                              height: '150px',
-                              borderRadius: '5px',
-                              marginBottom: '10px'
-                            }}
-                          />
-                        </div>
-                      ))}
+              <>
+                <View style={{ borderWidth: 1, borderColor: '#000' }}>
+
+                  <Text style={{ fontSize: '15px' }}>  Evidencia No cumple con Limpio, libre de malos olores  </Text>
+
+                  <Text style={{ fontSize: '10px', paddingTop: 10 }}> {formData.limpio || ''} </Text>
+
+                  <div style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'flex-start' }}>
+
+                  {formData.imageLimpio.map((imageUrl, index) => (
+
+                    <div key={index} style={{ padding: '4px', borderRadius: '10px', textAlign: 'center' }}>
+                      <Image
+                        src={imageUrl}
+                        alt={`Imagen ${index + 1}`}
+                        style={{ width: '150px', height: '150px', borderRadius: '5px', marginBottom: '10px' }}
+                      />
                     </div>
-                  </View>
-                )}
+                  ))}
+                </div>
+                </View>
+              </>
+            )}
 
                 {formData.optionLibre === 'No' && (
-                  <View style={{ borderWidth: 1, borderColor: '#000' }}>
-                    <Text style={{ fontSize: '15px' }}>
-                      Evidencia No cumple libre de Fauna nociva
-                    </Text>
-                    <Text style={{ fontSize: '10px', paddingTop: 10 }}>
-                      {formData.limpio ?? ''}
-                    </Text>
-                    <div
-                      style={{
-                        display: 'flex',
-                        flexWrap: 'wrap',
-                        flexDirection: 'row',
-                        justifyContent: 'flex-start'
-                      }}
-                    >
-                      {formData.imageLibreFauna.map((imageUrl: string, index: number) => (
-                        <div
-                          key={index}
-                          style={{ padding: '4px', borderRadius: '10px', textAlign: 'center' }}
-                        >
-                          <Image
-                            src={imageUrl}
-                            style={{
-                              width: '150px',
-                              height: '150px',
-                              borderRadius: '5px',
-                              marginBottom: '10px'
-                            }}
-                          />
-                        </div>
-                      ))}
+              <>
+                <View style={{ borderWidth: 1, borderColor: '#000' }}>
+
+                  <Text style={{ fontSize: '15px' }}>  Evidencia No cumple libre de Fauna nociva  </Text>
+
+                  <Text style={{ fontSize: '10px', paddingTop: 10 }}> {formData.limpio || ''} </Text>
+
+                  <div style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'flex-start' }}>
+
+                  {formData.imageLibreFauna.map((imageUrl, index) => (
+
+                    <div key={index} style={{ padding: '4px', borderRadius: '10px', textAlign: 'center' }}>
+
+                      <Image
+                        src={imageUrl}
+                        alt={`Imagen ${index + 1}`}
+                        style={{ width: '150px', height: '150px', borderRadius: '5px', marginBottom: '10px' }}
+                      />
                     </div>
-                  </View>
-                )}
+                  ))}
+                </div>
+                </View>
+              </>
+            )}
 
                 {formData.optionCaja === 'No' && (
-                  <>
-                    <View style={{ borderWidth: 1, borderColor: '#000' }}>
-                      <Text style={{ fontSize: '15px' }}>
-                        Evidencia No cumple Caja cerrada, en buen estado(sin hoyos o endiduras ):
-                      </Text>
-                      <Text style={{ fontSize: '10px', paddingTop: 10 }}>
-                        {formData.cajaCerrada ?? ''}
-                      </Text>
-                      <div
-                        style={{
-                          display: 'flex',
-                          flexWrap: 'wrap',
-                          flexDirection: 'row',
-                          justifyContent: 'flex-start',
-                        }}
-                      >
-                        {formData.imageCajaCerrada.map((imageUrl: string, index: number) => (
-                          <div key={index} style={{ margin: '10px' }}>
-                            <Image
-                              src={imageUrl}
-                              style={{
-                                width: '150px',
-                                height: '150px',
-                                borderRadius: '5px',
-                                marginBottom: '10px'
-                              }}
-                            />
-                          </div>
-                        ))}
-                      </div>
-                    </View>
-                  </>
-                )}
+              <>
+                <View style={{ borderWidth: 1, borderColor: '#000' }}>
+                  <Text style={{ fontSize: '15px' }}>  Evidencia No cumple Caja cerrada, en buen estado(sin hoyos o endiduras ):  </Text>
 
+                  <Text style={{ fontSize: '10px', paddingTop: 10 }}> {formData.cajaCerrada || ''} </Text>
+
+                  <div style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'flex-start' }}>
+
+                  {formData.imageCajaCerrada.map((imageUrl, index) => (
+                    <div key={index} style={{ margin: '10px' }}>
+                      <Image
+                        src={imageUrl}
+                        alt={`Imagen ${index + 1}`}
+                        style={{ width: '150px', height: '150px', borderRadius: '5px', marginBottom: '10px' }}
+                      />
+                    </div>
+                  ))}
+                </div>
+                </View>
+              </>
+            )}
                 {formData.optionLona === 'No' && (
-                  <>
-                    <View style={{ borderWidth: 1, borderColor: '#000' }}>
-                      <Text style={{ fontSize: '15px' }}>
-                        Evidencia No cumple Lona en buen estado
-                      </Text>
-                      <Text style={{ fontSize: '10px', paddingTop: 10 }}>
-                        {formData.lona ?? ''}
-                      </Text>
-                      <div
-                        style={{
-                          display: 'flex',
-                          flexWrap: 'wrap',
-                          flexDirection: 'row',
-                          justifyContent: 'flex-start'
-                        }}
-                      >
-                        {formData.imageLonaBuenEstado.map((imageUrl: string, index: number) => (
-                          <div key={index} style={{ margin: '10px' }}>
-                            <Image
-                              src={imageUrl}
-                              style={{
-                                width: '150px',
-                                height: '150px',
-                                borderRadius: '5px',
-                                marginBottom: '10px'
-                              }}
-                            />
-                          </div>
-                        ))}
-                      </div>
-                    </View>
-                  </>
-                )}
+              <>
+                <View style={{ borderWidth: 1, borderColor: '#000' }}>
 
+                  <Text style={{ fontSize: '15px' }}>  Evidencia No cumple  Lona en buen estado  </Text>
+
+                  <Text style={{ fontSize: '10px', paddingTop: 10 }}> {formData.lona || ''} </Text>
+
+                  <div style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'flex-start' }}>
+
+                  {formData.imageLonaBuenEstado.map((imageUrl, index) => (
+                    <div key={index} style={{ margin: '10px' }}>
+                      <Image
+                      src={imageUrl}
+                      alt={`Imagen ${index + 1}`}
+                      style={{ width: '150px', height: '150px', borderRadius: '5px', marginBottom: '10px' }}
+                    />
+                    </div>
+                  ))}
+                </div>
+                </View>
+              </>
+            )}
                 {formData.optionCarga === 'No' && (
-                  <>
-                    <View style={{ borderWidth: 1, borderColor: '#000' }}>
-                      <Text style={{ fontSize: '15px' }}>
-                        Evidencia No cumple Carga en buen estado
-                      </Text>
-                      <Text style={{ fontSize: '10px', paddingTop: 10 }}>
-                        {formData.carga ?? ''}
-                      </Text>
-                      <div
-                        style={{
-                          display: 'flex',
-                          flexWrap: 'wrap',
-                          flexDirection: 'row',
-                          justifyContent: 'flex-start'
-                        }}
-                      >
-                        {formData.imageCargaBuenEstado.map((imageUrl: string, index: number) => (
-                          <div key={index} style={{ margin: '10px' }}>
-                            <Image
-                              src={imageUrl}
-                              style={{
-                                width: '150px',
-                                height: '150px',
-                                borderRadius: '5px',
-                                marginBottom: '10px',
-                              }}
-                            />
-                          </div>
-                        ))}
-                      </div>
-                    </View>
-                  </>
-                )}
+              <>
+                <View style={{ borderWidth: 1, borderColor: '#000' }}>
 
+                  <Text style={{ fontSize: '15px' }}>  Evidencia No cumple Carga en buen estado</Text>
+
+                  <Text style={{ fontSize: '10px', paddingTop: 10 }}> {formData.carga || ''} </Text>
+
+                  <div style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'flex-start' }}>
+
+                  {formData.imageCargaBuenEstado.map((imageUrl, index) => (
+                    <div key={index} style={{ margin: '10px' }}>
+                      <Image
+                      src={imageUrl}
+                      alt={`Imagen ${index + 1}`}
+                      style={{ width: '150px', height: '150px', borderRadius: '5px', marginBottom: '10px' }}
+                    />
+                    </div>
+                  ))}
+                </div>
+                </View>
+              </>
+            )}
                 {formData.optionSeguridad === 'No' && (
-                  <>
-                    <View style={{ borderWidth: 1, borderColor: '#000' }}>
-                      <Text style={{ fontSize: '15px' }}>
-                        Evidencia No cumple seguridad de carga
-                      </Text>
-                      <Text style={{ fontSize: '10px', paddingTop: 10 }}>
-                        {formData.seguridadCarga ?? ''}
-                      </Text>
-                      <div
-                        style={{
-                          display: 'flex',
-                          flexWrap: 'wrap',
-                          flexDirection: 'row',
-                          justifyContent: 'flex-start',
-                        }}
-                      >
-                        {formData.imageSeguridadCarga.map((imageUrl: string, index: number) => (
-                          <div key={index} style={{ margin: '10px' }}>
-                            <Image
-                              src={imageUrl}
-                              style={{
-                                width: '150px',
-                                height: '150px',
-                                borderRadius: '5px',
-                                marginBottom: '10px',
-                              }}
-                            />
-                          </div>
-                        ))}
-                      </div>
-                    </View>
-                  </>
-                )}
+              <>
+                <View style={{ borderWidth: 1, borderColor: '#000' }}>
+
+                  <Text style={{ fontSize: '15px' }}>  Evidencia No cumple seguridad de carga </Text>
+
+                  <Text style={{ fontSize: '10px', paddingTop: 10 }}> {formData.seguridadCarga || ''} </Text>
+
+                  <div style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'flex-start' }}>
+
+                  {formData.imageSeguridadCarga.map((imageUrl, index) => (
+                    <div key={index} style={{ margin: '10px' }}>
+                      <Image
+                      src={imageUrl}
+                      alt={`Imagen ${index + 1}`}
+                      style={{ width: '150px', height: '150px', borderRadius: '5px', marginBottom: '10px' }}
+                    />
+                    </div>
+                  ))}
+                </div>
+                </View>
+              </>
+            )}
 
                 {formData.optionSellado === 'No' && (
-                  <>
-                    <View style={{ borderWidth: 1, borderColor: '#000' }}>
-                      <Text style={{ fontSize: '15px' }}>Evidencia No cumple con el sellado</Text>
-                      <Text style={{ fontSize: '10px', paddingTop: 10 }}>
-                        {formData.sellado ?? ''}
-                      </Text>
-                      <div
-                        style={{
-                          display: 'flex',
-                          flexWrap: 'wrap',
-                          flexDirection: 'row',
-                          justifyContent: 'flex-start'
-                        }}
-                      >
-                        {formData.imageSellado.map((imageUrl: string, index: number) => (
-                          <div key={index} style={{ margin: '10px' }}>
-                            <Image
-                              src={imageUrl}
-                              style={{
-                                width: '150px',
-                                height: '150px',
-                                borderRadius: '5px',
-                                marginBottom: '10px'
-                              }}
-                            />
-                          </div>
-                        ))}
-                      </div>
-                    </View>
-                  </>
-                )}
-              </View>
-            </Page>
+              <>
+                <View style={{ borderWidth: 1, borderColor: '#000' }}>
 
-  )}
+                  <Text style={{ fontSize: '15px' }}>  Evidencia No cumple con el sellado  </Text>
+
+                  <Text style={{ fontSize: '10px', paddingTop: 10 }}> {formData.sellado || ''} </Text>
+
+                  <div style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'flex-start' }}>
+
+                  {formData.imageSellado.map((imageUrl, index) => (
+                    <div key={index} style={{ margin: '10px' }}>
+                      <Image
+                      src={imageUrl}
+                      alt={`Imagen ${index + 1}`}
+                      style={{ width: '150px', height: '150px', borderRadius: '5px', marginBottom: '10px' }}
+                    />
+                    </div>
+                  ))}
+                </div>
+                </View>
+              </>
+            )}
+
+              </View>
+
+            </Page>
+   )}
+  
 
   </Document>
 )

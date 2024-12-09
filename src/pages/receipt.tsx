@@ -1,9 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { Page, Text, View, Document, StyleSheet, PDFViewer, PDFDownloadLink, Image, Font,pdf } from '@react-pdf/renderer'
 import * as pdfjsLib from 'pdfjs-dist';
-
-pdfjsLib.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@2.11.338/es5/build/pdf.worker.min.js`;
-
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import Layout from '../components/Layout'
@@ -23,11 +20,7 @@ import { cn } from '@/lib/utils'
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 
-
-
-
-
-
+pdfjsLib.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@2.11.338/es5/build/pdf.worker.min.js`;
 
 Font.register({
   family: 'GothamNarrow',
@@ -108,13 +101,12 @@ const styles = StyleSheet.create({
   }
 })
 
-
-const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer,currentPage }) => (
+const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer, currentPage }) => (
   <Document>
-     {currentPage === 1 && (
-     
-    
-    <Page style={styles.page}>
+    {currentPage === 1 && (
+
+
+       <Page style={styles.page}>
       <View style={styles.logoSection}>
         {/* image */}
 
@@ -443,49 +435,60 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer,currentPage
         </View>
       </View>
 
-      <View style={{ marginBottom: 20 }} />
+      
 
-      <View style={[styles.tableRow, { marginBottom: 15, width: '100%' }]}>
-        <View style={[{ height: 100, width: '26%' }]}>
-          <Text style={[styles.cellLabel, {}]}>Temperatura de pulpa</Text>
-          <Text style={styles.cellValue}>A</Text>
-          <Text style={styles.cellValue}>M</Text>
-          <Text style={styles.cellValue}>B</Text>
-        </View>
-        <View style={[{ width: '10%' }]}>
-          <Text style={[styles.cellLabel, { height: 20 }]}>Puerta</Text>
-          <Text style={styles.cellValue}>{formData.tempAPuerta}</Text>
-          <Text style={styles.cellValue}>{formData.tempMPuerta}</Text>
-          <Text style={styles.cellValue}>{formData.tempBPuerta}</Text>
-        </View>
-        <View style={[{ width: '10%' }]}>
-          <Text style={[styles.cellLabel, { height: 20 }]}>Medio</Text>
-          <Text style={styles.cellValue}>{formData.tempAMedio}</Text>
-          <Text style={styles.cellValue}>{formData.tempMMedio}</Text>
-          <Text style={styles.cellValue}>{formData.tempBMedio}</Text>
-        </View>
-        <View style={[{ width: '10%' }]}>
-          <Text style={[styles.cellLabel, { height: 20 }]}>Fondo</Text>
-          <Text style={styles.cellValue}>{formData.tempAFondo}</Text>
-          <Text style={styles.cellValue}>{formData.tempMFondo}</Text>
-          <Text style={styles.cellValue}>{formData.tempBFondo}</Text>
-        </View>
-        <View style={[{ width: '30%' }]}>
-          <Text style={[styles.cellLabel]}>Rango de Temperatura</Text>
-          <View style={[styles.tableRow, { height: 50 }]}>
-            <Text style={styles.cellValue}>Min:{formData.tempMin}</Text>
-            <Text style={styles.cellValue}>Max:{formData.tempMax}</Text>
-          </View>
-        </View>
-        <View style={[{ width: '30%' }]}>
-          <Text style={styles.cellLabel}>Ideal</Text>
-          <View style={[styles.tableRow, { height: 50 }]}>
-            <Text style={styles.cellValue}> {formData.tempIdeal}°C </Text>
-          </View>
-        </View>
-      </View>
+     
 
-      <View style={[styles.tableRow, { marginBottom: 15 }]}>
+      
+    </Page>
+
+     )}
+
+    {currentPage == 2 && (
+      <Page>
+        <View style={{ marginBottom: 20 }} />
+
+          <View style={[styles.tableRow, { marginBottom: 15, width: '100%' }]}>
+            <View style={[{ height: 100, width: '26%' }]}>
+              <Text style={[styles.cellLabel, {}]}>Temperatura de pulpa</Text>
+              <Text style={styles.cellValue}>A</Text>
+              <Text style={styles.cellValue}>M</Text>
+              <Text style={styles.cellValue}>B</Text>
+            </View>
+            <View style={[{ width: '10%' }]}>
+              <Text style={[styles.cellLabel, { height: 20 }]}>Puerta</Text>
+              <Text style={styles.cellValue}>{formData.tempAPuerta}</Text>
+              <Text style={styles.cellValue}>{formData.tempMPuerta}</Text>
+              <Text style={styles.cellValue}>{formData.tempBPuerta}</Text>
+            </View>
+            <View style={[{ width: '10%' }]}>
+              <Text style={[styles.cellLabel, { height: 20 }]}>Medio</Text>
+              <Text style={styles.cellValue}>{formData.tempAMedio}</Text>
+              <Text style={styles.cellValue}>{formData.tempMMedio}</Text>
+              <Text style={styles.cellValue}>{formData.tempBMedio}</Text>
+            </View>
+            <View style={[{ width: '10%' }]}>
+              <Text style={[styles.cellLabel, { height: 20 }]}>Fondo</Text>
+              <Text style={styles.cellValue}>{formData.tempAFondo}</Text>
+              <Text style={styles.cellValue}>{formData.tempMFondo}</Text>
+              <Text style={styles.cellValue}>{formData.tempBFondo}</Text>
+            </View>
+            <View style={[{ width: '30%' }]}>
+              <Text style={[styles.cellLabel]}>Rango de Temperatura</Text>
+              <View style={[styles.tableRow, { height: 50 }]}>
+                <Text style={styles.cellValue}>Min:{formData.tempMin}</Text>
+                <Text style={styles.cellValue}>Max:{formData.tempMax}</Text>
+              </View>
+            </View>
+            <View style={[{ width: '30%' }]}>
+              <Text style={styles.cellLabel}>Ideal</Text>
+              <View style={[styles.tableRow, { height: 50 }]}>
+                <Text style={styles.cellValue}> {formData.tempIdeal}°C </Text>
+              </View>
+            </View>
+          </View>
+
+          <View style={[styles.tableRow, { marginBottom: 15 }]}>
         {/* Parte en negritas y más grande */}
         <Text
           style={[
@@ -500,7 +503,6 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer,currentPage
         </Text>
         <Text style={styles.cellValue}>{formData.resultadosInv || ''}</Text>
       </View>
-
       <Text style={[styles.cellLabel, { flex: 0.15, fontSize: 14 }]}>
         Hago constar que estoy de acuerdo con lo verificado y registrado en el
         presente{'\n'}documento
@@ -551,9 +553,13 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer,currentPage
           </View>
         </View>
       </View>
-    </Page>
+        
+        
+      </Page>
+      
+
     )}
-   {currentPage === 2 &&
+    {currentPage === 3 &&
           (formData.option === 'No' ||
             formData.option2 === 'No' ||
             formData.optionLibre === 'No' ||
@@ -563,7 +569,7 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer,currentPage
             formData.optionSeguridad === 'No' ||
             formData.optionSellado === 'No' ||
             formData.optionLimpio === 'No') && (
-            <Page size="A4" style={styles.page}>
+              <Page size='A4' style={styles.page}>
               <View>
                 <Text
                   style={{
@@ -571,7 +577,7 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer,currentPage
                     textAlign: 'center',
                     borderWidth: 1,
                     borderColor: '#000',
-                    backgroundColor: '#ccc',
+                    backgroundColor: '#ccc'
                   }}
                 >
                   Anexos
@@ -579,16 +585,16 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer,currentPage
               </View>
 
               <View>
-              
-            {formData.optionLimpio === 'No' && (
+
+                {formData.optionLimpio === 'No' && (
               <>
                 <View style={{ borderWidth: 1, borderColor: '#000' }}>
 
-                <Text style={{ fontSize: '15px' }}>  Evidencia No cumple con Limpio, libre de malos olores  </Text>
+                  <Text style={{ fontSize: '15px' }}>  Evidencia No cumple con Limpio, libre de malos olores  </Text>
 
-                <Text style={{ fontSize: '10px', paddingTop: 10 }}> {formData.limpio || ''} </Text>
+                  <Text style={{ fontSize: '10px', paddingTop: 10 }}> {formData.limpio || ''} </Text>
 
-                <div style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'flex-start' }}>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'flex-start' }}>
 
                   {formData.imageLimpio.map((imageUrl, index) => (
 
@@ -601,19 +607,19 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer,currentPage
                     </div>
                   ))}
                 </div>
-              </View>
+                </View>
               </>
             )}
 
-            {formData.optionLibre === 'No' && (
+                {formData.optionLibre === 'No' && (
               <>
                 <View style={{ borderWidth: 1, borderColor: '#000' }}>
 
-                <Text style={{ fontSize: '15px' }}>  Evidencia No cumple libre de Fauna nociva  </Text>
+                  <Text style={{ fontSize: '15px' }}>  Evidencia No cumple libre de Fauna nociva  </Text>
 
-                <Text style={{ fontSize: '10px', paddingTop: 10 }}> {formData.limpio || ''} </Text>
+                  <Text style={{ fontSize: '10px', paddingTop: 10 }}> {formData.limpio || ''} </Text>
 
-                <div style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'flex-start' }}>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'flex-start' }}>
 
                   {formData.imageLibreFauna.map((imageUrl, index) => (
 
@@ -627,20 +633,43 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer,currentPage
                     </div>
                   ))}
                 </div>
-              </View>
+                </View>
               </>
             )}
 
-            {formData.optionCaja === 'No' && (
+                {formData.optionCaja === 'No' && (
               <>
                 <View style={{ borderWidth: 1, borderColor: '#000' }}>
-                <Text style={{ fontSize: '15px' }}>  Evidencia No cumple Caja cerrada, en buen estado(sin hoyos o endiduras ):  </Text>
+                  <Text style={{ fontSize: '15px' }}>  Evidencia No cumple Caja cerrada, en buen estado(sin hoyos o endiduras ):  </Text>
 
-                <Text style={{ fontSize: '10px', paddingTop: 10 }}> {formData.cajaCerrada || ''} </Text>
+                  <Text style={{ fontSize: '10px', paddingTop: 10 }}> {formData.cajaCerrada || ''} </Text>
 
-                <div style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'flex-start' }}>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'flex-start' }}>
 
                   {formData.imageCajaCerrada.map((imageUrl, index) => (
+                    <div key={index} style={{ margin: '10px' }}>
+                      <Image
+                        src={imageUrl}
+                        alt={`Imagen ${index + 1}`}
+                        style={{ width: '150px', height: '150px', borderRadius: '5px', marginBottom: '10px' }}
+                      />
+                    </div>
+                  ))}
+                </div>
+                </View>
+              </>
+            )}
+                {formData.optionLona === 'No' && (
+              <>
+                <View style={{ borderWidth: 1, borderColor: '#000' }}>
+
+                  <Text style={{ fontSize: '15px' }}>  Evidencia No cumple  Lona en buen estado  </Text>
+
+                  <Text style={{ fontSize: '10px', paddingTop: 10 }}> {formData.lona || ''} </Text>
+
+                  <div style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'flex-start' }}>
+
+                  {formData.imageLonaBuenEstado.map((imageUrl, index) => (
                     <div key={index} style={{ margin: '10px' }}>
                       <Image
                       src={imageUrl}
@@ -650,171 +679,143 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer,currentPage
                     </div>
                   ))}
                 </div>
-              </View>
+                </View>
               </>
             )}
-            {formData.optionLona === 'No' && (
+                {formData.optionCarga === 'No' && (
               <>
                 <View style={{ borderWidth: 1, borderColor: '#000' }}>
 
-                <Text style={{ fontSize: '15px' }}>  Evidencia No cumple  Lona en buen estado  </Text>
+                  <Text style={{ fontSize: '15px' }}>  Evidencia No cumple Carga en buen estado</Text>
 
-                <Text style={{ fontSize: '10px', paddingTop: 10 }}> {formData.lona || ''} </Text>
+                  <Text style={{ fontSize: '10px', paddingTop: 10 }}> {formData.carga || ''} </Text>
 
-                <div style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'flex-start' }}>
-
-                  {formData.imageLonaBuenEstado.map((imageUrl, index) => (
-                    <div key={index} style={{ margin: '10px' }}>
-                    <Image
-                    src={imageUrl}
-                    alt={`Imagen ${index + 1}`}
-                    style={{ width: '150px', height: '150px', borderRadius: '5px', marginBottom: '10px' }}
-                  />
-                  </div>
-                  ))}
-                </div>
-              </View>
-              </>
-            )}
-            {formData.optionCarga === 'No' && (
-              <>
-                <View style={{ borderWidth: 1, borderColor: '#000' }}>
-
-                <Text style={{ fontSize: '15px' }}>  Evidencia No cumple Carga en buen estado</Text>
-
-                <Text style={{ fontSize: '10px', paddingTop: 10 }}> {formData.carga || ''} </Text>
-
-                <div style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'flex-start' }}>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'flex-start' }}>
 
                   {formData.imageCargaBuenEstado.map((imageUrl, index) => (
                     <div key={index} style={{ margin: '10px' }}>
-                    <Image
-                    src={imageUrl}
-                    alt={`Imagen ${index + 1}`}
-                    style={{ width: '150px', height: '150px', borderRadius: '5px', marginBottom: '10px' }}
-                  />
-                  </div>
+                      <Image
+                      src={imageUrl}
+                      alt={`Imagen ${index + 1}`}
+                      style={{ width: '150px', height: '150px', borderRadius: '5px', marginBottom: '10px' }}
+                    />
+                    </div>
                   ))}
                 </div>
-              </View>
+                </View>
               </>
             )}
-            {formData.optionSeguridad === 'No' && (
+                {formData.optionSeguridad === 'No' && (
               <>
                 <View style={{ borderWidth: 1, borderColor: '#000' }}>
 
-                <Text style={{ fontSize: '15px' }}>  Evidencia No cumple seguridad de carga </Text>
+                  <Text style={{ fontSize: '15px' }}>  Evidencia No cumple seguridad de carga </Text>
 
-                <Text style={{ fontSize: '10px', paddingTop: 10 }}> {formData.seguridadCarga || ''} </Text>
+                  <Text style={{ fontSize: '10px', paddingTop: 10 }}> {formData.seguridadCarga || ''} </Text>
 
-                <div style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'flex-start' }}>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'flex-start' }}>
 
                   {formData.imageSeguridadCarga.map((imageUrl, index) => (
                     <div key={index} style={{ margin: '10px' }}>
-                    <Image
-                    src={imageUrl}
-                    alt={`Imagen ${index + 1}`}
-                    style={{ width: '150px', height: '150px', borderRadius: '5px', marginBottom: '10px' }}
-                  />
-                  </div>
+                      <Image
+                      src={imageUrl}
+                      alt={`Imagen ${index + 1}`}
+                      style={{ width: '150px', height: '150px', borderRadius: '5px', marginBottom: '10px' }}
+                    />
+                    </div>
                   ))}
                 </div>
-              </View>
+                </View>
               </>
             )}
 
-            {formData.optionSellado === 'No' && (
+                {formData.optionSellado === 'No' && (
               <>
                 <View style={{ borderWidth: 1, borderColor: '#000' }}>
 
-                <Text style={{ fontSize: '15px' }}>  Evidencia No cumple con el sellado  </Text>
+                  <Text style={{ fontSize: '15px' }}>  Evidencia No cumple con el sellado  </Text>
 
-                <Text style={{ fontSize: '10px', paddingTop: 10 }}> {formData.sellado || ''} </Text>
+                  <Text style={{ fontSize: '10px', paddingTop: 10 }}> {formData.sellado || ''} </Text>
 
-                <div style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'flex-start' }}>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'flex-start' }}>
 
                   {formData.imageSellado.map((imageUrl, index) => (
                     <div key={index} style={{ margin: '10px' }}>
-                    <Image
-                    src={imageUrl}
-                    alt={`Imagen ${index + 1}`}
-                    style={{ width: '150px', height: '150px', borderRadius: '5px', marginBottom: '10px' }}
-                  />
-                  </div>
+                      <Image
+                      src={imageUrl}
+                      alt={`Imagen ${index + 1}`}
+                      style={{ width: '150px', height: '150px', borderRadius: '5px', marginBottom: '10px' }}
+                    />
+                    </div>
                   ))}
                 </div>
-              </View>
+                </View>
               </>
             )}
 
               </View>
-              
+
             </Page>
-  )}
-
-
-
-    
+   )}
 
   </Document>
 )
 const handlePDFDownload = async (formData, firmaBase64) => {
   try {
-    
-    const pdfDocument = <ActaPDF formData={formData} firmaBase64={firmaBase64} />;
-    const pdfBlob = await pdf(pdfDocument).toBlob();  // Obtener el PDF como Blob
+    const pdfDocument = <ActaPDF formData={formData} firmaBase64={firmaBase64} />
+    const pdfBlob = await pdf(pdfDocument).toBlob()  // Obtener el PDF como Blob
     
     // Convertir el Blob del PDF a imagen
     //const imageUrl = await convertPDFToImage(pdfBlob);
    // console.log("Imagen generada desde el PDF:", imageUrl);}
-   console.log("holssssss")
-   
-   convertPDFToImage('C:/Users/Sistemas/Downloads/documento.pdf')
-  .then((image) => {
-    if (image) {
-      console.log('Imagen generada desde el PDF:', image);
+   console.log('holssssss')
+
+    convertPDFToImage('C:/Users/Sistemas/Downloads/documento.pdf')
+      .then((image) => {
+        if (image) {
+          console.log('Imagen generada desde el PDF:', image)
     } else {
-      console.error('No se pudo generar la imagen');
+          console.error('No se pudo generar la imagen')
     }
-  });
+      })
 
   } catch (error) {
-    console.error("Error al generar el PDF o convertir a imagen:", error);
+    console.error('Error al generar el PDF o convertir a imagen:', error)
   }
-};
+}
 
 // Función para convertir el PDF a imagen
 const convertPDFToImage = async (pdfBlob) => {
   try {
     // Convertir el Blob a ArrayBuffer (pdf.js necesita este formato)
-    const pdfData = await pdfBlob.arrayBuffer();
+    const pdfData = await pdfBlob.arrayBuffer()
 
     // Cargar el PDF en pdf.js
-    const pdf = await pdfjsLib.getDocument({ data: pdfData }).promise;
+    const pdf = await pdfjsLib.getDocument({ data: pdfData }).promise
 
     // Obtener la primera página del PDF
-    const page = await pdf.getPage(1);
+    const page = await pdf.getPage(1)
 
     // Configurar el viewport (escala) de la página
-    const viewport = page.getViewport({ scale: 1.5 });
+    const viewport = page.getViewport({ scale: 1.5 })
     
     // Crear un canvas para renderizar la página
-    const canvas = document.createElement('canvas');
-    const context = canvas.getContext('2d');
-    canvas.width = viewport.width;
-    canvas.height = viewport.height;
+    const canvas = document.createElement('canvas')
+    const context = canvas.getContext('2d')
+    canvas.width = viewport.width
+    canvas.height = viewport.height
 
     // Renderizar la página del PDF en el canvas
-    await page.render({ canvasContext: context, viewport }).promise;
+    await page.render({ canvasContext: context, viewport }).promise
 
     // Convertir el canvas a una imagen base64
-    const image = canvas.toDataURL();
-    return image;  // Retorna la imagen en formato base64
+    const image = canvas.toDataURL()
+    return image  // Retorna la imagen en formato base64
   } catch (error) {
-    console.error('Error al convertir el PDF a imagen:', error);
-    return null;
+    console.error('Error al convertir el PDF a imagen:', error)
+    return null
   }
-};
+}
 
 
 
@@ -891,13 +892,17 @@ const ActaDeLlegada = () => {
     image2: [],
     image3: []
   })
-  const [currentPage, setCurrentPage] = useState(1);  
+  const [currentPage, setCurrentPage] = useState(1)  
   const goToNextPage = () => {
     setCurrentPage(2)
   }
 
-  const goToPreviousPage = () => {
+  const goToNextPage2 = () => {
     setCurrentPage(1)
+  }
+
+  const goToPreviousPage = () => {
+    setCurrentPage(3)
   }
 
   const handleInsert = () => {
@@ -1367,18 +1372,18 @@ const ActaDeLlegada = () => {
                             {formData.imageLimpio.length < 8
                               ? (
                                 <input
-                                type='file'
-                                id='file-input-limpio'
-                                accept='image/*'
-                                multiple
-                                style={{ display: 'none' }}
-                                onChange={(e) =>
+                                  type='file'
+                                  id='file-input-limpio'
+                                  accept='image/*'
+                                  multiple
+                                  style={{ display: 'none' }}
+                                  onChange={(e) =>
                                   handleFileChange3(e, 'imageLimpio')}
-                              />
+                                />
                                 )
                               : <p style={{ color: 'red', marginTop: '10px' }}>
                                 No puedes agregar más de 8 imágenes
-                              </p>}
+                                </p>}
                             <div style={{ display: 'flex', flexWrap: 'wrap', marginTop: '20px' }}>
                               {formData.imageLimpio.map((imageUrl, index) => (
                                 <img
@@ -1449,12 +1454,12 @@ const ActaDeLlegada = () => {
                                   multiple
                                   style={{ display: 'none' }}
                                   onChange={(e) =>
-      handleFileChange3(e, 'imageCajaCerrada')}
+                                    handleFileChange3(e, 'imageCajaCerrada')}
                                 />
                                 )
                               : <p style={{ color: 'red', marginTop: '10px' }}>
                                 No puedes agregar más de 8 imágenes
-                              </p>}
+                                </p>}
 
                             <div style={{ display: 'flex', flexWrap: 'wrap', marginTop: '20px' }}>
                               {formData.imageCajaCerrada.map(
@@ -2084,6 +2089,23 @@ const ActaDeLlegada = () => {
 
         <ResizablePanel>
           <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+         
+          {currentPage === 1 && (
+          <Button onClick={goToNextPage} style={{ padding: '10px 20px', fontSize: '16px' }}>
+            Ir a la Página 2
+          </Button>
+        )}
+          {currentPage === 2 && (
+          <Button onClick={goToPreviousPage} style={{ padding: '10px 20px', fontSize: '16px' }}>
+            Ir a la Página 3
+          </Button>
+        )}
+
+  {currentPage === 3 && (
+  <Button onClick={goToNextPage2} style={{ padding: '10px 20px', fontSize: '16px' }}>
+            Volver a la Página 1
+          </Button>
+)}
             <PDFViewer width='100%' height='100%'>
               <ActaPDF
                 formData={formData}
@@ -2092,24 +2114,14 @@ const ActaDeLlegada = () => {
                 currentPage={currentPage}
               />
 
-
-             
             </PDFViewer>
             <div style={{ padding: '10px', display: 'flex', justifyContent: 'center' }}>
-  <Button onClick={() => handlePDFDownload(formData,firmaBase64Inspector,firmaBase64Chofer)}>Descargar PDF</Button>
+            
+                        </div>
+            <div style={{ marginTop: 20, textAlign: 'center' }}>
+  
+
 </div>
-<div style={{ marginTop: 20, textAlign: 'center' }}>
-        {currentPage === 1 && (
-          <button onClick={goToNextPage} style={{ padding: '10px 20px', fontSize: '16px' }}>
-            Ir a la Página 2
-          </button>
-        )}
-        {currentPage === 2 && (
-          <button onClick={goToPreviousPage} style={{ padding: '10px 20px', fontSize: '16px' }}>
-            Volver a la Página 1
-          </button>
-        )}
-      </div>
           </div>
         </ResizablePanel>
       </ResizablePanelGroup>

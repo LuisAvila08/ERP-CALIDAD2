@@ -108,8 +108,12 @@ const styles = StyleSheet.create({
   }
 })
 
-const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer }) => (
+
+const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer,currentPage }) => (
   <Document>
+     {currentPage === 1 && (
+     
+    
     <Page style={styles.page}>
       <View style={styles.logoSection}>
         {/* image */}
@@ -548,24 +552,34 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer }) => (
         </View>
       </View>
     </Page>
-    {(formData.option === 'No' ||
-      formData.option2 === 'No' ||
-      formData.optionLibre === 'No' ||
-      formData.optionCaja === 'No' ||
-      formData.optionLona === 'No' ||
-      formData.optionCarga === 'No' ||
-      formData.optionSeguridad === 'No' ||
-      formData.optionSellado === 'No' || formData.optionLimpio === 'No') && (
-        <Page style={styles.page}>
+    )}
+   {currentPage === 2 &&
+          (formData.option === 'No' ||
+            formData.option2 === 'No' ||
+            formData.optionLibre === 'No' ||
+            formData.optionCaja === 'No' ||
+            formData.optionLona === 'No' ||
+            formData.optionCarga === 'No' ||
+            formData.optionSeguridad === 'No' ||
+            formData.optionSellado === 'No' ||
+            formData.optionLimpio === 'No') && (
+            <Page size="A4" style={styles.page}>
+              <View>
+                <Text
+                  style={{
+                    justifyContent: 'center',
+                    textAlign: 'center',
+                    borderWidth: 1,
+                    borderColor: '#000',
+                    backgroundColor: '#ccc',
+                  }}
+                >
+                  Anexos
+                </Text>
+              </View>
 
-          <View>
-            <Text style={{ justifyContent: 'center', textAlign: 'center', borderWidth: 1, borderColor: '#000', backgroundColor: '#ccc' }}>
-              Anexos
-            </Text>
-          </View>
-
-          <View>
-
+              <View>
+              
             {formData.optionLimpio === 'No' && (
               <>
                 <View style={{ borderWidth: 1, borderColor: '#000' }}>
@@ -732,9 +746,16 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer }) => (
               </View>
               </>
             )}
-          </View>
-        </Page>
-    )}
+
+              </View>
+              
+            </Page>
+  )}
+
+
+
+    
+
   </Document>
 )
 const handlePDFDownload = async (formData, firmaBase64) => {
@@ -870,6 +891,14 @@ const ActaDeLlegada = () => {
     image2: [],
     image3: []
   })
+  const [currentPage, setCurrentPage] = useState(1);  
+  const goToNextPage = () => {
+    setCurrentPage(2)
+  }
+
+  const goToPreviousPage = () => {
+    setCurrentPage(1)
+  }
 
   const handleInsert = () => {
     insert(formData) // Llama a la función insert y pasa formData
@@ -2060,6 +2089,7 @@ const ActaDeLlegada = () => {
                 formData={formData}
                 firmaBase64Inspector={firmaBase64Inspector}
                 firmaBase64Chofer={firmaBase64Chofer}
+                currentPage={currentPage}
               />
 
 
@@ -2068,6 +2098,18 @@ const ActaDeLlegada = () => {
             <div style={{ padding: '10px', display: 'flex', justifyContent: 'center' }}>
   <Button onClick={() => handlePDFDownload(formData,firmaBase64Inspector,firmaBase64Chofer)}>Descargar PDF</Button>
 </div>
+<div style={{ marginTop: 20, textAlign: 'center' }}>
+        {currentPage === 1 && (
+          <button onClick={goToNextPage} style={{ padding: '10px 20px', fontSize: '16px' }}>
+            Ir a la Página 2
+          </button>
+        )}
+        {currentPage === 2 && (
+          <button onClick={goToPreviousPage} style={{ padding: '10px 20px', fontSize: '16px' }}>
+            Volver a la Página 1
+          </button>
+        )}
+      </div>
           </div>
         </ResizablePanel>
       </ResizablePanelGroup>

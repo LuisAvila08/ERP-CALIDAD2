@@ -9,7 +9,6 @@ import Home from './pages/Home'
 import Dashboard from './pages/Dashboard'
 import ErrorBoundary from './pages/ErrorBoundary'
 import Receipt from './pages/receipt'
-import PDFView from './pages/example'
 
 const router = createBrowserRouter([
   {
@@ -27,10 +26,6 @@ const router = createBrowserRouter([
       {
         path: 'receipt',
         element: <Receipt />
-      },
-      {
-        path: 'MyDocument',
-        element: <PDFView />
       }
 
     ]

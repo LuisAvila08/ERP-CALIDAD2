@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
-import { PDFViewer, Font } from '@react-pdf/renderer'
+import { PDFDownloadLink, PDFViewer, Font } from '@react-pdf/renderer'
 import * as pdfjsLib from 'pdfjs-dist'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -33,6 +33,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { formInitial } from "../components/pdfComponents/format"
 
 import ActaPDF from '../components/pdfComponents/pdfView'
+import DowloadnPDF from '../components/pdfComponents/pdfDownload'
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://unpkg.com/pdfjs-dist@2.11.338/es5/build/pdf.worker.min.js'
 
@@ -1335,6 +1336,16 @@ const ActaDeLlegada = () => {
         <Button onClick={saveSignature}>Guardar Firma</Button>
 
         <Button onClick={handleInsert}>Guardar datos en la Bd</Button>
+
+        <div style={{ padding: '10px', display: 'flex', justifyContent: 'center' }}>
+            <PDFDownloadLink document={<DowloadnPDF
+                  formData={formData}
+                  firmaBase64Inspector={firmaBase64Inspector}
+                  firmaBase64Chofer={firmaBase64Chofer}
+                />} fileName='acta_de_llegada.pdf'>
+              <Button variant='primary'>Descargar PDF</Button>
+            </PDFDownloadLink>
+          </div>
       </div>
       <Dialog>
         <DialogTrigger asChild>
@@ -1378,6 +1389,8 @@ const ActaDeLlegada = () => {
             <div style={{ padding: '10px', display: 'flex', justifyContent: 'center' }} />
             <div style={{ marginTop: 20, textAlign: 'center' }} />
           </div>
+
+          
 
           <DialogFooter>
             <Button variant='outline'>Cerrar</Button>

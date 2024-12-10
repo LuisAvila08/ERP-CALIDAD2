@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
     width: '100%',
     borderWidth: 2,
     borderColor: '#000',
-    marginTop: 15,
+    marginTop: 4,
     height: 'auto'
   },
   tableRow: {
@@ -137,6 +137,7 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer, currentPag
            </View>
         </View>
 
+<<<<<<< HEAD
         <View style={styles.table}>
           <View style={styles.tableRow}>
              <Text style={styles.cellLabel}>Fecha: </Text>
@@ -405,6 +406,17 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer, currentPag
             </View>
           </View>
            </View>
+=======
+     
+
+    
+      <View style={{ marginBottom: 20 }} />
+
+      <View style={{ width: '100%' }}>
+        
+
+  
+>>>>>>> 781bb82178e014dcde26a9049402546b0ccdf655
 
           <View style={styles.table}>
              <View style={styles.tableRow}>
@@ -486,9 +498,15 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer, currentPag
            </View>
           <View style={{ marginBottom: 20 }} />
 
+<<<<<<< HEAD
           <View style={{ width: '100%' }}>
              <Text style={[styles.cellLabel, { paddingVertical: 10, paddingTop: 1, width: '100%' }]}>
             Condiciones de transporte:
+=======
+        <View style={{ width: '100%' }}>
+          <Text style={[styles.cellLabel, { paddingVertical: 10, paddingTop: 1, width: '100%' }]}>
+            Condiciones de transprte:
+>>>>>>> 781bb82178e014dcde26a9049402546b0ccdf655
           </Text>
 
              <View style={styles.tableRow}>

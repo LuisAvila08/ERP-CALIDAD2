@@ -1,20 +1,24 @@
 import React, { useState, useRef, useEffect } from 'react'
-import { Page, Text, View, Document, StyleSheet, PDFViewer, PDFDownloadLink, Image, Font,pdf } from '@react-pdf/renderer'
-import * as pdfjsLib from 'pdfjs-dist';
-
-pdfjsLib.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@2.11.338/es5/build/pdf.worker.min.js`;
+import { Page, Text, View, Document, StyleSheet, PDFViewer, PDFDownloadLink, Image, Font, pdf } from '@react-pdf/renderer'
+import * as pdfjsLib from 'pdfjs-dist'
 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import Layout from '../components/Layout'
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable'
 import SignatureCanvas from 'react-signature-canvas'
-import { IconCheck } from '@tabler/icons-react'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select'
-import { Bold, Check, ChevronsUpDown } from 'lucide-react'
-
-import GothamNarrowMedium from '../../public/fonts/GothamNarrow-Medium.otf'
+import { Check, ChevronsUpDown } from 'lucide-react'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle
+} from '@/components/ui/card'
+import GothamNarrowMedium from '/fonts/GothamNarrow-Medium.otf'
 import { format } from 'path'
 import { supabase } from '../../connections/supabase'
 import { fetchActas, insert, query } from '../../connections/querys'
@@ -23,11 +27,7 @@ import { cn } from '@/lib/utils'
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 
-
-
-
-
-
+pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://unpkg.com/pdfjs-dist@2.11.338/es5/build/pdf.worker.min.js'
 
 Font.register({
   family: 'GothamNarrow',
@@ -570,24 +570,24 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer }) => (
               <>
                 <View style={{ borderWidth: 1, borderColor: '#000' }}>
 
-                <Text style={{ fontSize: '15px' }}>  Evidencia No cumple con Limpio, libre de malos olores  </Text>
+                  <Text style={{ fontSize: '15px' }}>  Evidencia No cumple con Limpio, libre de malos olores  </Text>
 
-                <Text style={{ fontSize: '10px', paddingTop: 10 }}> {formData.limpio || ''} </Text>
+                  <Text style={{ fontSize: '10px', paddingTop: 10 }}> {formData.limpio || ''} </Text>
 
-                <div style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'flex-start' }}>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'flex-start' }}>
 
-                  {formData.imageLimpio.map((imageUrl, index) => (
+                    {formData.imageLimpio.map((imageUrl, index) => (
 
-                    <div key={index} style={{ padding: '4px', borderRadius: '10px', textAlign: 'center' }}>
-                      <Image
-                        src={imageUrl}
-                        alt={`Imagen ${index + 1}`}
-                        style={{ width: '150px', height: '150px', borderRadius: '5px', marginBottom: '10px' }}
-                      />
-                    </div>
-                  ))}
-                </div>
-              </View>
+                      <div key={index} style={{ padding: '4px', borderRadius: '10px', textAlign: 'center' }}>
+                        <Image
+                          src={imageUrl}
+                          alt={`Imagen ${index + 1}`}
+                          style={{ width: '150px', height: '150px', borderRadius: '5px', marginBottom: '10px' }}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </View>
               </>
             )}
 
@@ -595,117 +595,117 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer }) => (
               <>
                 <View style={{ borderWidth: 1, borderColor: '#000' }}>
 
-                <Text style={{ fontSize: '15px' }}>  Evidencia No cumple libre de Fauna nociva  </Text>
+                  <Text style={{ fontSize: '15px' }}>  Evidencia No cumple libre de Fauna nociva  </Text>
 
-                <Text style={{ fontSize: '10px', paddingTop: 10 }}> {formData.limpio || ''} </Text>
+                  <Text style={{ fontSize: '10px', paddingTop: 10 }}> {formData.limpio || ''} </Text>
 
-                <div style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'flex-start' }}>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'flex-start' }}>
 
-                  {formData.imageLibreFauna.map((imageUrl, index) => (
+                    {formData.imageLibreFauna.map((imageUrl, index) => (
 
-                    <div key={index} style={{ padding: '4px', borderRadius: '10px', textAlign: 'center' }}>
+                      <div key={index} style={{ padding: '4px', borderRadius: '10px', textAlign: 'center' }}>
 
-                      <Image
-                        src={imageUrl}
-                        alt={`Imagen ${index + 1}`}
-                        style={{ width: '150px', height: '150px', borderRadius: '5px', marginBottom: '10px' }}
-                      />
-                    </div>
-                  ))}
-                </div>
-              </View>
+                        <Image
+                          src={imageUrl}
+                          alt={`Imagen ${index + 1}`}
+                          style={{ width: '150px', height: '150px', borderRadius: '5px', marginBottom: '10px' }}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </View>
               </>
             )}
 
             {formData.optionCaja === 'No' && (
               <>
                 <View style={{ borderWidth: 1, borderColor: '#000' }}>
-                <Text style={{ fontSize: '15px' }}>  Evidencia No cumple Caja cerrada, en buen estado(sin hoyos o endiduras ):  </Text>
+                  <Text style={{ fontSize: '15px' }}>  Evidencia No cumple Caja cerrada, en buen estado(sin hoyos o endiduras ):  </Text>
 
-                <Text style={{ fontSize: '10px', paddingTop: 10 }}> {formData.cajaCerrada || ''} </Text>
+                  <Text style={{ fontSize: '10px', paddingTop: 10 }}> {formData.cajaCerrada || ''} </Text>
 
-                <div style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'flex-start' }}>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'flex-start' }}>
 
-                  {formData.imageCajaCerrada.map((imageUrl, index) => (
-                    <div key={index} style={{ margin: '10px' }}>
-                      <Image
-                      src={imageUrl}
-                      alt={`Imagen ${index + 1}`}
-                      style={{ width: '150px', height: '150px', borderRadius: '5px', marginBottom: '10px' }}
-                    />
-                    </div>
-                  ))}
-                </div>
-              </View>
+                    {formData.imageCajaCerrada.map((imageUrl, index) => (
+                      <div key={index} style={{ margin: '10px' }}>
+                        <Image
+                          src={imageUrl}
+                          alt={`Imagen ${index + 1}`}
+                          style={{ width: '150px', height: '150px', borderRadius: '5px', marginBottom: '10px' }}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </View>
               </>
             )}
             {formData.optionLona === 'No' && (
               <>
                 <View style={{ borderWidth: 1, borderColor: '#000' }}>
 
-                <Text style={{ fontSize: '15px' }}>  Evidencia No cumple  Lona en buen estado  </Text>
+                  <Text style={{ fontSize: '15px' }}>  Evidencia No cumple  Lona en buen estado  </Text>
 
-                <Text style={{ fontSize: '10px', paddingTop: 10 }}> {formData.lona || ''} </Text>
+                  <Text style={{ fontSize: '10px', paddingTop: 10 }}> {formData.lona || ''} </Text>
 
-                <div style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'flex-start' }}>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'flex-start' }}>
 
-                  {formData.imageLonaBuenEstado.map((imageUrl, index) => (
-                    <div key={index} style={{ margin: '10px' }}>
-                    <Image
-                    src={imageUrl}
-                    alt={`Imagen ${index + 1}`}
-                    style={{ width: '150px', height: '150px', borderRadius: '5px', marginBottom: '10px' }}
-                  />
+                    {formData.imageLonaBuenEstado.map((imageUrl, index) => (
+                      <div key={index} style={{ margin: '10px' }}>
+                        <Image
+                          src={imageUrl}
+                          alt={`Imagen ${index + 1}`}
+                          style={{ width: '150px', height: '150px', borderRadius: '5px', marginBottom: '10px' }}
+                        />
+                      </div>
+                    ))}
                   </div>
-                  ))}
-                </div>
-              </View>
+                </View>
               </>
             )}
             {formData.optionCarga === 'No' && (
               <>
                 <View style={{ borderWidth: 1, borderColor: '#000' }}>
 
-                <Text style={{ fontSize: '15px' }}>  Evidencia No cumple Carga en buen estado</Text>
+                  <Text style={{ fontSize: '15px' }}>  Evidencia No cumple Carga en buen estado</Text>
 
-                <Text style={{ fontSize: '10px', paddingTop: 10 }}> {formData.carga || ''} </Text>
+                  <Text style={{ fontSize: '10px', paddingTop: 10 }}> {formData.carga || ''} </Text>
 
-                <div style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'flex-start' }}>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'flex-start' }}>
 
-                  {formData.imageCargaBuenEstado.map((imageUrl, index) => (
-                    <div key={index} style={{ margin: '10px' }}>
-                    <Image
-                    src={imageUrl}
-                    alt={`Imagen ${index + 1}`}
-                    style={{ width: '150px', height: '150px', borderRadius: '5px', marginBottom: '10px' }}
-                  />
+                    {formData.imageCargaBuenEstado.map((imageUrl, index) => (
+                      <div key={index} style={{ margin: '10px' }}>
+                        <Image
+                          src={imageUrl}
+                          alt={`Imagen ${index + 1}`}
+                          style={{ width: '150px', height: '150px', borderRadius: '5px', marginBottom: '10px' }}
+                        />
+                      </div>
+                    ))}
                   </div>
-                  ))}
-                </div>
-              </View>
+                </View>
               </>
             )}
             {formData.optionSeguridad === 'No' && (
               <>
                 <View style={{ borderWidth: 1, borderColor: '#000' }}>
 
-                <Text style={{ fontSize: '15px' }}>  Evidencia No cumple seguridad de carga </Text>
+                  <Text style={{ fontSize: '15px' }}>  Evidencia No cumple seguridad de carga </Text>
 
-                <Text style={{ fontSize: '10px', paddingTop: 10 }}> {formData.seguridadCarga || ''} </Text>
+                  <Text style={{ fontSize: '10px', paddingTop: 10 }}> {formData.seguridadCarga || ''} </Text>
 
-                <div style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'flex-start' }}>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'flex-start' }}>
 
-                  {formData.imageSeguridadCarga.map((imageUrl, index) => (
-                    <div key={index} style={{ margin: '10px' }}>
-                    <Image
-                    src={imageUrl}
-                    alt={`Imagen ${index + 1}`}
-                    style={{ width: '150px', height: '150px', borderRadius: '5px', marginBottom: '10px' }}
-                  />
+                    {formData.imageSeguridadCarga.map((imageUrl, index) => (
+                      <div key={index} style={{ margin: '10px' }}>
+                        <Image
+                          src={imageUrl}
+                          alt={`Imagen ${index + 1}`}
+                          style={{ width: '150px', height: '150px', borderRadius: '5px', marginBottom: '10px' }}
+                        />
+                      </div>
+                    ))}
                   </div>
-                  ))}
-                </div>
-              </View>
+                </View>
               </>
             )}
 
@@ -713,23 +713,23 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer }) => (
               <>
                 <View style={{ borderWidth: 1, borderColor: '#000' }}>
 
-                <Text style={{ fontSize: '15px' }}>  Evidencia No cumple con el sellado  </Text>
+                  <Text style={{ fontSize: '15px' }}>  Evidencia No cumple con el sellado  </Text>
 
-                <Text style={{ fontSize: '10px', paddingTop: 10 }}> {formData.sellado || ''} </Text>
+                  <Text style={{ fontSize: '10px', paddingTop: 10 }}> {formData.sellado || ''} </Text>
 
-                <div style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'flex-start' }}>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'flex-start' }}>
 
-                  {formData.imageSellado.map((imageUrl, index) => (
-                    <div key={index} style={{ margin: '10px' }}>
-                    <Image
-                    src={imageUrl}
-                    alt={`Imagen ${index + 1}`}
-                    style={{ width: '150px', height: '150px', borderRadius: '5px', marginBottom: '10px' }}
-                  />
+                    {formData.imageSellado.map((imageUrl, index) => (
+                      <div key={index} style={{ margin: '10px' }}>
+                        <Image
+                          src={imageUrl}
+                          alt={`Imagen ${index + 1}`}
+                          style={{ width: '150px', height: '150px', borderRadius: '5px', marginBottom: '10px' }}
+                        />
+                      </div>
+                    ))}
                   </div>
-                  ))}
-                </div>
-              </View>
+                </View>
               </>
             )}
           </View>
@@ -739,63 +739,59 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer }) => (
 )
 const handlePDFDownload = async (formData, firmaBase64) => {
   try {
-    
-    const pdfDocument = <ActaPDF formData={formData} firmaBase64={firmaBase64} />;
-    const pdfBlob = await pdf(pdfDocument).toBlob();  // Obtener el PDF como Blob
-    
-    // Convertir el Blob del PDF a imagen
-    //const imageUrl = await convertPDFToImage(pdfBlob);
-   // console.log("Imagen generada desde el PDF:", imageUrl);}
-   console.log("holssssss")
-   
-   convertPDFToImage('C:/Users/Sistemas/Downloads/documento.pdf')
-  .then((image) => {
-    if (image) {
-      console.log('Imagen generada desde el PDF:', image);
-    } else {
-      console.error('No se pudo generar la imagen');
-    }
-  });
+    const pdfDocument = <ActaPDF formData={formData} firmaBase64={firmaBase64} />
+    const pdfBlob = await pdf(pdfDocument).toBlob() // Obtener el PDF como Blob
 
+    // Convertir el Blob del PDF a imagen
+    // const imageUrl = await convertPDFToImage(pdfBlob);
+    // console.log("Imagen generada desde el PDF:", imageUrl);}
+    console.log('holssssss')
+
+    convertPDFToImage('C:/Users/Sistemas/Downloads/documento.pdf')
+      .then((image) => {
+        if (image) {
+          console.log('Imagen generada desde el PDF:', image)
+        } else {
+          console.error('No se pudo generar la imagen')
+        }
+      })
   } catch (error) {
-    console.error("Error al generar el PDF o convertir a imagen:", error);
+    console.error('Error al generar el PDF o convertir a imagen:', error)
   }
-};
+}
 
 // Función para convertir el PDF a imagen
 const convertPDFToImage = async (pdfBlob) => {
   try {
     // Convertir el Blob a ArrayBuffer (pdf.js necesita este formato)
-    const pdfData = await pdfBlob.arrayBuffer();
+    const pdfData = await pdfBlob.arrayBuffer()
 
     // Cargar el PDF en pdf.js
-    const pdf = await pdfjsLib.getDocument({ data: pdfData }).promise;
+    const pdf = await pdfjsLib.getDocument({ data: pdfData }).promise
 
     // Obtener la primera página del PDF
-    const page = await pdf.getPage(1);
+    const page = await pdf.getPage(1)
 
     // Configurar el viewport (escala) de la página
-    const viewport = page.getViewport({ scale: 1.5 });
-    
+    const viewport = page.getViewport({ scale: 1.5 })
+
     // Crear un canvas para renderizar la página
-    const canvas = document.createElement('canvas');
-    const context = canvas.getContext('2d');
-    canvas.width = viewport.width;
-    canvas.height = viewport.height;
+    const canvas = document.createElement('canvas')
+    const context = canvas.getContext('2d')
+    canvas.width = viewport.width
+    canvas.height = viewport.height
 
     // Renderizar la página del PDF en el canvas
-    await page.render({ canvasContext: context, viewport }).promise;
+    await page.render({ canvasContext: context, viewport }).promise
 
     // Convertir el canvas a una imagen base64
-    const image = canvas.toDataURL();
-    return image;  // Retorna la imagen en formato base64
+    const image = canvas.toDataURL()
+    return image // Retorna la imagen en formato base64
   } catch (error) {
-    console.error('Error al convertir el PDF a imagen:', error);
-    return null;
+    console.error('Error al convertir el PDF a imagen:', error)
+    return null
   }
-};
-
-
+}
 
 const ActaDeLlegada = () => {
   const [formData, setFormData] = useState({
@@ -1138,39 +1134,60 @@ const ActaDeLlegada = () => {
             {/* Formulario con campos de entrada */}
             <h2 />
 
-            <Accordion type='single' collapsible>
+            <Accordion type='single' collapsible style={{ padding: '8px 0' }}>
               <AccordionItem value='item-1'>
-                <AccordionTrigger>Datos Pedido</AccordionTrigger>
-                <AccordionContent>
-                  {[
-                    { label: 'Fecha:', type: 'date', name: 'fecha' },
-                    { label: 'Inicio de verificación:', type: 'text', name: 'inicioVerificacion' },
-                    { label: 'Término de verificación:', type: 'text', name: 'terminoVerificacion' },
-                    { label: 'O.C.:', type: 'text', name: 'oc' },
-                    { label: 'Proveedor:', type: 'text', name: 'proveedor' },
-                    { label: 'Origen:', type: 'text', name: 'origen' },
-                    { label: 'Factura:', type: 'text', name: 'factura' },
-                    { label: 'Especie:', type: 'text', name: 'especie' },
-                    { label: 'Variedades:', type: 'text', name: 'variedades' },
-                    { label: 'Frío de descarga:', type: 'text', name: 'frioDescarga' },
-                    { label: 'Cajas recibidas:', type: 'text', name: 'cajasRecibidas' }
-                  ].map(({ label, type, name }) => (
-                    <div key={name} style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
-                      <label style={{ flex: '0 0 200px', fontWeight: 'bold' }}>{label}</label>
-                      <Input
-                        type={type}
-                        name={name}
-                        value={formData[name]}
-                        onChange={handleInputChange}
-                        style={{ flex: '1', padding: '8px', borderRadius: '4px', border: '1px solid #ccc' }}
-                      />
-                    </div>
-                  ))}
+                <AccordionTrigger
+                  style={{
+                    fontSize: '20px',
+                    fontWeight: 'bold',
+                    padding: '12px 16px',
+                    borderRadius: '8px',
+                    border: '2px solid #7A2A1E',
+                    textAlign: 'center',
+                    cursor: 'pointer'
+                  }}
+                >
+                  Datos Pedido
+                </AccordionTrigger>
+                <AccordionContent style={{ padding: '8px' }}>
+                  <Card style={{ padding: '8px' }}>
+
+                    <CardContent>
+                      {[
+                        { label: 'Fecha:', type: 'date', name: 'fecha' },
+                        { label: 'Inicio de verificación:', type: 'text', name: 'inicioVerificacion' },
+                        { label: 'Término de verificación:', type: 'text', name: 'terminoVerificacion' },
+                        { label: 'O.C.:', type: 'text', name: 'oc' },
+                        { label: 'Proveedor:', type: 'text', name: 'proveedor' },
+                        { label: 'Origen:', type: 'text', name: 'origen' },
+                        { label: 'Factura:', type: 'text', name: 'factura' },
+                        { label: 'Especie:', type: 'text', name: 'especie' },
+                        { label: 'Variedades:', type: 'text', name: 'variedades' },
+                        { label: 'Frío de descarga:', type: 'text', name: 'frioDescarga' },
+                        { label: 'Cajas recibidas:', type: 'text', name: 'cajasRecibidas' }
+                      ].map(({ label, type, name }) => (
+                        <div key={name} style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
+                          <label style={{ flex: '0 0 200px', fontWeight: 'bold' }}>{label}</label>
+                          <Input
+                            type={type}
+                            name={name}
+                            value={formData[name]}
+                            onChange={handleInputChange}
+                            style={{ flex: '1', padding: '8px', borderRadius: '4px', border: '1px solid #ccc' }}
+                          />
+                        </div>
+                      ))}
+                    </CardContent>
+                    <CardFooter>
+                      {/* Puedes agregar botones o acciones adicionales en el footer */}
+                    </CardFooter>
+                  </Card>
                 </AccordionContent>
+
               </AccordionItem>
             </Accordion>
 
-            <Accordion type='single' collapsible>
+            <Accordion type='single' collapsible style={{ padding: '8px 0' }}>
               <AccordionItem value='item-2'>
                 <AccordionTrigger
                   style={{
@@ -1210,7 +1227,7 @@ const ActaDeLlegada = () => {
               </AccordionItem>
             </Accordion>
 
-            <Accordion type='single' collapsible>
+            <Accordion type='single' collapsible style={{ padding: '8px 0' }}>
               <AccordionItem value='item-2'>
                 <AccordionTrigger
                   style={{
@@ -1287,7 +1304,7 @@ const ActaDeLlegada = () => {
               </AccordionItem>
             </Accordion>
 
-            <Accordion type='single' collapsible>
+            <Accordion type='single' collapsible style={{ padding: '8px 0' }}>
               <AccordionItem value='item-2'>
                 <AccordionTrigger
                   style={{
@@ -1338,14 +1355,14 @@ const ActaDeLlegada = () => {
                             {formData.imageLimpio.length < 8
                               ? (
                                 <input
-                                type='file'
-                                id='file-input-limpio'
-                                accept='image/*'
-                                multiple
-                                style={{ display: 'none' }}
-                                onChange={(e) =>
-                                  handleFileChange3(e, 'imageLimpio')}
-                              />
+                                  type='file'
+                                  id='file-input-limpio'
+                                  accept='image/*'
+                                  multiple
+                                  style={{ display: 'none' }}
+                                  onChange={(e) =>
+                                    handleFileChange3(e, 'imageLimpio')}
+                                />
                                 )
                               : <p style={{ color: 'red', marginTop: '10px' }}>
                                 No puedes agregar más de 8 imágenes
@@ -1420,7 +1437,7 @@ const ActaDeLlegada = () => {
                                   multiple
                                   style={{ display: 'none' }}
                                   onChange={(e) =>
-      handleFileChange3(e, 'imageCajaCerrada')}
+                                    handleFileChange3(e, 'imageCajaCerrada')}
                                 />
                                 )
                               : <p style={{ color: 'red', marginTop: '10px' }}>
@@ -1794,7 +1811,7 @@ const ActaDeLlegada = () => {
               </AccordionItem>
             </Accordion>
 
-            <Accordion type='single' collapsible>
+            <Accordion type='single' collapsible style={{ padding: '8px 0' }}>
               <AccordionItem value='item-6'>
                 <AccordionTrigger
                   style={{
@@ -1835,7 +1852,7 @@ const ActaDeLlegada = () => {
               </AccordionItem>
             </Accordion>
 
-            <Accordion type='single' collapsible>
+            <Accordion type='single' collapsible style={{ padding: '8px 0' }}>
               <AccordionItem value='item-2'>
                 <AccordionTrigger
                   style={{
@@ -2062,12 +2079,10 @@ const ActaDeLlegada = () => {
                 firmaBase64Chofer={firmaBase64Chofer}
               />
 
-
-             
             </PDFViewer>
             <div style={{ padding: '10px', display: 'flex', justifyContent: 'center' }}>
-  <Button onClick={() => handlePDFDownload(formData,firmaBase64Inspector,firmaBase64Chofer)}>Descargar PDF</Button>
-</div>
+              <Button onClick={async () => await handlePDFDownload(formData, firmaBase64Inspector, firmaBase64Chofer)}>Descargar PDF</Button>
+            </div>
           </div>
         </ResizablePanel>
       </ResizablePanelGroup>

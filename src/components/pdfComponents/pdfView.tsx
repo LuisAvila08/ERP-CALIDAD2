@@ -1,6 +1,5 @@
-import React from 'react'
 import { Page, Text, View, Document, StyleSheet, Image } from '@react-pdf/renderer'
-
+import { FormData } from './PdfDownload'
 // Estilos
 const styles = StyleSheet.create({
   page: { padding: 20 },
@@ -76,8 +75,15 @@ const styles = StyleSheet.create({
   }
 })
 
+interface ActaPDFProps {
+  formData: FormData
+  firmaBase64Inspector?: string
+  firmaBase64Chofer?: string
+  currentPage: number
+}
+
 // Componente ActaPDF2
-const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer, currentPage }) => (
+const ActaPDF: React.FC<ActaPDFProps> = ({ formData, firmaBase64Inspector, firmaBase64Chofer, currentPage }) => (
   <Document>
     {/* firs part of the document (Page1) */}
 
@@ -490,7 +496,7 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer, currentPag
                   <Text style={[styles.inputLabel, { paddingBottom: 10 }]}>
                     Firma:
                   </Text>
-                  {firmaBase64Inspector && (
+                  {firmaBase64Inspector !== null && firmaBase64Inspector !== undefined && (
                     <Image
                       src={firmaBase64Inspector}
                       style={{ width: 200, height: 150 }}
@@ -510,7 +516,7 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer, currentPag
                   <Text style={[styles.inputLabel, { paddingBottom: 10 }]}>
                     Firma:
                   </Text>
-                  {firmaBase64Chofer && (
+                  {firmaBase64Chofer != null && (
                     <Image
                       src={firmaBase64Chofer}
                       style={{ width: 200, height: 150 }}
@@ -601,7 +607,7 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer, currentPag
                 <Text style={[styles.inputLabel, { paddingBottom: 10 }]}>
                   Firma:
                 </Text>
-                {firmaBase64Inspector && (
+                {firmaBase64Inspector !== null && firmaBase64Inspector !== undefined && (
                   <Image
                     src={firmaBase64Inspector}
                     style={{ width: 200, height: 150 }}
@@ -621,7 +627,7 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer, currentPag
                 <Text style={[styles.inputLabel, { paddingBottom: 10 }]}>
                   Firma:
                 </Text>
-                {firmaBase64Chofer && (
+                {firmaBase64Chofer !== null && firmaBase64Chofer !== undefined && (
                   <Image
                     src={firmaBase64Chofer}
                     style={{ width: 200, height: 150 }}
@@ -668,11 +674,11 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer, currentPag
 
                         <Text style={{ fontSize: '15px' }}>  Evidencia No cumple con Limpio, libre de malos olores  </Text>
 
-                        <Text style={{ fontSize: '10px', paddingTop: 10 }}> {formData.limpio || ''} </Text>
+                        <Text style={{ fontSize: '10px', paddingTop: 10 }}> {formData.limpio ?? ''} </Text>
 
                         <div style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'flex-start' }}>
 
-                          {formData.imageLimpio.map((imageUrl: string, index: number) => (
+                          {formData.imageLimpio?.map((imageUrl: string, index: number) => (
                             <div key={index} style={{ padding: '4px', borderRadius: '10px', textAlign: 'center' }}>
                               <Image
                                 src={imageUrl}
@@ -695,7 +701,7 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer, currentPag
 
                         <div style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'flex-start' }}>
 
-                          {formData.imageLibreFauna.map((imageUrl: string, index: number) => (
+                          {formData.imageLibreFauna?.map((imageUrl: string, index: number) => (
 
                             <div key={index} style={{ padding: '4px', borderRadius: '10px', textAlign: 'center' }}>
 
@@ -719,7 +725,7 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer, currentPag
 
                         <div style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'flex-start' }}>
 
-                          {formData.imageCajaCerrada.map((imageUrl: string, index: number) => (
+                          {formData.imageCajaCerrada?.map((imageUrl: string, index: number) => (
                             <div key={index} style={{ margin: '10px' }}>
                               <Image
                                 src={imageUrl}
@@ -741,7 +747,7 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer, currentPag
 
                         <div style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'flex-start' }}>
 
-                          {formData.imageLonaBuenEstado.map((imageUrl: string, index: number) => (
+                          {formData.imageLonaBuenEstado?.map((imageUrl: string, index: number) => (
                             <div key={index} style={{ margin: '10px' }}>
                               <Image
                                 src={imageUrl}
@@ -763,7 +769,7 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer, currentPag
 
                         <div style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'flex-start' }}>
 
-                          {formData.imageCargaBuenEstado.map((imageUrl: string, index: number) => (
+                          {formData.imageCargaBuenEstado?.map((imageUrl: string, index: number) => (
                             <div key={index} style={{ margin: '10px' }}>
                               <Image
                                 src={imageUrl}
@@ -785,7 +791,7 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer, currentPag
 
                         <div style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'flex-start' }}>
 
-                          {formData.imageSeguridadCarga.map((imageUrl: string, index: number) => (
+                          {formData.imageSeguridadCarga?.map((imageUrl: string, index: number) => (
                             <div key={index} style={{ margin: '10px' }}>
                               <Image
                                 src={imageUrl}
@@ -808,11 +814,10 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer, currentPag
 
                         <div style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'flex-start' }}>
 
-                          {formData.imageSellado.map((imageUrl: string, index: number) => (
+                          {formData.imageSellado?.map((imageUrl: string, index: number) => (
                             <div key={index} style={{ margin: '10px' }}>
                               <Image
                                 src={imageUrl}
-
                                 style={{ width: '150px', height: '150px', borderRadius: '5px', marginBottom: '10px' }}
                               />
                             </div>

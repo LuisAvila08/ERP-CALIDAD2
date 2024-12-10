@@ -79,6 +79,7 @@ const styles = StyleSheet.create({
 // Componente ActaPDF2
 const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer, currentPage }) => (
   <Document>
+    {/*firs part of the document (Page1) */}
     {currentPage === 1 && (
        <Page style={styles.page}>
       <View style={styles.logoSection}>
@@ -534,6 +535,7 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer, currentPag
       
 
     )}
+    {/*Second part of the document (Page2) */}
      {currentPage == 2 && (
       <Page>
         <View style={{ marginBottom: 20 }} />
@@ -649,6 +651,9 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer, currentPag
       
 
     )}
+
+    {/*Thrird part of the document (Page3) */}
+
     {currentPage === 3 &&
           (formData.option === 'No' ||
             formData.option2 === 'No' ||

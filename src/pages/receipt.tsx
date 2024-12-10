@@ -1,7 +1,6 @@
-import React, { useState, useRef, useEffect } from 'react'
-import { Page, Text, View, Document, StyleSheet, PDFViewer, PDFDownloadLink, Image, Font, pdf } from '@react-pdf/renderer'
+import { useState, useRef, useEffect } from 'react'
+import { Page, Text, View, Document, StyleSheet, PDFViewer, Image, Font, pdf } from '@react-pdf/renderer'
 import * as pdfjsLib from 'pdfjs-dist'
-
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import Layout from '../components/Layout'
@@ -13,17 +12,11 @@ import { Check, ChevronsUpDown } from 'lucide-react'
 import {
   Card,
   CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle
+  CardFooter
 } from '@/components/ui/card'
 import GothamNarrowMedium from '/fonts/GothamNarrow-Medium.otf'
-import { format } from 'path'
-import { supabase } from '../../connections/supabase'
-import { fetchActas, insert, query } from '../../connections/querys'
+import { fetchActas, insert } from '../../connections/querys'
 
-import { cn } from '@/lib/utils'
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 
@@ -108,20 +101,22 @@ const styles = StyleSheet.create({
   }
 })
 
-const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer }) => (
+const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer, currentPage }) => (
   <Document>
-    <Page style={styles.page}>
-      <View style={styles.logoSection}>
-        {/* image */}
+    {currentPage === 1 && (
 
-        <Image
-          style={[styles.logo, { height: 60, width: 150 }]} // Ajusta el tamaño de la imagen según sea necesario
-          src='/src/assets/images/LOGO.jpg'
-        />
-        <View style={{ alignItems: 'center' }}>
-          {' '}
-          <Text style={{ fontSize: 24, fontWeight: 'bold', fontFamily: 'GothamNarrow' }}>ACTA DE DESCARGA </Text>
-          <View style={{ alignItems: 'center', marginTop: 5 }}>
+      <Page style={styles.page}>
+        <View style={styles.logoSection}>
+          {/* image */}
+
+          <Image
+             style={[styles.logo, { height: 60, width: 150 }]} // Ajusta el tamaño de la imagen según sea necesario
+             src='/src/assets/images/LOGO.jpg'
+           />
+          <View style={{ alignItems: 'center' }}>
+             {' '}
+             <Text style={{ fontSize: 24, fontWeight: 'bold', fontFamily: 'GothamNarrow' }}>ACTA DE DESCARGA </Text>
+             <View style={{ alignItems: 'center', marginTop: 5 }}>
             <Text style={{ fontSize: 14, fontFamily: 'GothamNarrow' }}>
               F-I-CAL-02-01
             </Text>
@@ -129,101 +124,101 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer }) => (
               Rev.7 (08-12-2024)
             </Text>
           </View>
+           </View>
         </View>
-      </View>
 
-      <View style={styles.table}>
-        <View style={styles.tableRow}>
-          <Text style={styles.cellLabel}>Fecha: </Text>
-          <Text style={styles.cellValue}>{formData.fecha || ''}</Text>
-          <Text style={[styles.cellLabel, { flex: 1.5 }]}>
+        <View style={styles.table}>
+          <View style={styles.tableRow}>
+             <Text style={styles.cellLabel}>Fecha: </Text>
+             <Text style={styles.cellValue}>{formData.fecha || ''}</Text>
+             <Text style={[styles.cellLabel, { flex: 1.5 }]}>
             Inicio de{'\n'}verificación:
           </Text>
-          <Text style={styles.cellValue}>
+             <Text style={styles.cellValue}>
             {formData.inicioVerificacion || ''}
           </Text>
-          <Text style={[styles.cellLabel, { flex: 1.5 }]}>
+             <Text style={[styles.cellLabel, { flex: 1.5 }]}>
             Término de verificación:
           </Text>
-          <Text style={styles.cellValue}>
+             <Text style={styles.cellValue}>
             {formData.terminoVerificacion || ''}
           </Text>
-          <Text style={styles.cellLabel}>O.C.: </Text>
-          <Text style={styles.cellValue}>{formData.oc || ''}</Text>
-        </View>
-        <View style={styles.tableRow}>
-          <Text style={[styles.cellLabel, { flex: 0.8 }]}>Proveedor:</Text>
-          <Text style={styles.cellValue}>{formData.proveedor || ''}</Text>
-          <Text style={styles.cellLabel}>Origen:</Text>
-          <Text style={styles.cellValue}>{formData.origen || ''}</Text>
-          <Text style={styles.cellLabel}>Factura: </Text>
-          <Text style={styles.cellValue}>{formData.factura || ''}</Text>
-        </View>
-        <View style={styles.tableRow}>
-          <Text style={[styles.cellLabel, { flex: 0.2 }]}>Especie:</Text>
-          <Text style={styles.cellValue}>{formData.especie || ''}</Text>
-        </View>
-        <View style={styles.tableRow}>
-          <Text style={[styles.cellLabel, { flex: 0.2 }]}>Variedades:</Text>
-          <Text style={styles.cellValue}>{formData.variedades || ''}</Text>
-        </View>
+             <Text style={styles.cellLabel}>O.C.: </Text>
+             <Text style={styles.cellValue}>{formData.oc || ''}</Text>
+           </View>
+          <View style={styles.tableRow}>
+             <Text style={[styles.cellLabel, { flex: 0.8 }]}>Proveedor:</Text>
+             <Text style={styles.cellValue}>{formData.proveedor || ''}</Text>
+             <Text style={styles.cellLabel}>Origen:</Text>
+             <Text style={styles.cellValue}>{formData.origen || ''}</Text>
+             <Text style={styles.cellLabel}>Factura: </Text>
+             <Text style={styles.cellValue}>{formData.factura || ''}</Text>
+           </View>
+          <View style={styles.tableRow}>
+             <Text style={[styles.cellLabel, { flex: 0.2 }]}>Especie:</Text>
+             <Text style={styles.cellValue}>{formData.especie || ''}</Text>
+           </View>
+          <View style={styles.tableRow}>
+             <Text style={[styles.cellLabel, { flex: 0.2 }]}>Variedades:</Text>
+             <Text style={styles.cellValue}>{formData.variedades || ''}</Text>
+           </View>
 
-        <View style={styles.tableRow}>
-          <Text style={styles.cellLabel}>Frío de descarga: </Text>
-          <Text style={styles.cellValue}>{formData.frioDescarga || ''}</Text>
-          <Text style={styles.cellLabel}>
+          <View style={styles.tableRow}>
+             <Text style={styles.cellLabel}>Frío de descarga: </Text>
+             <Text style={styles.cellValue}>{formData.frioDescarga || ''}</Text>
+             <Text style={styles.cellLabel}>
             Cajas recibidas: {formData.cajasRecibidas}
           </Text>
-          <Text style={styles.cellValue}>{formData.cajasRecibidas || ''}</Text>
+             <Text style={styles.cellValue}>{formData.cajasRecibidas || ''}</Text>
+           </View>
         </View>
-      </View>
 
-      <View style={styles.table}>
-        <View style={styles.tableRow}>
-          <Text style={[styles.cellLabel, { flex: 0.35 }]}>
+        <View style={styles.table}>
+          <View style={styles.tableRow}>
+             <Text style={[styles.cellLabel, { flex: 0.35 }]}>
             Línea Transportista
           </Text>
-          <Text style={styles.cellValue}>
+             <Text style={styles.cellValue}>
             {formData.lineaTransportista || ''}
           </Text>
-        </View>
-        <View style={styles.tableRow}>
-          <Text style={[styles.cellLabel, { flex: 0.35 }]}>
+           </View>
+          <View style={styles.tableRow}>
+             <Text style={[styles.cellLabel, { flex: 0.35 }]}>
             No. de Contenedor
           </Text>
-          <Text style={styles.cellValue}>
+             <Text style={styles.cellValue}>
             {formData.numeroContenedor || ''}
           </Text>
-        </View>
-        <View style={styles.tableRow}>
-          <Text style={[styles.cellLabel, { flex: 0.35 }]}>
+           </View>
+          <View style={styles.tableRow}>
+             <Text style={[styles.cellLabel, { flex: 0.35 }]}>
             Placas de Camión
           </Text>
-          <Text style={styles.cellValue}>{formData.placasCamion || ''}</Text>
+             <Text style={styles.cellValue}>{formData.placasCamion || ''}</Text>
+           </View>
+          <View style={styles.tableRow}>
+             <Text style={[styles.cellLabel, { flex: 0.35 }]}>Placas Caja</Text>
+             <Text style={styles.cellValue}>{formData.placasCaja || ''}</Text>
+           </View>
+          <View style={styles.tableRow}>
+             <Text style={[styles.cellLabel, { flex: 0.35 }]}>Chofer</Text>
+             <Text style={styles.cellValue}>{formData.chofer || ''}</Text>
+           </View>
         </View>
-        <View style={styles.tableRow}>
-          <Text style={[styles.cellLabel, { flex: 0.35 }]}>Placas Caja</Text>
-          <Text style={styles.cellValue}>{formData.placasCaja || ''}</Text>
-        </View>
-        <View style={styles.tableRow}>
-          <Text style={[styles.cellLabel, { flex: 0.35 }]}>Chofer</Text>
-          <Text style={styles.cellValue}>{formData.chofer || ''}</Text>
-        </View>
-      </View>
-      <View style={{ marginBottom: 20 }} />
+        <View style={{ marginBottom: 20 }} />
 
-      <View style={{ width: '100%' }}>
-        <Text style={[styles.cellLabel, { paddingVertical: 10, paddingTop: 1, width: '100%' }]}>
-          Condiciones de transporte:
+        <View style={{ width: '100%' }}>
+          <Text style={[styles.cellLabel, { paddingVertical: 10, paddingTop: 1, width: '100%' }]}>
+             Condiciones de transporte:
         </Text>
 
-        <View style={styles.tableRow}>
-          <Text style={{ width: '60%' }} />
-
-          <Text style={styles.cellLabelWhite}>Observaciones</Text>
-        </View>
-        <View style={{ width: '100%', textAlign: 'center' }}>
           <View style={styles.tableRow}>
+             <Text style={{ width: '60%' }} />
+
+             <Text style={styles.cellLabelWhite}>Observaciones</Text>
+           </View>
+          <View style={{ width: '100%', textAlign: 'center' }}>
+             <View style={styles.tableRow}>
             <View style={{ flex: 1, flexDirection: 'column' }}>
               <View style={styles.tableRow}>
                 <Text style={[styles.cellLabelWhite, { flex: 0.2 }]}>
@@ -399,116 +394,499 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer }) => (
               </View>
             </View>
           </View>
-        </View>
+           </View>
 
-        <Text style={[styles.cellLabel, { paddingTop: 4, fontSize: 10 }]}>
-          Condiciones de Carga (Maniobra)
-        </Text>
-        <View style={{ width: '100%' }}>
-          <View style={styles.tableRow}>
-            <Text style={[styles.cellLabelWhite, { flex: 0.7 }]}>
-              Hay tarimas dañadas :
+          <View style={styles.table}>
+             <View style={styles.tableRow}>
+            <Text style={styles.cellLabel}>Fecha: </Text>
+            <Text style={styles.cellValue}>{formData.fecha ?? ''}</Text>
+            <Text style={[styles.cellLabel, { flex: 1.5 }]}>
+              Inicio de{'\n'}verificación:
             </Text>
-            <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>SI</Text>
-            <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>NO</Text>
-            <Text style={[styles.cellLabelWhite, { flex: 1.3 }]}>
-              #{formData.tarimasDanadas}{' '}
+            <Text style={styles.cellValue}>
+              {formData.inicioVerificacion ?? ''}
+            </Text>
+            <Text style={[styles.cellLabel, { flex: 1.5 }]}>
+              Término de verificación:
+            </Text>
+            <Text style={styles.cellValue}>
+              {formData.terminoVerificacion ?? ''}
+            </Text>
+            <Text style={styles.cellLabel}>O.C.: </Text>
+            <Text style={styles.cellValue}>{formData.oc ?? ''}</Text>
+          </View>
+             <View style={styles.tableRow}>
+            <Text style={[styles.cellLabel, { flex: 0.8 }]}>Proveedor:</Text>
+            <Text style={styles.cellValue}>{formData.proveedor ?? ''}</Text>
+            <Text style={styles.cellLabel}>Origen:</Text>
+            <Text style={styles.cellValue}>{formData.origen ?? ''}</Text>
+            <Text style={styles.cellLabel}>Factura: </Text>
+            <Text style={styles.cellValue}>{formData.factura ?? ''}</Text>
+          </View>
+             <View style={styles.tableRow}>
+            <Text style={[styles.cellLabel, { flex: 0.2 }]}>Especie:</Text>
+            <Text style={styles.cellValue}>{formData.especie ?? ''}</Text>
+          </View>
+             <View style={styles.tableRow}>
+            <Text style={[styles.cellLabel, { flex: 0.2 }]}>Variedades:</Text>
+            <Text style={styles.cellValue}>{formData.variedades ?? ''}</Text>
+          </View>
+
+             <View style={styles.tableRow}>
+            <Text style={styles.cellLabel}>Frío de descarga: </Text>
+            <Text style={styles.cellValue}>{formData.frioDescarga ?? ''}</Text>
+            <Text style={styles.cellLabel}>
+              Cajas recibidas: {formData.cajasRecibidas}
+            </Text>
+            <Text style={styles.cellValue}>{formData.cajasRecibidas ?? ''}</Text>
+          </View>
+           </View>
+
+          <View style={styles.table}>
+             <View style={styles.tableRow}>
+            <Text style={[styles.cellLabel, { flex: 0.35 }]}>
+              Línea Transportista
+            </Text>
+            <Text style={styles.cellValue}>
+              {formData.lineaTransportista ?? ''}
             </Text>
           </View>
-          <View style={styles.tableRow}>
-            <Text style={[styles.cellLabelWhite, { flex: 0.7 }]}>
-              Cajas identificadas :
+             <View style={styles.tableRow}>
+            <Text style={[styles.cellLabel, { flex: 0.35 }]}>
+              No. de Contenedor
             </Text>
-            <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>SI</Text>
-            <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>NO</Text>
-            <Text style={[styles.cellLabelWhite, { flex: 1.3 }]}>
-              #{formData.cajasIdentificadas}
+            <Text style={styles.cellValue}>
+              {formData.numeroContenedor ?? ''}
             </Text>
           </View>
-          <View style={styles.tableRow}>
-            <Text style={[styles.cellLabelWhite, { flex: 0.7 }]}>
-              Cajas dañadas por maniobra:
+             <View style={styles.tableRow}>
+            <Text style={[styles.cellLabel, { flex: 0.35 }]}>
+              Placas de Camión
             </Text>
-            <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}> SI </Text>
-
-            <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>NO</Text>
-            <Text style={[styles.cellLabelWhite, { flex: 1.3 }]}>
-              #{formData.danadasManiobra}
-            </Text>
+            <Text style={styles.cellValue}>{formData.placasCamion ?? ''}</Text>
           </View>
-        </View>
-      </View>
-
-      <View style={{ marginBottom: 20 }} />
-
-      <View style={[styles.tableRow, { marginBottom: 15, width: '100%' }]}>
-        <View style={[{ height: 100, width: '26%' }]}>
-          <Text style={[styles.cellLabel, {}]}>Temperatura de pulpa</Text>
-          <Text style={styles.cellValue}>A</Text>
-          <Text style={styles.cellValue}>M</Text>
-          <Text style={styles.cellValue}>B</Text>
-        </View>
-        <View style={[{ width: '10%' }]}>
-          <Text style={[styles.cellLabel, { height: 20 }]}>Puerta</Text>
-          <Text style={styles.cellValue}>{formData.tempAPuerta}</Text>
-          <Text style={styles.cellValue}>{formData.tempMPuerta}</Text>
-          <Text style={styles.cellValue}>{formData.tempBPuerta}</Text>
-        </View>
-        <View style={[{ width: '10%' }]}>
-          <Text style={[styles.cellLabel, { height: 20 }]}>Medio</Text>
-          <Text style={styles.cellValue}>{formData.tempAMedio}</Text>
-          <Text style={styles.cellValue}>{formData.tempMMedio}</Text>
-          <Text style={styles.cellValue}>{formData.tempBMedio}</Text>
-        </View>
-        <View style={[{ width: '10%' }]}>
-          <Text style={[styles.cellLabel, { height: 20 }]}>Fondo</Text>
-          <Text style={styles.cellValue}>{formData.tempAFondo}</Text>
-          <Text style={styles.cellValue}>{formData.tempMFondo}</Text>
-          <Text style={styles.cellValue}>{formData.tempBFondo}</Text>
-        </View>
-        <View style={[{ width: '30%' }]}>
-          <Text style={[styles.cellLabel]}>Rango de Temperatura</Text>
-          <View style={[styles.tableRow, { height: 50 }]}>
-            <Text style={styles.cellValue}>Min:{formData.tempMin}</Text>
-            <Text style={styles.cellValue}>Max:{formData.tempMax}</Text>
+             <View style={styles.tableRow}>
+            <Text style={[styles.cellLabel, { flex: 0.35 }]}>Placas Caja</Text>
+            <Text style={styles.cellValue}>{formData.placasCaja ?? ''}</Text>
           </View>
-        </View>
-        <View style={[{ width: '30%' }]}>
-          <Text style={styles.cellLabel}>Ideal</Text>
-          <View style={[styles.tableRow, { height: 50 }]}>
-            <Text style={styles.cellValue}> {formData.tempIdeal}°C </Text>
+             <View style={styles.tableRow}>
+            <Text style={[styles.cellLabel, { flex: 0.35 }]}>Chofer</Text>
+            <Text style={styles.cellValue}>{formData.chofer ?? ''}</Text>
           </View>
-        </View>
-      </View>
+           </View>
+          <View style={{ marginBottom: 20 }} />
 
-      <View style={[styles.tableRow, { marginBottom: 15 }]}>
-        {/* Parte en negritas y más grande */}
-        <Text
-          style={[
-            styles.cellLabel,
-            { flex: 0.35, fontSize: 11, fontWeight: 'bold' }
-          ]}
-        >
-          Resultados de la {'\n'}Investigación{'\n'}
-          <Text style={{ fontSize: 6 }}>
-            (PRODUCTO DAÑADO DESEMPLEADO SE ENVIAN A PISO O SE ARREGLAN)
+          <View style={{ width: '100%' }}>
+             <Text style={[styles.cellLabel, { paddingVertical: 10, paddingTop: 1, width: '100%' }]}>
+            Condiciones de transporte:
           </Text>
-        </Text>
-        <Text style={styles.cellValue}>{formData.resultadosInv || ''}</Text>
-      </View>
 
-      <Text style={[styles.cellLabel, { flex: 0.15, fontSize: 14 }]}>
-        Hago constar que estoy de acuerdo con lo verificado y registrado en el
-        presente{'\n'}documento
-      </Text>
+             <View style={styles.tableRow}>
+            <Text style={{ width: '60%' }} />
 
-      <View>
-        <View style={styles.tableRow}>
-          <Text style={[styles.cellLabel, { width: '12%', textAlign: 'center', fontSize: 10, height: 200 }]}>
+            <Text style={styles.cellLabelWhite}>Observaciones</Text>
+          </View>
+             <View style={{ width: '100%', textAlign: 'center' }}>
+            <View style={styles.tableRow}>
+              <View style={{ flex: 1, flexDirection: 'column' }}>
+                <View style={styles.tableRow}>
+                  <Text style={[styles.cellLabelWhite, { flex: 0.2 }]}>
+                    Temperatura del set point:
+                  </Text>
+                  <Text style={[styles.cellValue, { flex: 0.4 }]}>
+                    {'\n'}  {formData.tempSetPoint ?? ''}
+                  </Text>
+
+                  <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>
+                    {formData.observacionesSetPoint ?? ''}
+                  </Text>
+                </View>
+                <View style={styles.tableRow}>
+                  <Text style={[styles.cellLabelWhite, { flex: 0.2 }]}>
+                    Temperatura de pantalla:
+                  </Text>
+                  <Text style={[styles.cellValue, { flex: 0.4 }]}>
+                    {'\n'} {formData.tempPantalla ?? ''}
+                  </Text>
+                  <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>
+                    {formData.observacionesPantalla ?? ''}
+                  </Text>
+                </View>
+                <View style={styles.tableRow}>
+                  <Text style={[styles.cellLabel, { flex: 0.28 }]} />
+                  <Text style={[styles.cellLabel, { flex: 0.17 }]}>cumple</Text>
+                  <Text style={[styles.cellLabel, { flex: 0.17 }]}>
+                    no cumple
+                  </Text>
+
+                  <Text style={[styles.cellLabel, { flex: 0.52 }]}>
+                    observaciones
+                  </Text>
+                </View>
+                <View style={[styles.tableRow, { height: 'auto' }]}>
+                  <Text style={[styles.cellLabelWhite, { flex: 0.66 }]}>
+                    Termografo:
+                  </Text>
+
+                  <View style={{ flex: 0.42 }}>
+                    <Text style={styles.cellValue}>
+                      {formData.option === 'Si' ? 'SI' : ''}
+                    </Text>
+
+                    <Text style={styles.cellValue}>
+                      {formData.option2 === 'Si' ? 'SI' : ''}
+                    </Text>
+                  </View>
+                  <View style={{ flex: 0.43 }}>
+                    <Text style={styles.cellValue}>
+                      {formData.option === 'No' ? 'No ' : ''}
+                    </Text>
+                    <Text style={styles.cellValue}>
+                      {formData.option2 === 'No' ? 'No' : ''}
+                    </Text>
+                  </View>
+
+                  <View style={{ flex: 0.3 }}>
+                    <Text style={styles.cellValue}>Origen</Text>
+
+                    <Text style={styles.cellValue}>Destino:</Text>
+                  </View>
+                  <View style={{ flex: 0.98, minHeight: 60 }}>
+                    <Text style={styles.cellValue}>
+                      {formData.tempOrigen ?? ''}
+                    </Text>
+                    <Text style={styles.cellValue}>
+                      {formData.tempDestino ?? ''}
+                    </Text>
+                  </View>
+                </View>
+
+                <View style={styles.tableRow}>
+                  <Text style={[styles.cellLabelWhite, { flex: 0.7 }]}>
+                    Limpio,libre de malos olores:
+                  </Text>
+                  <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>
+                    {formData.optionLimpio === 'Si' ? 'Si' : ''}
+                  </Text>
+                  <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>
+                    {formData.optionLimpio === 'No' ? 'No' : ''}
+                  </Text>
+                  <Text style={[styles.cellLabelWhite, { flex: 1.3 }]}>
+                    {' '}
+                    {formData.limpio ?? ''}
+                  </Text>
+                </View>
+                <View style={styles.tableRow}>
+                  <Text style={[styles.cellLabelWhite, { flex: 0.7 }]}>
+                    Caja cerrada , en buen estado(sin hoyos o endiduras ):
+                  </Text>
+                  <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>
+                    {formData.optionCaja === 'Si' ? 'Si' : ''}
+                  </Text>
+                  <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>
+                    {formData.optionCaja === 'No' ? 'No' : ''}
+                  </Text>
+                  <Text style={[styles.cellLabelWhite, { flex: 1.3 }]}>
+                    {formData.cajaCerrada ?? ''}
+                  </Text>
+                </View>
+
+                <View style={styles.tableRow}>
+                  <Text style={[styles.cellLabelWhite, { flex: 0.7 }]}>
+                    Lona en buen estado:
+                  </Text>
+                  <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>
+                    {formData.optionLona === 'Si' ? 'Si' : ''}
+                  </Text>
+                  <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>
+                    {formData.optionLona === 'No' ? 'No' : ''}
+                  </Text>
+                  <Text style={[styles.cellLabelWhite, { flex: 1.3 }]}>
+                    {formData.lona ?? ''}
+                  </Text>
+                </View>
+                <View style={styles.tableRow}>
+                  <Text style={[styles.cellLabelWhite, { flex: 0.7 }]}>
+                    Libre de fauna nociva:
+                  </Text>
+                  <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>
+                    {formData.optionLibre === 'Si' ? 'Si' : ''}
+                  </Text>
+                  <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>
+                    {formData.optionLibre === 'No' ? 'No' : ''}
+                  </Text>
+                  <Text style={[styles.cellLabelWhite, { flex: 1.3 }]}>
+                    {formData.fauna ?? ''}
+                  </Text>
+                </View>
+                <View style={styles.tableRow}>
+                  <Text style={[styles.cellLabelWhite, { flex: 0.7 }]}>
+                    Carga en buen estado:
+                  </Text>
+                  <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>
+                    {formData.optionCarga === 'Si' ? 'Si' : ''}
+                  </Text>
+                  <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>
+                    {formData.optionCarga === 'No' ? 'No' : ''}
+                  </Text>
+                  <Text style={[styles.cellLabelWhite, { flex: 1.3 }]}>
+                    {formData.carga ?? ''}
+                  </Text>
+                </View>
+                <View style={styles.tableRow}>
+                  <Text style={[styles.cellLabelWhite, { flex: 0.7 }]}>
+                    seguridad de carga
+                  </Text>
+                  <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>
+                    {formData.optionSeguridad === 'Si' ? 'Si' : ''}
+                  </Text>
+                  <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>
+                    {formData.optionSeguridad === 'No' ? 'No' : ''}
+                  </Text>
+                  <Text style={[styles.cellLabelWhite, { flex: 1.3 }]}>
+                    {formData.seguridadCarga ?? ''}
+                  </Text>
+                </View>
+                <View style={styles.tableRow}>
+                  <Text style={[styles.cellLabelWhite, { flex: 0.7 }]}>
+                    sellado:
+                  </Text>
+                  <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>
+                    {formData.optionSellado === 'Si' ? 'Si' : ''}
+                  </Text>
+                  <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>
+                    {formData.optionSellado === 'No' ? 'No' : ''}
+                  </Text>
+                  <Text style={[styles.cellLabelWhite, { flex: 1.3 }]}>
+                    {formData.sellado ?? ''}
+                  </Text>
+                </View>
+              </View>
+            </View>
+          </View>
+
+             <Text style={[styles.cellLabel, { paddingTop: 4, fontSize: 10 }]}>
+            Condiciones de Carga (Maniobra)
+          </Text>
+             <View style={{ width: '100%' }}>
+            <View style={styles.tableRow}>
+              <Text style={[styles.cellLabelWhite, { flex: 0.7 }]}>
+                Hay tarimas dañadas :
+              </Text>
+              <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>SI</Text>
+              <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>NO</Text>
+              <Text style={[styles.cellLabelWhite, { flex: 1.3 }]}>
+                #{formData.tarimasDanadas}{' '}
+              </Text>
+            </View>
+            <View style={styles.tableRow}>
+              <Text style={[styles.cellLabelWhite, { flex: 0.7 }]}>
+                Cajas identificadas :
+              </Text>
+              <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>SI</Text>
+              <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>NO</Text>
+              <Text style={[styles.cellLabelWhite, { flex: 1.3 }]}>
+                #{formData.cajasIdentificadas}
+              </Text>
+            </View>
+            <View style={styles.tableRow}>
+              <Text style={[styles.cellLabelWhite, { flex: 0.7 }]}>
+                Cajas dañadas por maniobra:
+              </Text>
+              <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}> SI </Text>
+
+              <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>NO</Text>
+              <Text style={[styles.cellLabelWhite, { flex: 1.3 }]}>
+                #{formData.danadasManiobra}
+              </Text>
+            </View>
+          </View>
+           </View>
+
+          <View style={{ marginBottom: 20 }} />
+
+          <View style={[styles.tableRow, { marginBottom: 15, width: '100%' }]}>
+             <View style={[{ height: 100, width: '26%' }]}>
+            <Text style={[styles.cellLabel, {}]}>Temperatura de pulpa</Text>
+            <Text style={styles.cellValue}>A</Text>
+            <Text style={styles.cellValue}>M</Text>
+            <Text style={styles.cellValue}>B</Text>
+          </View>
+             <View style={[{ width: '10%' }]}>
+            <Text style={[styles.cellLabel, { height: 20 }]}>Puerta</Text>
+            <Text style={styles.cellValue}>{formData.tempAPuerta}</Text>
+            <Text style={styles.cellValue}>{formData.tempMPuerta}</Text>
+            <Text style={styles.cellValue}>{formData.tempBPuerta}</Text>
+          </View>
+             <View style={[{ width: '10%' }]}>
+            <Text style={[styles.cellLabel, { height: 20 }]}>Medio</Text>
+            <Text style={styles.cellValue}>{formData.tempAMedio}</Text>
+            <Text style={styles.cellValue}>{formData.tempMMedio}</Text>
+            <Text style={styles.cellValue}>{formData.tempBMedio}</Text>
+          </View>
+             <View style={[{ width: '10%' }]}>
+            <Text style={[styles.cellLabel, { height: 20 }]}>Fondo</Text>
+            <Text style={styles.cellValue}>{formData.tempAFondo}</Text>
+            <Text style={styles.cellValue}>{formData.tempMFondo}</Text>
+            <Text style={styles.cellValue}>{formData.tempBFondo}</Text>
+          </View>
+             <View style={[{ width: '30%' }]}>
+            <Text style={[styles.cellLabel]}>Rango de Temperatura</Text>
+            <View style={[styles.tableRow, { height: 50 }]}>
+              <Text style={styles.cellValue}>Min:{formData.tempMin}</Text>
+              <Text style={styles.cellValue}>Max:{formData.tempMax}</Text>
+            </View>
+          </View>
+             <View style={[{ width: '30%' }]}>
+            <Text style={styles.cellLabel}>Ideal</Text>
+            <View style={[styles.tableRow, { height: 50 }]}>
+              <Text style={styles.cellValue}> {formData.tempIdeal}°C </Text>
+            </View>
+          </View>
+           </View>
+
+          <View style={[styles.tableRow, { marginBottom: 15 }]}>
+             {/* Parte en negritas y más grande */}
+             <Text
+            style={[
+              styles.cellLabel,
+              { flex: 0.35, fontSize: 11, fontWeight: 'bold' }
+            ]}
+          >
+            Resultados de la {'\n'}Investigación{'\n'}
+            <Text style={{ fontSize: 6 }}>
+              (PRODUCTO DAÑADO DESEMPLEADO SE ENVIAN A PISO O SE ARREGLAN)
+            </Text>
+          </Text>
+             <Text style={styles.cellValue}>{formData.resultadosInv ?? ''}</Text>
+           </View>
+
+          <Text style={[styles.cellLabel, { flex: 0.15, fontSize: 14 }]}>
+             Hago constar que estoy de acuerdo con lo verificado y registrado en el
+             presente{'\n'}documento
+           </Text>
+
+          <View>
+             <View style={styles.tableRow}>
+            <Text style={[styles.cellLabel, { width: '12%', textAlign: 'center', fontSize: 10, height: 200 }]}>
+              {' '}
+              Verifico descarga{'\n'} (Inspector de Calidad)
+            </Text>
+            <View style={{ width: '38%' }}>
+              <Text style={[styles.cellValue, { flex: 0.3 }]}>
+                Nombre:{formData.nombreInspector}
+              </Text>
+
+              <View style={[styles.cellValue, {}]}>
+                <Text style={[styles.inputLabel, { paddingBottom: 10 }]}>
+                  Firma:
+                </Text>
+                {firmaBase64Inspector && (
+                  <Image
+                    src={firmaBase64Inspector}
+                    style={{ width: 200, height: 150 }}
+                  />
+                )}
+              </View>
+            </View>
+            <Text style={[styles.cellLabel, { width: '12%', fontSize: 10 }]}>
+              {' '}
+              Chofer
+            </Text>
+            <View style={{ width: '38%' }}>
+              <Text style={[styles.cellValue, { flex: 0.3 }]}>
+                Nombre:{formData.nombreChofer}
+              </Text>
+              <View style={[styles.cellValue, {}]}>
+                <Text style={[styles.inputLabel, { paddingBottom: 10 }]}>
+                  Firma:
+                </Text>
+                {firmaBase64Chofer && (
+                  <Image
+                    src={firmaBase64Chofer}
+                    style={{ width: 200, height: 150 }}
+                  />
+                )}
+              </View>
+            </View>
+          </View>
+           </View>
+        </View>
+
+      </Page>
+
+    )}
+    {currentPage == 2 && (
+      <Page>
+        <View style={{ marginBottom: 20 }} />
+
+        <View style={[styles.tableRow, { marginBottom: 15, width: '100%' }]}>
+           <View style={[{ height: 100, width: '26%' }]}>
+            <Text style={[styles.cellLabel, {}]}>Temperatura de pulpa</Text>
+            <Text style={styles.cellValue}>A</Text>
+            <Text style={styles.cellValue}>M</Text>
+            <Text style={styles.cellValue}>B</Text>
+          </View>
+           <View style={[{ width: '10%' }]}>
+            <Text style={[styles.cellLabel, { height: 20 }]}>Puerta</Text>
+            <Text style={styles.cellValue}>{formData.tempAPuerta}</Text>
+            <Text style={styles.cellValue}>{formData.tempMPuerta}</Text>
+            <Text style={styles.cellValue}>{formData.tempBPuerta}</Text>
+          </View>
+           <View style={[{ width: '10%' }]}>
+            <Text style={[styles.cellLabel, { height: 20 }]}>Medio</Text>
+            <Text style={styles.cellValue}>{formData.tempAMedio}</Text>
+            <Text style={styles.cellValue}>{formData.tempMMedio}</Text>
+            <Text style={styles.cellValue}>{formData.tempBMedio}</Text>
+          </View>
+           <View style={[{ width: '10%' }]}>
+            <Text style={[styles.cellLabel, { height: 20 }]}>Fondo</Text>
+            <Text style={styles.cellValue}>{formData.tempAFondo}</Text>
+            <Text style={styles.cellValue}>{formData.tempMFondo}</Text>
+            <Text style={styles.cellValue}>{formData.tempBFondo}</Text>
+          </View>
+           <View style={[{ width: '30%' }]}>
+            <Text style={[styles.cellLabel]}>Rango de Temperatura</Text>
+            <View style={[styles.tableRow, { height: 50 }]}>
+                <Text style={styles.cellValue}>Min:{formData.tempMin}</Text>
+                <Text style={styles.cellValue}>Max:{formData.tempMax}</Text>
+              </View>
+          </View>
+           <View style={[{ width: '30%' }]}>
+            <Text style={styles.cellLabel}>Ideal</Text>
+            <View style={[styles.tableRow, { height: 50 }]}>
+                <Text style={styles.cellValue}> {formData.tempIdeal}°C </Text>
+              </View>
+          </View>
+         </View>
+
+        <View style={[styles.tableRow, { marginBottom: 15 }]}>
+           {/* Parte en negritas y más grande */}
+           <Text
+            style={[
+                styles.cellLabel,
+                { flex: 0.35, fontSize: 11, fontWeight: 'bold' }
+              ]}
+          >
+            Resultados de la {'\n'}Investigación{'\n'}
+            <Text style={{ fontSize: 6 }}>
+                (PRODUCTO DAÑADO DESEMPLEADO SE ENVIAN A PISO O SE ARREGLAN)
+          </Text>
+          </Text>
+           <Text style={styles.cellValue}>{formData.resultadosInv || ''}</Text>
+         </View>
+        <Text style={[styles.cellLabel, { flex: 0.15, fontSize: 14 }]}>
+           Hago constar que estoy de acuerdo con lo verificado y registrado en el
+           presente{'\n'}documento
+         </Text>
+
+        <View>
+           <View style={styles.tableRow}>
+            <Text style={[styles.cellLabel, { width: '12%', textAlign: 'center', fontSize: 10, height: 200 }]}>
             {' '}
             Verifico descarga{'\n'} (Inspector de Calidad)
           </Text>
-          <View style={{ width: '38%' }}>
+            <View style={{ width: '38%' }}>
             <Text style={[styles.cellValue, { flex: 0.3 }]}>
               Nombre:{formData.nombreInspector}
             </Text>
@@ -525,11 +903,11 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer }) => (
               )}
             </View>
           </View>
-          <Text style={[styles.cellLabel, { width: '12%', fontSize: 10 }]}>
+            <Text style={[styles.cellLabel, { width: '12%', fontSize: 10 }]}>
             {' '}
             Chofer
           </Text>
-          <View style={{ width: '38%' }}>
+            <View style={{ width: '38%' }}>
             <Text style={[styles.cellValue, { flex: 0.3 }]}>
               Nombre:{formData.nombreChofer}
             </Text>
@@ -545,36 +923,48 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer }) => (
               )}
             </View>
           </View>
-        </View>
-      </View>
-    </Page>
-    {(formData.option === 'No' ||
-      formData.option2 === 'No' ||
-      formData.optionLibre === 'No' ||
-      formData.optionCaja === 'No' ||
-      formData.optionLona === 'No' ||
-      formData.optionCarga === 'No' ||
-      formData.optionSeguridad === 'No' ||
-      formData.optionSellado === 'No' || formData.optionLimpio === 'No') && (
-        <Page style={styles.page}>
-
-          <View>
-            <Text style={{ justifyContent: 'center', textAlign: 'center', borderWidth: 1, borderColor: '#000', backgroundColor: '#ccc' }}>
-              Anexos
-            </Text>
           </View>
+         </View>
 
-          <View>
+      </Page>
 
-            {formData.optionLimpio === 'No' && (
-              <>
-                <View style={{ borderWidth: 1, borderColor: '#000' }}>
+    )}
+    {currentPage === 3 &&
+          (formData.option === 'No' ||
+            formData.option2 === 'No' ||
+            formData.optionLibre === 'No' ||
+            formData.optionCaja === 'No' ||
+            formData.optionLona === 'No' ||
+            formData.optionCarga === 'No' ||
+            formData.optionSeguridad === 'No' ||
+            formData.optionSellado === 'No' ||
+            formData.optionLimpio === 'No') && (
+              <Page size='A4' style={styles.page}>
+                <View>
+                  <Text
+                    style={{
+                    justifyContent: 'center',
+                    textAlign: 'center',
+                    borderWidth: 1,
+                    borderColor: '#000',
+                    backgroundColor: '#ccc'
+                  }}
+                  >
+                    Anexos
+                </Text>
+                </View>
 
-                  <Text style={{ fontSize: '15px' }}>  Evidencia No cumple con Limpio, libre de malos olores  </Text>
+                <View>
 
-                  <Text style={{ fontSize: '10px', paddingTop: 10 }}> {formData.limpio || ''} </Text>
+                  {formData.optionLimpio === 'No' && (
+                    <>
+                    <View style={{ borderWidth: 1, borderColor: '#000' }}>
 
-                  <div style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'flex-start' }}>
+                      <Text style={{ fontSize: '15px' }}>  Evidencia No cumple con Limpio, libre de malos olores  </Text>
+
+                      <Text style={{ fontSize: '10px', paddingTop: 10 }}> {formData.limpio || ''} </Text>
+
+                      <div style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'flex-start' }}>
 
                     {formData.imageLimpio.map((imageUrl, index) => (
 
@@ -587,19 +977,19 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer }) => (
                       </div>
                     ))}
                   </div>
-                </View>
-              </>
-            )}
+                    </View>
+                  </>
+                  )}
 
-            {formData.optionLibre === 'No' && (
-              <>
-                <View style={{ borderWidth: 1, borderColor: '#000' }}>
+                  {formData.optionLibre === 'No' && (
+                    <>
+                    <View style={{ borderWidth: 1, borderColor: '#000' }}>
 
-                  <Text style={{ fontSize: '15px' }}>  Evidencia No cumple libre de Fauna nociva  </Text>
+                      <Text style={{ fontSize: '15px' }}>  Evidencia No cumple libre de Fauna nociva  </Text>
 
-                  <Text style={{ fontSize: '10px', paddingTop: 10 }}> {formData.limpio || ''} </Text>
+                      <Text style={{ fontSize: '10px', paddingTop: 10 }}> {formData.limpio || ''} </Text>
 
-                  <div style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'flex-start' }}>
+                      <div style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'flex-start' }}>
 
                     {formData.imageLibreFauna.map((imageUrl, index) => (
 
@@ -613,134 +1003,151 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer }) => (
                       </div>
                     ))}
                   </div>
-                </View>
-              </>
-            )}
+                    </View>
+                  </>
+                  )}
 
-            {formData.optionCaja === 'No' && (
-              <>
-                <View style={{ borderWidth: 1, borderColor: '#000' }}>
-                  <Text style={{ fontSize: '15px' }}>  Evidencia No cumple Caja cerrada, en buen estado(sin hoyos o endiduras ):  </Text>
+                  {formData.optionCaja === 'No' && (
+                    <>
+                    <View style={{ borderWidth: 1, borderColor: '#000' }}>
+                      <Text style={{ fontSize: '15px' }}>  Evidencia No cumple Caja cerrada, en buen estado(sin hoyos o endiduras ):  </Text>
 
-                  <Text style={{ fontSize: '10px', paddingTop: 10 }}> {formData.cajaCerrada || ''} </Text>
+                      <Text style={{ fontSize: '10px', paddingTop: 10 }}> {formData.cajaCerrada || ''} </Text>
 
-                  <div style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'flex-start' }}>
+                      <div style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'flex-start' }}>
 
                     {formData.imageCajaCerrada.map((imageUrl, index) => (
                       <div key={index} style={{ margin: '10px' }}>
                         <Image
-                          src={imageUrl}
-                          alt={`Imagen ${index + 1}`}
-                          style={{ width: '150px', height: '150px', borderRadius: '5px', marginBottom: '10px' }}
-                        />
+                        src={imageUrl}
+                        alt={`Imagen ${index + 1}`}
+                        style={{ width: '150px', height: '150px', borderRadius: '5px', marginBottom: '10px' }}
+                      />
                       </div>
                     ))}
                   </div>
-                </View>
-              </>
-            )}
-            {formData.optionLona === 'No' && (
-              <>
-                <View style={{ borderWidth: 1, borderColor: '#000' }}>
+                    </View>
+                  </>
+                  )}
+                  {formData.optionLona === 'No' && (
+                    <>
+                    <View style={{ borderWidth: 1, borderColor: '#000' }}>
 
-                  <Text style={{ fontSize: '15px' }}>  Evidencia No cumple  Lona en buen estado  </Text>
+                      <Text style={{ fontSize: '15px' }}>  Evidencia No cumple  Lona en buen estado  </Text>
 
-                  <Text style={{ fontSize: '10px', paddingTop: 10 }}> {formData.lona || ''} </Text>
+                      <Text style={{ fontSize: '10px', paddingTop: 10 }}> {formData.lona || ''} </Text>
 
-                  <div style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'flex-start' }}>
+                      <div style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'flex-start' }}>
 
                     {formData.imageLonaBuenEstado.map((imageUrl, index) => (
                       <div key={index} style={{ margin: '10px' }}>
                         <Image
-                          src={imageUrl}
-                          alt={`Imagen ${index + 1}`}
-                          style={{ width: '150px', height: '150px', borderRadius: '5px', marginBottom: '10px' }}
-                        />
+                        src={imageUrl}
+                        alt={`Imagen ${index + 1}`}
+                        style={{ width: '150px', height: '150px', borderRadius: '5px', marginBottom: '10px' }}
+                      />
                       </div>
                     ))}
                   </div>
-                </View>
-              </>
-            )}
-            {formData.optionCarga === 'No' && (
-              <>
-                <View style={{ borderWidth: 1, borderColor: '#000' }}>
+                    </View>
+                  </>
+                  )}
+                  {formData.optionCarga === 'No' && (
+                    <>
+                    <View style={{ borderWidth: 1, borderColor: '#000' }}>
 
-                  <Text style={{ fontSize: '15px' }}>  Evidencia No cumple Carga en buen estado</Text>
+                      <Text style={{ fontSize: '15px' }}>  Evidencia No cumple Carga en buen estado</Text>
 
-                  <Text style={{ fontSize: '10px', paddingTop: 10 }}> {formData.carga || ''} </Text>
+                      <Text style={{ fontSize: '10px', paddingTop: 10 }}> {formData.carga || ''} </Text>
 
-                  <div style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'flex-start' }}>
+                      <div style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'flex-start' }}>
 
                     {formData.imageCargaBuenEstado.map((imageUrl, index) => (
                       <div key={index} style={{ margin: '10px' }}>
                         <Image
-                          src={imageUrl}
-                          alt={`Imagen ${index + 1}`}
-                          style={{ width: '150px', height: '150px', borderRadius: '5px', marginBottom: '10px' }}
-                        />
+                        src={imageUrl}
+                        alt={`Imagen ${index + 1}`}
+                        style={{ width: '150px', height: '150px', borderRadius: '5px', marginBottom: '10px' }}
+                      />
                       </div>
                     ))}
                   </div>
-                </View>
-              </>
-            )}
-            {formData.optionSeguridad === 'No' && (
-              <>
-                <View style={{ borderWidth: 1, borderColor: '#000' }}>
+                    </View>
+                  </>
+                  )}
+                  {formData.optionSeguridad === 'No' && (
+                    <>
+                    <View style={{ borderWidth: 1, borderColor: '#000' }}>
 
-                  <Text style={{ fontSize: '15px' }}>  Evidencia No cumple seguridad de carga </Text>
+                      <Text style={{ fontSize: '15px' }}>  Evidencia No cumple seguridad de carga </Text>
 
-                  <Text style={{ fontSize: '10px', paddingTop: 10 }}> {formData.seguridadCarga || ''} </Text>
+                      <Text style={{ fontSize: '10px', paddingTop: 10 }}> {formData.seguridadCarga || ''} </Text>
 
-                  <div style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'flex-start' }}>
+                      <div style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'flex-start' }}>
 
                     {formData.imageSeguridadCarga.map((imageUrl, index) => (
                       <div key={index} style={{ margin: '10px' }}>
                         <Image
-                          src={imageUrl}
-                          alt={`Imagen ${index + 1}`}
-                          style={{ width: '150px', height: '150px', borderRadius: '5px', marginBottom: '10px' }}
-                        />
+                        src={imageUrl}
+                        alt={`Imagen ${index + 1}`}
+                        style={{ width: '150px', height: '150px', borderRadius: '5px', marginBottom: '10px' }}
+                      />
                       </div>
                     ))}
                   </div>
-                </View>
-              </>
-            )}
+                    </View>
+                  </>
+                  )}
 
-            {formData.optionSellado === 'No' && (
-              <>
-                <View style={{ borderWidth: 1, borderColor: '#000' }}>
+                  {formData.optionSellado === 'No' && (
+                    <>
+                    <View style={{ borderWidth: 1, borderColor: '#000' }}>
 
-                  <Text style={{ fontSize: '15px' }}>  Evidencia No cumple con el sellado  </Text>
+                      <Text style={{ fontSize: '15px' }}>  Evidencia No cumple con el sellado  </Text>
 
-                  <Text style={{ fontSize: '10px', paddingTop: 10 }}> {formData.sellado || ''} </Text>
+                      <Text style={{ fontSize: '10px', paddingTop: 10 }}> {formData.sellado || ''} </Text>
 
-                  <div style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'flex-start' }}>
+                      <div style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'flex-start' }}>
 
                     {formData.imageSellado.map((imageUrl, index) => (
                       <div key={index} style={{ margin: '10px' }}>
                         <Image
-                          src={imageUrl}
-                          alt={`Imagen ${index + 1}`}
-                          style={{ width: '150px', height: '150px', borderRadius: '5px', marginBottom: '10px' }}
-                        />
+                        src={imageUrl}
+                        alt={`Imagen ${index + 1}`}
+                        style={{ width: '150px', height: '150px', borderRadius: '5px', marginBottom: '10px' }}
+                      />
                       </div>
                     ))}
                   </div>
+                    </View>
+                  </>
+                  )}
+
                 </View>
-              </>
-            )}
-          </View>
-        </Page>
+
+              </Page>
     )}
+
   </Document>
 )
 const handlePDFDownload = async (formData, firmaBase64) => {
   try {
     const pdfDocument = <ActaPDF formData={formData} firmaBase64={firmaBase64} />
     const pdfBlob = await pdf(pdfDocument).toBlob() // Obtener el PDF como Blob
+
+    // Convertir el Blob del PDF a imagen
+    // const imageUrl = await convertPDFToImage(pdfBlob);
+    // console.log("Imagen generada desde el PDF:", imageUrl);}
+    console.log('holssssss')
+
+    convertPDFToImage('C:/Users/Sistemas/Downloads/documento.pdf')
+      .then((image) => {
+        if (image) {
+          console.log('Imagen generada desde el PDF:', image)
+        } else {
+          console.error('No se pudo generar la imagen')
+        }
+      })
 
     // Convertir el Blob del PDF a imagen
     // const imageUrl = await convertPDFToImage(pdfBlob);
@@ -866,6 +1273,18 @@ const ActaDeLlegada = () => {
     image2: [],
     image3: []
   })
+  const [currentPage, setCurrentPage] = useState(1)
+  const goToNextPage = () => {
+    setCurrentPage(2)
+  }
+
+  const goToNextPage2 = () => {
+    setCurrentPage(1)
+  }
+
+  const goToPreviousPage = () => {
+    setCurrentPage(3)
+  }
 
   const handleInsert = () => {
     insert(formData) // Llama a la función insert y pasa formData
@@ -873,7 +1292,66 @@ const ActaDeLlegada = () => {
 
   const [open, setOpen] = useState(false)
   const [value, setValue] = useState('')
-  const [actasList, setActasList] = useState([])
+
+  interface Acta {
+    id: number
+    fecha: string
+    start_verification: string
+    end_verification: string
+    oc: string
+    provider: string
+    origin: string
+    bill: string
+    varieties: string
+    cold_disc: string
+    boxes_received: string
+    carrier_line: string
+    num_cont: string
+    truck_plt: string
+    box_plt: string
+    driver: string
+    setpoint_temp: string
+    setpoint_obs: string
+    screen_temp: string
+    screen_obs: string
+    therm_org: string
+    therm_dst: string
+    clean_free: string
+    close: string
+    tarp_state: string
+    pest_free: string
+    load_state: string
+    load_sec: string
+    seal: string
+    box_id: string
+    invest_res: string
+    tempa_door: string
+    tempa_mid: string
+    tempa_back: string
+    tempm_door: string
+    tempm_mid: string
+    tempm_back: string
+    tempb_door: string
+    tempb_mid: string
+    tempb_back: string
+    temp_max: string
+    temp_min: string
+    temp_ideal: string
+    insp_name: string
+    clean_obs: string
+    close_obs: string
+    tarp_obs: string
+    pest_obs: string
+    load_obs: string
+    sec_obs: string
+    seal_obs: string
+    pallet_dmg: string
+    box_num: string
+    dmg_num: string
+
+  }
+
+  const [actasList, setActasList] = useState<Acta[]>([])
   const [actaDetails, setActaDetails] = useState(null)
 
   const [firmaBase64Inspector, setFirmaBase64Inspector] = useState(null)
@@ -894,66 +1372,66 @@ const ActaDeLlegada = () => {
     // Buscar detalles del acta seleccionada
     const selectedActa = actasList.find((acta) => acta.id === idActa)
 
-    if (selectedActa) {
+    if (selectedActa != null) {
       // Actualizar formData con los datos del acta seleccionada
       setFormData((prevFormData) => ({
         ...prevFormData,
         id: selectedActa.id,
-        fecha: selectedActa.fecha || '',
-        inicioVerificacion: selectedActa.start_verification || '',
-        terminoVerificacion: selectedActa.end_verification || '',
-        oc: selectedActa.oc || '',
-        proveedor: selectedActa.provider || '',
-        origen: selectedActa.origin || '',
-        factura: selectedActa.bill || '',
+        fecha: selectedActa.fecha ?? '',
+        inicioVerificacion: selectedActa.start_verification ?? '',
+        terminoVerificacion: selectedActa.end_verification ?? '',
+        oc: selectedActa.oc ?? '',
+        proveedor: selectedActa.provider ?? '',
+        origen: selectedActa.origin ?? '',
+        factura: selectedActa.bill ?? '',
         // especie: "", hace falta especie en la bd
-        variedades: selectedActa.varieties || '',
-        frioDescarga: selectedActa.cold_disc || '',
-        cajasRecibidas: selectedActa.boxes_received || '',
-        lineaTransportista: selectedActa.carrier_line || '',
-        numeroContenedor: selectedActa.num_cont || '',
-        placasCamion: selectedActa.truck_plt || '',
-        placasCaja: selectedActa.box_plt || '',
-        chofer: selectedActa.driver || '',
-        tempSetPoint: selectedActa.setpoint_temp || '',
-        observacionesSetPoint: selectedActa.setpoint_obs || '',
-        tempPantalla: selectedActa.screen_temp || '',
-        observacionesPantalla: selectedActa.screen_obs || '',
-        termografo: selectedActa.therm_org || '',
-        tempOrigen: selectedActa.therm_org || '',
-        tempDestino: selectedActa.therm_dst || '',
-        limpio: selectedActa.clean_free || '',
-        cajaCerrada: selectedActa.close || '',
-        lona: selectedActa.tarp_state || '',
-        fauna: selectedActa.pest_free || '',
-        carga: selectedActa.load_state || '',
-        seguridadCarga: selectedActa.load_sec || '',
-        sellado: selectedActa.seal || '',
-        numeroSerie: selectedActa.box_id || '',
-        resultadosInv: selectedActa.invest_res || '',
-        tempAPuerta: selectedActa.tempa_door || '',
-        tempAMedio: selectedActa.tempa_mid || '',
-        tempAFondo: selectedActa.tempa_back || '',
-        tempMPuerta: selectedActa.tempm_door || '',
-        tempMMedio: selectedActa.tempm_mid || '',
-        tempMFondo: selectedActa.tempm_back || '',
-        tempBPuerta: selectedActa.tempb_door || '',
-        tempBMedio: selectedActa.tempb_mid || '',
-        tempBFondo: selectedActa.tempb_back || '',
-        tempMax: selectedActa.temp_max || '',
-        tempMin: selectedActa.temp_min || '',
-        tempIdeal: selectedActa.temp_ideal || '',
-        nombreInspector: selectedActa.insp_name || '',
-        nombreChofer: selectedActa.driver || '',
+        variedades: selectedActa.varieties ?? '',
+        frioDescarga: selectedActa.cold_disc ?? '',
+        cajasRecibidas: selectedActa.boxes_received ?? '',
+        lineaTransportista: selectedActa.carrier_line ?? '',
+        numeroContenedor: selectedActa.num_cont ?? '',
+        placasCamion: selectedActa.truck_plt ?? '',
+        placasCaja: selectedActa.box_plt ?? '',
+        chofer: selectedActa.driver ?? '',
+        tempSetPoint: selectedActa.setpoint_temp ?? '',
+        observacionesSetPoint: selectedActa.setpoint_obs ?? '',
+        tempPantalla: selectedActa.screen_temp ?? '',
+        observacionesPantalla: selectedActa.screen_obs ?? '',
+        termografo: selectedActa.therm_org ?? '',
+        tempOrigen: selectedActa.therm_org ?? '',
+        tempDestino: selectedActa.therm_dst ?? '',
+        limpio: selectedActa.clean_free ?? '',
+        cajaCerrada: selectedActa.close ?? '',
+        lona: selectedActa.tarp_state ?? '',
+        fauna: selectedActa.pest_free ?? '',
+        carga: selectedActa.load_state ?? '',
+        seguridadCarga: selectedActa.load_sec ?? '',
+        sellado: selectedActa.seal ?? '',
+        numeroSerie: selectedActa.box_id ?? '',
+        resultadosInv: selectedActa.invest_res ?? '',
+        tempAPuerta: selectedActa.tempa_door ?? '',
+        tempAMedio: selectedActa.tempa_mid ?? '',
+        tempAFondo: selectedActa.tempa_back ?? '',
+        tempMPuerta: selectedActa.tempm_door ?? '',
+        tempMMedio: selectedActa.tempm_mid ?? '',
+        tempMFondo: selectedActa.tempm_back ?? '',
+        tempBPuerta: selectedActa.tempb_door ?? '',
+        tempBMedio: selectedActa.tempb_mid ?? '',
+        tempBFondo: selectedActa.tempb_back ?? '',
+        tempMax: selectedActa.temp_max ?? '',
+        tempMin: selectedActa.temp_min ?? '',
+        tempIdeal: selectedActa.temp_ideal ?? '',
+        nombreInspector: selectedActa.insp_name ?? '',
+        nombreChofer: selectedActa.driver ?? '',
         // option: "",
         // option2: "", buscar estas opciones en la bd
-        optionLimpio: selectedActa.clean_obs || '',
-        optionCaja: selectedActa.close_obs || '',
-        optionLona: selectedActa.tarp_obs || '',
-        optionLibre: selectedActa.pest_obs || '',
-        optionCarga: selectedActa.load_obs || '',
-        optionSeguridad: selectedActa.sec_obs || '',
-        optionSellado: selectedActa.seal_obs || '',
+        optionLimpio: selectedActa.clean_obs ?? '',
+        optionCaja: selectedActa.close_obs ?? '',
+        optionLona: selectedActa.tarp_obs ?? '',
+        optionLibre: selectedActa.pest_obs ?? '',
+        optionCarga: selectedActa.load_obs ?? '',
+        optionSeguridad: selectedActa.sec_obs ?? '',
+        optionSellado: selectedActa.seal_obs ?? '',
         // Imagenes y otros campos específicos
         // imageTermografo: [],
         // imageLimpio: [],
@@ -964,9 +1442,9 @@ const ActaDeLlegada = () => {
         // imageCargaBuenEstado: [],
         // imageSeguridadCarga: [],
         // imageSellado: [],
-        tarimasDanadas: selectedActa.pallet_dmg || '',
-        cajasIdentificadas: selectedActa.box_num || '',
-        danadasManiobra: selectedActa.dmg_num || ''
+        tarimasDanadas: selectedActa.pallet_dmg ?? '',
+        cajasIdentificadas: selectedActa.box_num ?? '',
+        danadasManiobra: selectedActa.dmg_num ?? ''
         // image2: [],
         // image3: []
       }))
@@ -1343,7 +1821,7 @@ const ActaDeLlegada = () => {
 
                       {formData.optionLimpio === 'No' && (
                         <div>
-                          <div Styles={{ marginBottom: 30 }}>
+                          <div style={{ marginBottom: 30 }}>
                             <Button>
                               <label
                                 htmlFor='file-input-limpio'
@@ -1366,7 +1844,7 @@ const ActaDeLlegada = () => {
                                 )
                               : <p style={{ color: 'red', marginTop: '10px' }}>
                                 No puedes agregar más de 8 imágenes
-                              </p>}
+                                </p>}
                             <div style={{ display: 'flex', flexWrap: 'wrap', marginTop: '20px' }}>
                               {formData.imageLimpio.map((imageUrl, index) => (
                                 <img
@@ -1418,7 +1896,7 @@ const ActaDeLlegada = () => {
                       </Button>
                       {formData.optionCaja === 'No' && (
                         <div>
-                          <div Styles={{ marginBottom: 30 }}>
+                          <div style={{ marginBottom: 30 }}>
                             <Button>
                               <label
                                 htmlFor='file-input-caja'
@@ -1490,7 +1968,7 @@ const ActaDeLlegada = () => {
                       </Button>
                       {formData.optionLona === 'No' && (
                         <div>
-                          <div Styles={{ marginBottom: 30 }}>
+                          <div style={{ marginBottom: 30 }}>
                             <Button>
                               <label htmlFor='file-input-lona' style={{ cursor: 'pointer' }}>
                                 Seleccionar Imagen
@@ -1558,7 +2036,7 @@ const ActaDeLlegada = () => {
                       </Button>
                       {formData.optionLibre === 'No' && (
                         <div>
-                          <div Styles={{ marginBottom: 30 }}>
+                          <div style={{ marginBottom: 30 }}>
                             <Button>
                               <label
                                 htmlFor='file-input-libre'
@@ -1629,7 +2107,7 @@ const ActaDeLlegada = () => {
                       </Button>
                       {formData.optionCarga === 'No' && (
                         <div>
-                          <div Styles={{ marginBottom: 30 }}>
+                          <div style={{ marginBottom: 30 }}>
                             <Button>
                               <label htmlFor='file-input' style={{ cursor: 'pointer' }}>
                                 Seleccionar Imagen
@@ -1697,7 +2175,7 @@ const ActaDeLlegada = () => {
                       </Button>
                       {formData.optionSeguridad === 'No' && (
                         <div>
-                          <div Styles={{ marginBottom: 30 }}>
+                          <div style={{ marginBottom: 30 }}>
                             <Button>
                               <label
                                 htmlFor='file-input-seguridad'
@@ -2072,17 +2550,33 @@ const ActaDeLlegada = () => {
 
         <ResizablePanel>
           <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+
+            {currentPage === 1 && (
+              <Button onClick={goToNextPage} style={{ padding: '10px 20px', fontSize: '16px' }}>
+                Ir a la Página 2
+              </Button>
+            )}
+            {currentPage === 2 && (
+              <Button onClick={goToPreviousPage} style={{ padding: '10px 20px', fontSize: '16px' }}>
+                Ir a la Página 3
+              </Button>
+            )}
+
+            {currentPage === 3 && (
+              <Button onClick={goToNextPage2} style={{ padding: '10px 20px', fontSize: '16px' }}>
+                Volver a la Página 1
+              </Button>
+            )}
             <PDFViewer width='100%' height='100%'>
               <ActaPDF
                 formData={formData}
                 firmaBase64Inspector={firmaBase64Inspector}
                 firmaBase64Chofer={firmaBase64Chofer}
+                currentPage={currentPage}
               />
-
             </PDFViewer>
-            <div style={{ padding: '10px', display: 'flex', justifyContent: 'center' }}>
-              <Button onClick={async () => await handlePDFDownload(formData, firmaBase64Inspector, firmaBase64Chofer)}>Descargar PDF</Button>
-            </div>
+            <div style={{ padding: '10px', display: 'flex', justifyContent: 'center' }} />
+            <div style={{ marginTop: 20, textAlign: 'center' }} />
           </div>
         </ResizablePanel>
       </ResizablePanelGroup>

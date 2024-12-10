@@ -11,6 +11,8 @@ import ErrorBoundary from './pages/ErrorBoundary'
 import Receipt from './pages/receipt'
 import Pdf from './pages/pdf'
 
+import PDFView from './pages/example'
+
 const router = createBrowserRouter([
   {
     path: '/',
@@ -25,8 +27,12 @@ const router = createBrowserRouter([
         element: <Receipt />
       },
       {
-        path: 'pdf',
-        element: <Pdf />
+        path: 'receipt',
+        element: <Receipt />
+      },
+      {
+        path: 'MyDocument',
+        element: <PDFView />
       }
 
     ]

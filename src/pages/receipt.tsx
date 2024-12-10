@@ -4,7 +4,6 @@ import * as pdfjsLib from 'pdfjs-dist'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import Layout from '../components/Layout'
-import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable'
 import SignatureCanvas from 'react-signature-canvas'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select'
@@ -12,11 +11,22 @@ import { Check, ChevronsUpDown } from 'lucide-react'
 import {
   Card,
   CardContent,
-  CardFooter
-} from '@/components/ui/card'
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle
+} from '@/components/ui/card';
 import GothamNarrowMedium from '/fonts/GothamNarrow-Medium.otf'
 import { fetchActas, insert } from '../../connections/querys'
-
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger
+} from "@/components/ui/dialog"
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 
@@ -1547,9 +1557,7 @@ const ActaDeLlegada = () => {
   }
 
   return (
-    <Layout>
-      <ResizablePanelGroup direction='horizontal'>
-        <ResizablePanel defaultSize={50}>
+      <Layout>
           <div style={{ padding: '20px' }}>
             <h1>Acta de Llegada</h1>
 
@@ -2507,79 +2515,133 @@ const ActaDeLlegada = () => {
               onChange={handleInputChange}
             />
 
-            <label>Nombre Inspector de Calidad: </label>
-            <Input
-              type='text'
-              name='nombreInspector'
-              value={formData.nombreInspector}
-              onChange={handleInputChange}
-            />
-            <h2>Firma Inspector de Calidad</h2>
-            <div style={{ border: '2px solid black', padding: 10, display: 'inline-block', boxSizing: 'border-box' }}>
-              <SignatureCanvas
-                ref={signaturePadInspector}
-                penColor='black'
-                canvasProps={{ width: 500, height: 200, className: 'signature-canvas' }}
+<Card>
+      <CardHeader>
+        <CardTitle>Datos de Calidad y Transporte</CardTitle>
+        <CardDescription>Proporcione los datos requeridos y firme en los campos indicados.</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+          {/* Names and Signatures Row */}
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '20px' }}>
+            {/* Inspector Section */}
+            <div style={{ flex: 1, textAlign: 'center' }}>
+              <label style={{ fontWeight: 'bold', display: 'block', marginBottom: '5px' }}>
+                Nombre Inspector de Calidad
+              </label>
+              <Input
+                type="text"
+                name="nombreInspector"
+                value={formData.nombreInspector}
+                onChange={handleInputChange}
+                style={{ marginBottom: '10px', width: '100%' }}
               />
+              <h2 style={{ margin: '10px 0' }}>Firma Inspector de Calidad</h2>
+              <div
+                style={{
+                  border: '2px solid black',
+                  padding: 10,
+                  display: 'inline-block',
+                  boxSizing: 'border-box',
+                }}
+              >
+                <SignatureCanvas
+                  ref={signaturePadInspector}
+                  penColor="black"
+                  canvasProps={{ width: 250, height: 100, className: 'signature-canvas' }}
+                />
+              </div>
             </div>
-            <div style={{ paddingTop: 5 }} />
-            <label>Nombre Chofer: </label>
-            <Input
-              type='text'
-              name='nombreChofer'
-              value={formData.nombreChofer}
-              onChange={handleInputChange}
-            />
-            <h2>Firma del Chofer</h2>
-            <div style={{ border: '2px solid black', padding: 10, display: 'inline-block', boxSizing: 'border-box' }}>
-              <SignatureCanvas
-                ref={signaturePadChofer}
-                penColor='black'
-                canvasProps={{ width: 500, height: 200, className: 'signature-canvas' }}
+
+            {/* Chofer Section */}
+            <div style={{ flex: 1, textAlign: 'center' }}>
+              <label style={{ fontWeight: 'bold', display: 'block', marginBottom: '5px' }}>Nombre Chofer</label>
+              <Input
+                type="text"
+                name="nombreChofer"
+                value={formData.nombreChofer}
+                onChange={handleInputChange}
+                style={{ marginBottom: '10px', width: '100%' }}
               />
+              <h2 style={{ margin: '10px 0' }}>Firma del Chofer</h2>
+              <div
+                style={{
+                  border: '2px solid black',
+                  padding: 10,
+                  display: 'inline-block',
+                  boxSizing: 'border-box',
+                }}
+              >
+                <SignatureCanvas
+                  ref={signaturePadChofer}
+                  penColor="black"
+                  canvasProps={{ width: 250, height: 100, className: 'signature-canvas' }}
+                />
+              </div>
             </div>
+          </div>
+        </div>
+      </CardContent>
+      <CardFooter>
+        <p style={{ textAlign: 'center' }}>
+          Revise los datos y asegúrese de que las firmas sean claras antes de proceder.
+        </p>
+      </CardFooter>
+    </Card>
             <div style={{ paddingTop: 5 }} />
             <Button onClick={clearSignature}>Limpiar Firma</Button>
             <Button onClick={saveSignature}>Guardar Firma</Button>
 
             <Button onClick={handleInsert}>Guardar datos en la Bd</Button>
           </div>
-        </ResizablePanel>
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button variant="outline">Ver PDF</Button>
+          </DialogTrigger>
+        <DialogContent className="sm:max-w-[800px]">
+        <DialogHeader>
+          <DialogTitle>Vista del Documento</DialogTitle>
+          <DialogDescription>
+            Navega por el documento PDF y haz clic en los botones para moverte entre las páginas.
+          </DialogDescription>
+        </DialogHeader>
 
-        <ResizableHandle withHandle />
+        <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+          {currentPage === 1 && (
+            <Button onClick={goToNextPage} style={{ padding: '10px 20px', fontSize: '16px' }}>
+              Ir a la Página 2
+            </Button>
+          )}
+          {currentPage === 2 && (
+            <Button onClick={goToPreviousPage} style={{ padding: '10px 20px', fontSize: '16px' }}>
+              Ir a la Página 3
+            </Button>
+          )}
 
-        <ResizablePanel>
-          <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+          {currentPage === 3 && (
+            <Button onClick={goToNextPage2} style={{ padding: '10px 20px', fontSize: '16px' }}>
+              Volver a la Página 1
+            </Button>
+          )}
 
-            {currentPage === 1 && (
-              <Button onClick={goToNextPage} style={{ padding: '10px 20px', fontSize: '16px' }}>
-                Ir a la Página 2
-              </Button>
-            )}
-            {currentPage === 2 && (
-              <Button onClick={goToPreviousPage} style={{ padding: '10px 20px', fontSize: '16px' }}>
-                Ir a la Página 3
-              </Button>
-            )}
+          <PDFViewer width='100%' height='500px'>
+            <ActaPDF
+              formData={formData}
+              firmaBase64Inspector={firmaBase64Inspector}
+              firmaBase64Chofer={firmaBase64Chofer}
+              currentPage={currentPage}
+            />
+          </PDFViewer>
 
-            {currentPage === 3 && (
-              <Button onClick={goToNextPage2} style={{ padding: '10px 20px', fontSize: '16px' }}>
-                Volver a la Página 1
-              </Button>
-            )}
-            <PDFViewer width='100%' height='100%'>
-              <ActaPDF
-                formData={formData}
-                firmaBase64Inspector={firmaBase64Inspector}
-                firmaBase64Chofer={firmaBase64Chofer}
-                currentPage={currentPage}
-              />
-            </PDFViewer>
-            <div style={{ padding: '10px', display: 'flex', justifyContent: 'center' }} />
-            <div style={{ marginTop: 20, textAlign: 'center' }} />
-          </div>
-        </ResizablePanel>
-      </ResizablePanelGroup>
+          <div style={{ padding: '10px', display: 'flex', justifyContent: 'center' }} />
+          <div style={{ marginTop: 20, textAlign: 'center' }} />
+        </div>
+
+        <DialogFooter>
+          <Button variant="outline">Cerrar</Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
     </Layout>
   )
 }

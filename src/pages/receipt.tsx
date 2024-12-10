@@ -15,7 +15,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle
-} from '@/components/ui/card';
+} from '@/components/ui/card'
 import GothamNarrowMedium from '/fonts/GothamNarrow-Medium.otf'
 import { fetchActas, insert } from '../../connections/querys'
 import {
@@ -26,7 +26,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger
-} from "@/components/ui/dialog"
+} from '@/components/ui/dialog'
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 
@@ -120,118 +120,117 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer, currentPag
           {/* image */}
 
           <Image
-             style={[styles.logo, { height: 60, width: 150 }]} // Ajusta el tamaño de la imagen según sea necesario
-             src='/src/assets/images/LOGO.jpg'
-           />
+            style={[styles.logo, { height: 60, width: 150 }]} // Ajusta el tamaño de la imagen según sea necesario
+            src='/src/assets/images/LOGO.jpg'
+          />
           <View style={{ alignItems: 'center' }}>
-             {' '}
-             <Text style={{ fontSize: 24, fontWeight: 'bold', fontFamily: 'GothamNarrow' }}>ACTA DE DESCARGA </Text>
-             <View style={{ alignItems: 'center', marginTop: 5 }}>
-            <Text style={{ fontSize: 14, fontFamily: 'GothamNarrow' }}>
-              F-I-CAL-02-01
+            {' '}
+            <Text style={{ fontSize: 24, fontWeight: 'bold', fontFamily: 'GothamNarrow' }}>ACTA DE DESCARGA </Text>
+            <View style={{ alignItems: 'center', marginTop: 5 }}>
+              <Text style={{ fontSize: 14, fontFamily: 'GothamNarrow' }}>
+                F-I-CAL-02-01
+              </Text>
+              <Text style={{ fontSize: 14, fontFamily: 'GothamNarrow' }}>
+                Rev.7 (08-12-2024)
+              </Text>
+            </View>
+          </View>
+        </View>
+
+        <View style={styles.table}>
+          <View style={styles.tableRow}>
+            <Text style={styles.cellLabel}>Fecha: </Text>
+            <Text style={styles.cellValue}>{formData.fecha || ''}</Text>
+            <Text style={[styles.cellLabel, { flex: 1.5 }]}>
+              Inicio de{'\n'}verificación:
             </Text>
-            <Text style={{ fontSize: 14, fontFamily: 'GothamNarrow' }}>
-              Rev.7 (08-12-2024)
+            <Text style={styles.cellValue}>
+              {formData.inicioVerificacion || ''}
+            </Text>
+            <Text style={[styles.cellLabel, { flex: 1.5 }]}>
+              Término de verificación:
+            </Text>
+            <Text style={styles.cellValue}>
+              {formData.terminoVerificacion || ''}
+            </Text>
+            <Text style={styles.cellLabel}>O.C.: </Text>
+            <Text style={styles.cellValue}>{formData.oc || ''}</Text>
+          </View>
+          <View style={styles.tableRow}>
+            <Text style={[styles.cellLabel, { flex: 0.8 }]}>Proveedor:</Text>
+            <Text style={styles.cellValue}>{formData.proveedor || ''}</Text>
+            <Text style={styles.cellLabel}>Origen:</Text>
+            <Text style={styles.cellValue}>{formData.origen || ''}</Text>
+            <Text style={styles.cellLabel}>Factura: </Text>
+            <Text style={styles.cellValue}>{formData.factura || ''}</Text>
+          </View>
+          <View style={styles.tableRow}>
+            <Text style={[styles.cellLabel, { flex: 0.2 }]}>Especie:</Text>
+            <Text style={styles.cellValue}>{formData.especie || ''}</Text>
+          </View>
+          <View style={styles.tableRow}>
+            <Text style={[styles.cellLabel, { flex: 0.2 }]}>Variedades:</Text>
+            <Text style={styles.cellValue}>{formData.variedades || ''}</Text>
+          </View>
+
+          <View style={styles.tableRow}>
+            <Text style={styles.cellLabel}>Frío de descarga: </Text>
+            <Text style={styles.cellValue}>{formData.frioDescarga || ''}</Text>
+            <Text style={styles.cellLabel}>
+              Cajas recibidas: {formData.cajasRecibidas}
+            </Text>
+            <Text style={styles.cellValue}>{formData.cajasRecibidas || ''}</Text>
+          </View>
+        </View>
+
+        <View style={styles.table}>
+          <View style={styles.tableRow}>
+            <Text style={[styles.cellLabel, { flex: 0.35 }]}>
+              Línea Transportista
+            </Text>
+            <Text style={styles.cellValue}>
+              {formData.lineaTransportista || ''}
             </Text>
           </View>
-           </View>
-        </View>
-
-<<<<<<< HEAD
-        <View style={styles.table}>
           <View style={styles.tableRow}>
-             <Text style={styles.cellLabel}>Fecha: </Text>
-             <Text style={styles.cellValue}>{formData.fecha || ''}</Text>
-             <Text style={[styles.cellLabel, { flex: 1.5 }]}>
-            Inicio de{'\n'}verificación:
-          </Text>
-             <Text style={styles.cellValue}>
-            {formData.inicioVerificacion || ''}
-          </Text>
-             <Text style={[styles.cellLabel, { flex: 1.5 }]}>
-            Término de verificación:
-          </Text>
-             <Text style={styles.cellValue}>
-            {formData.terminoVerificacion || ''}
-          </Text>
-             <Text style={styles.cellLabel}>O.C.: </Text>
-             <Text style={styles.cellValue}>{formData.oc || ''}</Text>
-           </View>
+            <Text style={[styles.cellLabel, { flex: 0.35 }]}>
+              No. de Contenedor
+            </Text>
+            <Text style={styles.cellValue}>
+              {formData.numeroContenedor || ''}
+            </Text>
+          </View>
           <View style={styles.tableRow}>
-             <Text style={[styles.cellLabel, { flex: 0.8 }]}>Proveedor:</Text>
-             <Text style={styles.cellValue}>{formData.proveedor || ''}</Text>
-             <Text style={styles.cellLabel}>Origen:</Text>
-             <Text style={styles.cellValue}>{formData.origen || ''}</Text>
-             <Text style={styles.cellLabel}>Factura: </Text>
-             <Text style={styles.cellValue}>{formData.factura || ''}</Text>
-           </View>
+            <Text style={[styles.cellLabel, { flex: 0.35 }]}>
+              Placas de Camión
+            </Text>
+            <Text style={styles.cellValue}>{formData.placasCamion || ''}</Text>
+          </View>
           <View style={styles.tableRow}>
-             <Text style={[styles.cellLabel, { flex: 0.2 }]}>Especie:</Text>
-             <Text style={styles.cellValue}>{formData.especie || ''}</Text>
-           </View>
+            <Text style={[styles.cellLabel, { flex: 0.35 }]}>Placas Caja</Text>
+            <Text style={styles.cellValue}>{formData.placasCaja || ''}</Text>
+          </View>
           <View style={styles.tableRow}>
-             <Text style={[styles.cellLabel, { flex: 0.2 }]}>Variedades:</Text>
-             <Text style={styles.cellValue}>{formData.variedades || ''}</Text>
-           </View>
-
-          <View style={styles.tableRow}>
-             <Text style={styles.cellLabel}>Frío de descarga: </Text>
-             <Text style={styles.cellValue}>{formData.frioDescarga || ''}</Text>
-             <Text style={styles.cellLabel}>
-            Cajas recibidas: {formData.cajasRecibidas}
-          </Text>
-             <Text style={styles.cellValue}>{formData.cajasRecibidas || ''}</Text>
-           </View>
-        </View>
-
-        <View style={styles.table}>
-          <View style={styles.tableRow}>
-             <Text style={[styles.cellLabel, { flex: 0.35 }]}>
-            Línea Transportista
-          </Text>
-             <Text style={styles.cellValue}>
-            {formData.lineaTransportista || ''}
-          </Text>
-           </View>
-          <View style={styles.tableRow}>
-             <Text style={[styles.cellLabel, { flex: 0.35 }]}>
-            No. de Contenedor
-          </Text>
-             <Text style={styles.cellValue}>
-            {formData.numeroContenedor || ''}
-          </Text>
-           </View>
-          <View style={styles.tableRow}>
-             <Text style={[styles.cellLabel, { flex: 0.35 }]}>
-            Placas de Camión
-          </Text>
-             <Text style={styles.cellValue}>{formData.placasCamion || ''}</Text>
-           </View>
-          <View style={styles.tableRow}>
-             <Text style={[styles.cellLabel, { flex: 0.35 }]}>Placas Caja</Text>
-             <Text style={styles.cellValue}>{formData.placasCaja || ''}</Text>
-           </View>
-          <View style={styles.tableRow}>
-             <Text style={[styles.cellLabel, { flex: 0.35 }]}>Chofer</Text>
-             <Text style={styles.cellValue}>{formData.chofer || ''}</Text>
-           </View>
+            <Text style={[styles.cellLabel, { flex: 0.35 }]}>Chofer</Text>
+            <Text style={styles.cellValue}>{formData.chofer || ''}</Text>
+          </View>
         </View>
         <View style={{ marginBottom: 20 }} />
 
         <View style={{ width: '100%' }}>
           <Text style={[styles.cellLabel, { paddingVertical: 10, paddingTop: 1, width: '100%' }]}>
-             Condiciones de transporte:
-        </Text>
+            Condiciones de transporte:
+          </Text>
 
           <View style={styles.tableRow}>
-             <Text style={{ width: '60%' }} />
+            <Text style={{ width: '60%' }} />
 
-             <Text style={styles.cellLabelWhite}>Observaciones</Text>
-           </View>
+            <Text style={styles.cellLabelWhite}>Observaciones</Text>
+          </View>
           <View style={{ width: '100%', textAlign: 'center' }}>
-             <View style={styles.tableRow}>
-            <View style={{ flex: 1, flexDirection: 'column' }}>
-              <View style={styles.tableRow}>
+            <View style={styles.tableRow}>
+              <View style={{ flex: 1, flexDirection: 'column' }}>
+                <View style={styles.tableRow}>
                 <Text style={[styles.cellLabelWhite, { flex: 0.2 }]}>
                   Temperatura del set point:
                 </Text>
@@ -243,7 +242,7 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer, currentPag
                   {formData.observacionesSetPoint || ''}
                 </Text>
               </View>
-              <View style={styles.tableRow}>
+                <View style={styles.tableRow}>
                 <Text style={[styles.cellLabelWhite, { flex: 0.2 }]}>
                   Temperatura de pantalla:
                 </Text>
@@ -254,7 +253,7 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer, currentPag
                   {formData.observacionesPantalla || ''}
                 </Text>
               </View>
-              <View style={styles.tableRow}>
+                <View style={styles.tableRow}>
                 <Text style={[styles.cellLabel, { flex: 0.28 }]} />
                 <Text style={[styles.cellLabel, { flex: 0.17 }]}>cumple</Text>
                 <Text style={[styles.cellLabel, { flex: 0.17 }]}>
@@ -265,7 +264,7 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer, currentPag
                   observaciones
                 </Text>
               </View>
-              <View style={[styles.tableRow, { height: 'auto' }]}>
+                <View style={[styles.tableRow, { height: 'auto' }]}>
                 <Text style={[styles.cellLabelWhite, { flex: 0.66 }]}>
                   Termografo:
                 </Text>
@@ -303,7 +302,7 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer, currentPag
                 </View>
               </View>
 
-              <View style={styles.tableRow}>
+                <View style={styles.tableRow}>
                 <Text style={[styles.cellLabelWhite, { flex: 0.7 }]}>
                   Limpio,libre de malos olores:
                 </Text>
@@ -318,7 +317,7 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer, currentPag
                   {formData.limpio || ''}
                 </Text>
               </View>
-              <View style={styles.tableRow}>
+                <View style={styles.tableRow}>
                 <Text style={[styles.cellLabelWhite, { flex: 0.7 }]}>
                   Caja cerrada , en buen estado(sin hoyos o endiduras ):
                 </Text>
@@ -333,7 +332,7 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer, currentPag
                 </Text>
               </View>
 
-              <View style={styles.tableRow}>
+                <View style={styles.tableRow}>
                 <Text style={[styles.cellLabelWhite, { flex: 0.7 }]}>
                   Lona en buen estado:
                 </Text>
@@ -347,7 +346,7 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer, currentPag
                   {formData.lona || ''}
                 </Text>
               </View>
-              <View style={styles.tableRow}>
+                <View style={styles.tableRow}>
                 <Text style={[styles.cellLabelWhite, { flex: 0.7 }]}>
                   Libre de fauna nociva:
                 </Text>
@@ -361,7 +360,7 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer, currentPag
                   {formData.fauna || ''}
                 </Text>
               </View>
-              <View style={styles.tableRow}>
+                <View style={styles.tableRow}>
                 <Text style={[styles.cellLabelWhite, { flex: 0.7 }]}>
                   Carga en buen estado:
                 </Text>
@@ -375,7 +374,7 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer, currentPag
                   {formData.carga || ''}
                 </Text>
               </View>
-              <View style={styles.tableRow}>
+                <View style={styles.tableRow}>
                 <Text style={[styles.cellLabelWhite, { flex: 0.7 }]}>
                   seguridad de carga
                 </Text>
@@ -389,7 +388,7 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer, currentPag
                   {formData.seguridadCarga || ''}
                 </Text>
               </View>
-              <View style={styles.tableRow}>
+                <View style={styles.tableRow}>
                 <Text style={[styles.cellLabelWhite, { flex: 0.7 }]}>
                   sellado:
                 </Text>
@@ -403,379 +402,477 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer, currentPag
                   {formData.sellado || ''}
                 </Text>
               </View>
+              </View>
             </View>
           </View>
-           </View>
-=======
-     
-
-    
-      <View style={{ marginBottom: 20 }} />
-
-      <View style={{ width: '100%' }}>
-        
-
-  
->>>>>>> 781bb82178e014dcde26a9049402546b0ccdf655
 
           <View style={styles.table}>
-             <View style={styles.tableRow}>
-            <Text style={styles.cellLabel}>Fecha: </Text>
-            <Text style={styles.cellValue}>{formData.fecha ?? ''}</Text>
-            <Text style={[styles.cellLabel, { flex: 1.5 }]}>
-              Inicio de{'\n'}verificación:
+            <View style={styles.tableRow}>
+              <Text style={styles.cellLabel}>Fecha: </Text>
+              <Text style={styles.cellValue}>{formData.fecha ?? ''}</Text>
+              <Text style={[styles.cellLabel, { flex: 1.5 }]}>
+                Inicio de{'\n'}verificación:
+              </Text>
+              <Text style={styles.cellValue}>
+                {formData.inicioVerificacion ?? ''}
+              </Text>
+              <Text style={[styles.cellLabel, { flex: 1.5 }]}>
+                Término de verificación:
             </Text>
-            <Text style={styles.cellValue}>
-              {formData.inicioVerificacion ?? ''}
-            </Text>
-            <Text style={[styles.cellLabel, { flex: 1.5 }]}>
-              Término de verificación:
-            </Text>
-            <Text style={styles.cellValue}>
-              {formData.terminoVerificacion ?? ''}
-            </Text>
-            <Text style={styles.cellLabel}>O.C.: </Text>
-            <Text style={styles.cellValue}>{formData.oc ?? ''}</Text>
-          </View>
-             <View style={styles.tableRow}>
-            <Text style={[styles.cellLabel, { flex: 0.8 }]}>Proveedor:</Text>
-            <Text style={styles.cellValue}>{formData.proveedor ?? ''}</Text>
-            <Text style={styles.cellLabel}>Origen:</Text>
-            <Text style={styles.cellValue}>{formData.origen ?? ''}</Text>
-            <Text style={styles.cellLabel}>Factura: </Text>
-            <Text style={styles.cellValue}>{formData.factura ?? ''}</Text>
-          </View>
-             <View style={styles.tableRow}>
-            <Text style={[styles.cellLabel, { flex: 0.2 }]}>Especie:</Text>
-            <Text style={styles.cellValue}>{formData.especie ?? ''}</Text>
-          </View>
-             <View style={styles.tableRow}>
-            <Text style={[styles.cellLabel, { flex: 0.2 }]}>Variedades:</Text>
-            <Text style={styles.cellValue}>{formData.variedades ?? ''}</Text>
-          </View>
+              <Text style={styles.cellValue}>
+                {formData.terminoVerificacion ?? ''}
+              </Text>
+              <Text style={styles.cellLabel}>O.C.: </Text>
+              <Text style={styles.cellValue}>{formData.oc ?? ''}</Text>
+            </View>
+            <View style={styles.tableRow}>
+              <Text style={[styles.cellLabel, { flex: 0.8 }]}>Proveedor:</Text>
+              <Text style={styles.cellValue}>{formData.proveedor ?? ''}</Text>
+              <Text style={styles.cellLabel}>Origen:</Text>
+              <Text style={styles.cellValue}>{formData.origen ?? ''}</Text>
+              <Text style={styles.cellLabel}>Factura: </Text>
+              <Text style={styles.cellValue}>{formData.factura ?? ''}</Text>
+            </View>
+            <View style={styles.tableRow}>
+              <Text style={[styles.cellLabel, { flex: 0.2 }]}>Especie:</Text>
+              <Text style={styles.cellValue}>{formData.especie ?? ''}</Text>
+            </View>
+            <View style={styles.tableRow}>
+              <Text style={[styles.cellLabel, { flex: 0.2 }]}>Variedades:</Text>
+              <Text style={styles.cellValue}>{formData.variedades ?? ''}</Text>
+            </View>
 
-             <View style={styles.tableRow}>
-            <Text style={styles.cellLabel}>Frío de descarga: </Text>
-            <Text style={styles.cellValue}>{formData.frioDescarga ?? ''}</Text>
-            <Text style={styles.cellLabel}>
-              Cajas recibidas: {formData.cajasRecibidas}
-            </Text>
-            <Text style={styles.cellValue}>{formData.cajasRecibidas ?? ''}</Text>
+            <View style={styles.tableRow}>
+              <Text style={styles.cellLabel}>Frío de descarga: </Text>
+              <Text style={styles.cellValue}>{formData.frioDescarga ?? ''}</Text>
+              <Text style={styles.cellLabel}>
+                Cajas recibidas: {formData.cajasRecibidas}
+              </Text>
+              <Text style={styles.cellValue}>{formData.cajasRecibidas ?? ''}</Text>
+            </View>
           </View>
-           </View>
 
           <View style={styles.table}>
-             <View style={styles.tableRow}>
-            <Text style={[styles.cellLabel, { flex: 0.35 }]}>
-              Línea Transportista
+            <View style={styles.tableRow}>
+              <Text style={[styles.cellLabel, { flex: 0.35 }]}>
+                Línea Transportista
             </Text>
-            <Text style={styles.cellValue}>
-              {formData.lineaTransportista ?? ''}
+              <Text style={styles.cellValue}>
+                {formData.lineaTransportista ?? ''}
+              </Text>
+            </View>
+            <View style={styles.tableRow}>
+              <Text style={[styles.cellLabel, { flex: 0.35 }]}>
+                No. de Contenedor
             </Text>
-          </View>
-             <View style={styles.tableRow}>
-            <Text style={[styles.cellLabel, { flex: 0.35 }]}>
-              No. de Contenedor
+              <Text style={styles.cellValue}>
+                {formData.numeroContenedor ?? ''}
+              </Text>
+            </View>
+            <View style={styles.tableRow}>
+              <Text style={[styles.cellLabel, { flex: 0.35 }]}>
+                Placas de Camión
             </Text>
-            <Text style={styles.cellValue}>
-              {formData.numeroContenedor ?? ''}
-            </Text>
+              <Text style={styles.cellValue}>{formData.placasCamion ?? ''}</Text>
+            </View>
+            <View style={styles.tableRow}>
+              <Text style={[styles.cellLabel, { flex: 0.35 }]}>Placas Caja</Text>
+              <Text style={styles.cellValue}>{formData.placasCaja ?? ''}</Text>
+            </View>
+            <View style={styles.tableRow}>
+              <Text style={[styles.cellLabel, { flex: 0.35 }]}>Chofer</Text>
+              <Text style={styles.cellValue}>{formData.chofer ?? ''}</Text>
+            </View>
           </View>
-             <View style={styles.tableRow}>
-            <Text style={[styles.cellLabel, { flex: 0.35 }]}>
-              Placas de Camión
-            </Text>
-            <Text style={styles.cellValue}>{formData.placasCamion ?? ''}</Text>
-          </View>
-             <View style={styles.tableRow}>
-            <Text style={[styles.cellLabel, { flex: 0.35 }]}>Placas Caja</Text>
-            <Text style={styles.cellValue}>{formData.placasCaja ?? ''}</Text>
-          </View>
-             <View style={styles.tableRow}>
-            <Text style={[styles.cellLabel, { flex: 0.35 }]}>Chofer</Text>
-            <Text style={styles.cellValue}>{formData.chofer ?? ''}</Text>
-          </View>
-           </View>
           <View style={{ marginBottom: 20 }} />
 
-<<<<<<< HEAD
           <View style={{ width: '100%' }}>
-             <Text style={[styles.cellLabel, { paddingVertical: 10, paddingTop: 1, width: '100%' }]}>
-            Condiciones de transporte:
-=======
-        <View style={{ width: '100%' }}>
-          <Text style={[styles.cellLabel, { paddingVertical: 10, paddingTop: 1, width: '100%' }]}>
-            Condiciones de transprte:
->>>>>>> 781bb82178e014dcde26a9049402546b0ccdf655
-          </Text>
+            <Text style={[styles.cellLabel, { paddingVertical: 10, paddingTop: 1, width: '100%' }]}>
+              Condiciones de transporte:
+            </Text>
 
-             <View style={styles.tableRow}>
-            <Text style={{ width: '60%' }} />
-
-            <Text style={styles.cellLabelWhite}>Observaciones</Text>
-          </View>
-             <View style={{ width: '100%', textAlign: 'center' }}>
             <View style={styles.tableRow}>
-              <View style={{ flex: 1, flexDirection: 'column' }}>
+              <Text style={{ width: '60%' }} />
+
+              <Text style={styles.cellLabelWhite}>Observaciones</Text>
+            </View>
+            <View style={{ width: '100%', textAlign: 'center' }}>
+              <View style={styles.tableRow}>
+                <View style={{ flex: 1, flexDirection: 'column' }}>
                 <View style={styles.tableRow}>
                   <Text style={[styles.cellLabelWhite, { flex: 0.2 }]}>
-                    Temperatura del set point:
+                       Temperatura del set point:
                   </Text>
                   <Text style={[styles.cellValue, { flex: 0.4 }]}>
-                    {'\n'}  {formData.tempSetPoint ?? ''}
-                  </Text>
+                       {'\n'}  {formData.tempSetPoint ?? ''}
+                     </Text>
 
                   <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>
-                    {formData.observacionesSetPoint ?? ''}
-                  </Text>
+                       {formData.observacionesSetPoint ?? ''}
+                     </Text>
                 </View>
                 <View style={styles.tableRow}>
                   <Text style={[styles.cellLabelWhite, { flex: 0.2 }]}>
-                    Temperatura de pantalla:
+                       Temperatura de pantalla:
                   </Text>
                   <Text style={[styles.cellValue, { flex: 0.4 }]}>
-                    {'\n'} {formData.tempPantalla ?? ''}
-                  </Text>
+                       {'\n'} {formData.tempPantalla ?? ''}
+                     </Text>
                   <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>
-                    {formData.observacionesPantalla ?? ''}
-                  </Text>
+                       {formData.observacionesPantalla ?? ''}
+                     </Text>
                 </View>
                 <View style={styles.tableRow}>
                   <Text style={[styles.cellLabel, { flex: 0.28 }]} />
                   <Text style={[styles.cellLabel, { flex: 0.17 }]}>cumple</Text>
                   <Text style={[styles.cellLabel, { flex: 0.17 }]}>
-                    no cumple
+                       no cumple
                   </Text>
 
                   <Text style={[styles.cellLabel, { flex: 0.52 }]}>
-                    observaciones
+                       observaciones
                   </Text>
                 </View>
                 <View style={[styles.tableRow, { height: 'auto' }]}>
                   <Text style={[styles.cellLabelWhite, { flex: 0.66 }]}>
-                    Termografo:
+                       Termografo:
                   </Text>
 
                   <View style={{ flex: 0.42 }}>
-                    <Text style={styles.cellValue}>
+                       <Text style={styles.cellValue}>
                       {formData.option === 'Si' ? 'SI' : ''}
                     </Text>
 
-                    <Text style={styles.cellValue}>
+                       <Text style={styles.cellValue}>
                       {formData.option2 === 'Si' ? 'SI' : ''}
                     </Text>
-                  </View>
+                     </View>
                   <View style={{ flex: 0.43 }}>
-                    <Text style={styles.cellValue}>
+                       <Text style={styles.cellValue}>
                       {formData.option === 'No' ? 'No ' : ''}
                     </Text>
-                    <Text style={styles.cellValue}>
+                       <Text style={styles.cellValue}>
                       {formData.option2 === 'No' ? 'No' : ''}
                     </Text>
-                  </View>
+                     </View>
 
                   <View style={{ flex: 0.3 }}>
-                    <Text style={styles.cellValue}>Origen</Text>
+                       <Text style={styles.cellValue}>Origen</Text>
 
-                    <Text style={styles.cellValue}>Destino:</Text>
-                  </View>
+                       <Text style={styles.cellValue}>Destino:</Text>
+                     </View>
                   <View style={{ flex: 0.98, minHeight: 60 }}>
-                    <Text style={styles.cellValue}>
+                       <Text style={styles.cellValue}>
                       {formData.tempOrigen ?? ''}
                     </Text>
-                    <Text style={styles.cellValue}>
+                       <Text style={styles.cellValue}>
                       {formData.tempDestino ?? ''}
                     </Text>
-                  </View>
+                     </View>
                 </View>
 
                 <View style={styles.tableRow}>
                   <Text style={[styles.cellLabelWhite, { flex: 0.7 }]}>
-                    Limpio,libre de malos olores:
+                       Limpio,libre de malos olores:
                   </Text>
                   <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>
-                    {formData.optionLimpio === 'Si' ? 'Si' : ''}
-                  </Text>
+                       {formData.optionLimpio === 'Si' ? 'Si' : ''}
+                     </Text>
                   <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>
-                    {formData.optionLimpio === 'No' ? 'No' : ''}
-                  </Text>
+                       {formData.optionLimpio === 'No' ? 'No' : ''}
+                     </Text>
                   <Text style={[styles.cellLabelWhite, { flex: 1.3 }]}>
-                    {' '}
-                    {formData.limpio ?? ''}
-                  </Text>
+                       {' '}
+                       {formData.limpio ?? ''}
+                     </Text>
                 </View>
                 <View style={styles.tableRow}>
                   <Text style={[styles.cellLabelWhite, { flex: 0.7 }]}>
-                    Caja cerrada , en buen estado(sin hoyos o endiduras ):
+                       Caja cerrada , en buen estado(sin hoyos o endiduras ):
                   </Text>
                   <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>
-                    {formData.optionCaja === 'Si' ? 'Si' : ''}
-                  </Text>
+                       {formData.optionCaja === 'Si' ? 'Si' : ''}
+                     </Text>
                   <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>
-                    {formData.optionCaja === 'No' ? 'No' : ''}
-                  </Text>
+                       {formData.optionCaja === 'No' ? 'No' : ''}
+                     </Text>
                   <Text style={[styles.cellLabelWhite, { flex: 1.3 }]}>
-                    {formData.cajaCerrada ?? ''}
-                  </Text>
+                       {formData.cajaCerrada ?? ''}
+                     </Text>
                 </View>
 
                 <View style={styles.tableRow}>
                   <Text style={[styles.cellLabelWhite, { flex: 0.7 }]}>
-                    Lona en buen estado:
+                       Lona en buen estado:
                   </Text>
                   <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>
-                    {formData.optionLona === 'Si' ? 'Si' : ''}
-                  </Text>
+                       {formData.optionLona === 'Si' ? 'Si' : ''}
+                     </Text>
                   <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>
-                    {formData.optionLona === 'No' ? 'No' : ''}
-                  </Text>
+                       {formData.optionLona === 'No' ? 'No' : ''}
+                     </Text>
                   <Text style={[styles.cellLabelWhite, { flex: 1.3 }]}>
-                    {formData.lona ?? ''}
-                  </Text>
+                       {formData.lona ?? ''}
+                     </Text>
                 </View>
                 <View style={styles.tableRow}>
                   <Text style={[styles.cellLabelWhite, { flex: 0.7 }]}>
-                    Libre de fauna nociva:
+                       Libre de fauna nociva:
                   </Text>
                   <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>
-                    {formData.optionLibre === 'Si' ? 'Si' : ''}
-                  </Text>
+                       {formData.optionLibre === 'Si' ? 'Si' : ''}
+                     </Text>
                   <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>
-                    {formData.optionLibre === 'No' ? 'No' : ''}
-                  </Text>
+                       {formData.optionLibre === 'No' ? 'No' : ''}
+                     </Text>
                   <Text style={[styles.cellLabelWhite, { flex: 1.3 }]}>
-                    {formData.fauna ?? ''}
-                  </Text>
+                       {formData.fauna ?? ''}
+                     </Text>
                 </View>
                 <View style={styles.tableRow}>
                   <Text style={[styles.cellLabelWhite, { flex: 0.7 }]}>
-                    Carga en buen estado:
+                       Carga en buen estado:
                   </Text>
                   <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>
-                    {formData.optionCarga === 'Si' ? 'Si' : ''}
-                  </Text>
+                       {formData.optionCarga === 'Si' ? 'Si' : ''}
+                     </Text>
                   <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>
-                    {formData.optionCarga === 'No' ? 'No' : ''}
-                  </Text>
+                       {formData.optionCarga === 'No' ? 'No' : ''}
+                     </Text>
                   <Text style={[styles.cellLabelWhite, { flex: 1.3 }]}>
-                    {formData.carga ?? ''}
-                  </Text>
+                       {formData.carga ?? ''}
+                     </Text>
                 </View>
                 <View style={styles.tableRow}>
                   <Text style={[styles.cellLabelWhite, { flex: 0.7 }]}>
-                    seguridad de carga
+                       seguridad de carga
                   </Text>
                   <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>
-                    {formData.optionSeguridad === 'Si' ? 'Si' : ''}
-                  </Text>
+                       {formData.optionSeguridad === 'Si' ? 'Si' : ''}
+                     </Text>
                   <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>
-                    {formData.optionSeguridad === 'No' ? 'No' : ''}
-                  </Text>
+                       {formData.optionSeguridad === 'No' ? 'No' : ''}
+                     </Text>
                   <Text style={[styles.cellLabelWhite, { flex: 1.3 }]}>
-                    {formData.seguridadCarga ?? ''}
-                  </Text>
+                       {formData.seguridadCarga ?? ''}
+                     </Text>
                 </View>
                 <View style={styles.tableRow}>
                   <Text style={[styles.cellLabelWhite, { flex: 0.7 }]}>
-                    sellado:
+                       sellado:
                   </Text>
                   <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>
-                    {formData.optionSellado === 'Si' ? 'Si' : ''}
-                  </Text>
+                       {formData.optionSellado === 'Si' ? 'Si' : ''}
+                     </Text>
                   <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>
-                    {formData.optionSellado === 'No' ? 'No' : ''}
-                  </Text>
+                       {formData.optionSellado === 'No' ? 'No' : ''}
+                     </Text>
                   <Text style={[styles.cellLabelWhite, { flex: 1.3 }]}>
-                    {formData.sellado ?? ''}
-                  </Text>
+                       {formData.sellado ?? ''}
+                     </Text>
                 </View>
+              </View>
+              </View>
+            </View>
+
+            <Text style={[styles.cellLabel, { paddingTop: 4, fontSize: 10 }]}>
+              Condiciones de Carga (Maniobra)
+            </Text>
+            <View style={{ width: '100%' }}>
+              <View style={styles.tableRow}>
+                <Text style={[styles.cellLabelWhite, { flex: 0.7 }]}>
+                Hay tarimas dañadas :
+              </Text>
+                <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>SI</Text>
+                <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>NO</Text>
+                <Text style={[styles.cellLabelWhite, { flex: 1.3 }]}>
+                #{formData.tarimasDanadas}{' '}
+              </Text>
+              </View>
+              <View style={styles.tableRow}>
+                <Text style={[styles.cellLabelWhite, { flex: 0.7 }]}>
+                Cajas identificadas :
+              </Text>
+                <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>SI</Text>
+                <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>NO</Text>
+                <Text style={[styles.cellLabelWhite, { flex: 1.3 }]}>
+                #{formData.cajasIdentificadas}
+              </Text>
+              </View>
+              <View style={styles.tableRow}>
+                <Text style={[styles.cellLabelWhite, { flex: 0.7 }]}>
+                Cajas dañadas por maniobra:
+              </Text>
+                <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}> SI </Text>
+
+                <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>NO</Text>
+                <Text style={[styles.cellLabelWhite, { flex: 1.3 }]}>
+                #{formData.danadasManiobra}
+              </Text>
               </View>
             </View>
           </View>
 
-             <Text style={[styles.cellLabel, { paddingTop: 4, fontSize: 10 }]}>
-            Condiciones de Carga (Maniobra)
-          </Text>
-             <View style={{ width: '100%' }}>
-            <View style={styles.tableRow}>
-              <Text style={[styles.cellLabelWhite, { flex: 0.7 }]}>
-                Hay tarimas dañadas :
-              </Text>
-              <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>SI</Text>
-              <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>NO</Text>
-              <Text style={[styles.cellLabelWhite, { flex: 1.3 }]}>
-                #{formData.tarimasDanadas}{' '}
-              </Text>
-            </View>
-            <View style={styles.tableRow}>
-              <Text style={[styles.cellLabelWhite, { flex: 0.7 }]}>
-                Cajas identificadas :
-              </Text>
-              <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>SI</Text>
-              <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>NO</Text>
-              <Text style={[styles.cellLabelWhite, { flex: 1.3 }]}>
-                #{formData.cajasIdentificadas}
-              </Text>
-            </View>
-            <View style={styles.tableRow}>
-              <Text style={[styles.cellLabelWhite, { flex: 0.7 }]}>
-                Cajas dañadas por maniobra:
-              </Text>
-              <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}> SI </Text>
-
-              <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>NO</Text>
-              <Text style={[styles.cellLabelWhite, { flex: 1.3 }]}>
-                #{formData.danadasManiobra}
-              </Text>
-            </View>
-          </View>
-           </View>
-
           <View style={{ marginBottom: 20 }} />
 
           <View style={[styles.tableRow, { marginBottom: 15, width: '100%' }]}>
-             <View style={[{ height: 100, width: '26%' }]}>
+            <View style={[{ height: 100, width: '26%' }]}>
+              <Text style={[styles.cellLabel, {}]}>Temperatura de pulpa</Text>
+              <Text style={styles.cellValue}>A</Text>
+              <Text style={styles.cellValue}>M</Text>
+              <Text style={styles.cellValue}>B</Text>
+            </View>
+            <View style={[{ width: '10%' }]}>
+              <Text style={[styles.cellLabel, { height: 20 }]}>Puerta</Text>
+              <Text style={styles.cellValue}>{formData.tempAPuerta}</Text>
+              <Text style={styles.cellValue}>{formData.tempMPuerta}</Text>
+              <Text style={styles.cellValue}>{formData.tempBPuerta}</Text>
+            </View>
+            <View style={[{ width: '10%' }]}>
+              <Text style={[styles.cellLabel, { height: 20 }]}>Medio</Text>
+              <Text style={styles.cellValue}>{formData.tempAMedio}</Text>
+              <Text style={styles.cellValue}>{formData.tempMMedio}</Text>
+              <Text style={styles.cellValue}>{formData.tempBMedio}</Text>
+            </View>
+            <View style={[{ width: '10%' }]}>
+              <Text style={[styles.cellLabel, { height: 20 }]}>Fondo</Text>
+              <Text style={styles.cellValue}>{formData.tempAFondo}</Text>
+              <Text style={styles.cellValue}>{formData.tempMFondo}</Text>
+              <Text style={styles.cellValue}>{formData.tempBFondo}</Text>
+            </View>
+            <View style={[{ width: '30%' }]}>
+              <Text style={[styles.cellLabel]}>Rango de Temperatura</Text>
+              <View style={[styles.tableRow, { height: 50 }]}>
+                <Text style={styles.cellValue}>Min:{formData.tempMin}</Text>
+                <Text style={styles.cellValue}>Max:{formData.tempMax}</Text>
+              </View>
+            </View>
+            <View style={[{ width: '30%' }]}>
+              <Text style={styles.cellLabel}>Ideal</Text>
+              <View style={[styles.tableRow, { height: 50 }]}>
+                <Text style={styles.cellValue}> {formData.tempIdeal}°C </Text>
+              </View>
+            </View>
+          </View>
+
+          <View style={[styles.tableRow, { marginBottom: 15 }]}>
+            {/* Parte en negritas y más grande */}
+            <Text
+              style={[
+                styles.cellLabel,
+                { flex: 0.35, fontSize: 11, fontWeight: 'bold' }
+              ]}
+            >
+              Resultados de la {'\n'}Investigación{'\n'}
+              <Text style={{ fontSize: 6 }}>
+                (PRODUCTO DAÑADO DESEMPLEADO SE ENVIAN A PISO O SE ARREGLAN)
+            </Text>
+            </Text>
+            <Text style={styles.cellValue}>{formData.resultadosInv ?? ''}</Text>
+          </View>
+
+          <Text style={[styles.cellLabel, { flex: 0.15, fontSize: 14 }]}>
+            Hago constar que estoy de acuerdo con lo verificado y registrado en el
+            presente{'\n'}documento
+          </Text>
+
+          <View>
+            <View style={styles.tableRow}>
+              <Text style={[styles.cellLabel, { width: '12%', textAlign: 'center', fontSize: 10, height: 200 }]}>
+                {' '}
+                Verifico descarga{'\n'} (Inspector de Calidad)
+              </Text>
+              <View style={{ width: '38%' }}>
+                <Text style={[styles.cellValue, { flex: 0.3 }]}>
+                Nombre:{formData.nombreInspector}
+              </Text>
+
+                <View style={[styles.cellValue, {}]}>
+                <Text style={[styles.inputLabel, { paddingBottom: 10 }]}>
+                    Firma:
+                </Text>
+                {firmaBase64Inspector && (
+                    <Image
+                       src={firmaBase64Inspector}
+                       style={{ width: 200, height: 150 }}
+                     />
+                  )}
+              </View>
+              </View>
+              <Text style={[styles.cellLabel, { width: '12%', fontSize: 10 }]}>
+                {' '}
+                Chofer
+            </Text>
+              <View style={{ width: '38%' }}>
+                <Text style={[styles.cellValue, { flex: 0.3 }]}>
+                Nombre:{formData.nombreChofer}
+              </Text>
+                <View style={[styles.cellValue, {}]}>
+                <Text style={[styles.inputLabel, { paddingBottom: 10 }]}>
+                    Firma:
+                </Text>
+                {firmaBase64Chofer && (
+                    <Image
+                       src={firmaBase64Chofer}
+                       style={{ width: 200, height: 150 }}
+                     />
+                  )}
+              </View>
+              </View>
+            </View>
+          </View>
+        </View>
+
+      </Page>
+
+    )}
+    {currentPage == 2 && (
+      <Page>
+        <View style={{ marginBottom: 20 }} />
+
+        <View style={[styles.tableRow, { marginBottom: 15, width: '100%' }]}>
+          <View style={[{ height: 100, width: '26%' }]}>
             <Text style={[styles.cellLabel, {}]}>Temperatura de pulpa</Text>
             <Text style={styles.cellValue}>A</Text>
             <Text style={styles.cellValue}>M</Text>
             <Text style={styles.cellValue}>B</Text>
           </View>
-             <View style={[{ width: '10%' }]}>
+          <View style={[{ width: '10%' }]}>
             <Text style={[styles.cellLabel, { height: 20 }]}>Puerta</Text>
             <Text style={styles.cellValue}>{formData.tempAPuerta}</Text>
             <Text style={styles.cellValue}>{formData.tempMPuerta}</Text>
             <Text style={styles.cellValue}>{formData.tempBPuerta}</Text>
           </View>
-             <View style={[{ width: '10%' }]}>
+          <View style={[{ width: '10%' }]}>
             <Text style={[styles.cellLabel, { height: 20 }]}>Medio</Text>
             <Text style={styles.cellValue}>{formData.tempAMedio}</Text>
             <Text style={styles.cellValue}>{formData.tempMMedio}</Text>
             <Text style={styles.cellValue}>{formData.tempBMedio}</Text>
           </View>
-             <View style={[{ width: '10%' }]}>
+          <View style={[{ width: '10%' }]}>
             <Text style={[styles.cellLabel, { height: 20 }]}>Fondo</Text>
             <Text style={styles.cellValue}>{formData.tempAFondo}</Text>
             <Text style={styles.cellValue}>{formData.tempMFondo}</Text>
             <Text style={styles.cellValue}>{formData.tempBFondo}</Text>
           </View>
-             <View style={[{ width: '30%' }]}>
+          <View style={[{ width: '30%' }]}>
             <Text style={[styles.cellLabel]}>Rango de Temperatura</Text>
             <View style={[styles.tableRow, { height: 50 }]}>
               <Text style={styles.cellValue}>Min:{formData.tempMin}</Text>
               <Text style={styles.cellValue}>Max:{formData.tempMax}</Text>
             </View>
           </View>
-             <View style={[{ width: '30%' }]}>
+          <View style={[{ width: '30%' }]}>
             <Text style={styles.cellLabel}>Ideal</Text>
             <View style={[styles.tableRow, { height: 50 }]}>
               <Text style={styles.cellValue}> {formData.tempIdeal}°C </Text>
             </View>
           </View>
-           </View>
+        </View>
 
-          <View style={[styles.tableRow, { marginBottom: 15 }]}>
-             {/* Parte en negritas y más grande */}
-             <Text
+        <View style={[styles.tableRow, { marginBottom: 15 }]}>
+          {/* Parte en negritas y más grande */}
+          <Text
             style={[
               styles.cellLabel,
               { flex: 0.35, fontSize: 11, fontWeight: 'bold' }
@@ -786,16 +883,15 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer, currentPag
               (PRODUCTO DAÑADO DESEMPLEADO SE ENVIAN A PISO O SE ARREGLAN)
             </Text>
           </Text>
-             <Text style={styles.cellValue}>{formData.resultadosInv ?? ''}</Text>
-           </View>
+          <Text style={styles.cellValue}>{formData.resultadosInv || ''}</Text>
+        </View>
+        <Text style={[styles.cellLabel, { flex: 0.15, fontSize: 14 }]}>
+          Hago constar que estoy de acuerdo con lo verificado y registrado en el
+          presente{'\n'}documento
+        </Text>
 
-          <Text style={[styles.cellLabel, { flex: 0.15, fontSize: 14 }]}>
-             Hago constar que estoy de acuerdo con lo verificado y registrado en el
-             presente{'\n'}documento
-           </Text>
-
-          <View>
-             <View style={styles.tableRow}>
+        <View>
+          <View style={styles.tableRow}>
             <Text style={[styles.cellLabel, { width: '12%', textAlign: 'center', fontSize: 10, height: 200 }]}>
               {' '}
               Verifico descarga{'\n'} (Inspector de Calidad)
@@ -808,12 +904,12 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer, currentPag
               <View style={[styles.cellValue, {}]}>
                 <Text style={[styles.inputLabel, { paddingBottom: 10 }]}>
                   Firma:
-                </Text>
+              </Text>
                 {firmaBase64Inspector && (
                   <Image
-                    src={firmaBase64Inspector}
-                    style={{ width: 200, height: 150 }}
-                  />
+                     src={firmaBase64Inspector}
+                     style={{ width: 200, height: 150 }}
+                   />
                 )}
               </View>
             </View>
@@ -828,131 +924,17 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer, currentPag
               <View style={[styles.cellValue, {}]}>
                 <Text style={[styles.inputLabel, { paddingBottom: 10 }]}>
                   Firma:
-                </Text>
+              </Text>
                 {firmaBase64Chofer && (
                   <Image
-                    src={firmaBase64Chofer}
-                    style={{ width: 200, height: 150 }}
-                  />
+                     src={firmaBase64Chofer}
+                     style={{ width: 200, height: 150 }}
+                   />
                 )}
               </View>
             </View>
           </View>
-           </View>
         </View>
-
-      </Page>
-
-    )}
-    {currentPage == 2 && (
-      <Page>
-        <View style={{ marginBottom: 20 }} />
-
-        <View style={[styles.tableRow, { marginBottom: 15, width: '100%' }]}>
-           <View style={[{ height: 100, width: '26%' }]}>
-            <Text style={[styles.cellLabel, {}]}>Temperatura de pulpa</Text>
-            <Text style={styles.cellValue}>A</Text>
-            <Text style={styles.cellValue}>M</Text>
-            <Text style={styles.cellValue}>B</Text>
-          </View>
-           <View style={[{ width: '10%' }]}>
-            <Text style={[styles.cellLabel, { height: 20 }]}>Puerta</Text>
-            <Text style={styles.cellValue}>{formData.tempAPuerta}</Text>
-            <Text style={styles.cellValue}>{formData.tempMPuerta}</Text>
-            <Text style={styles.cellValue}>{formData.tempBPuerta}</Text>
-          </View>
-           <View style={[{ width: '10%' }]}>
-            <Text style={[styles.cellLabel, { height: 20 }]}>Medio</Text>
-            <Text style={styles.cellValue}>{formData.tempAMedio}</Text>
-            <Text style={styles.cellValue}>{formData.tempMMedio}</Text>
-            <Text style={styles.cellValue}>{formData.tempBMedio}</Text>
-          </View>
-           <View style={[{ width: '10%' }]}>
-            <Text style={[styles.cellLabel, { height: 20 }]}>Fondo</Text>
-            <Text style={styles.cellValue}>{formData.tempAFondo}</Text>
-            <Text style={styles.cellValue}>{formData.tempMFondo}</Text>
-            <Text style={styles.cellValue}>{formData.tempBFondo}</Text>
-          </View>
-           <View style={[{ width: '30%' }]}>
-            <Text style={[styles.cellLabel]}>Rango de Temperatura</Text>
-            <View style={[styles.tableRow, { height: 50 }]}>
-                <Text style={styles.cellValue}>Min:{formData.tempMin}</Text>
-                <Text style={styles.cellValue}>Max:{formData.tempMax}</Text>
-              </View>
-          </View>
-           <View style={[{ width: '30%' }]}>
-            <Text style={styles.cellLabel}>Ideal</Text>
-            <View style={[styles.tableRow, { height: 50 }]}>
-                <Text style={styles.cellValue}> {formData.tempIdeal}°C </Text>
-              </View>
-          </View>
-         </View>
-
-        <View style={[styles.tableRow, { marginBottom: 15 }]}>
-           {/* Parte en negritas y más grande */}
-           <Text
-            style={[
-                styles.cellLabel,
-                { flex: 0.35, fontSize: 11, fontWeight: 'bold' }
-              ]}
-          >
-            Resultados de la {'\n'}Investigación{'\n'}
-            <Text style={{ fontSize: 6 }}>
-                (PRODUCTO DAÑADO DESEMPLEADO SE ENVIAN A PISO O SE ARREGLAN)
-          </Text>
-          </Text>
-           <Text style={styles.cellValue}>{formData.resultadosInv || ''}</Text>
-         </View>
-        <Text style={[styles.cellLabel, { flex: 0.15, fontSize: 14 }]}>
-           Hago constar que estoy de acuerdo con lo verificado y registrado en el
-           presente{'\n'}documento
-         </Text>
-
-        <View>
-           <View style={styles.tableRow}>
-            <Text style={[styles.cellLabel, { width: '12%', textAlign: 'center', fontSize: 10, height: 200 }]}>
-            {' '}
-            Verifico descarga{'\n'} (Inspector de Calidad)
-          </Text>
-            <View style={{ width: '38%' }}>
-            <Text style={[styles.cellValue, { flex: 0.3 }]}>
-              Nombre:{formData.nombreInspector}
-            </Text>
-
-            <View style={[styles.cellValue, {}]}>
-              <Text style={[styles.inputLabel, { paddingBottom: 10 }]}>
-                Firma:
-              </Text>
-              {firmaBase64Inspector && (
-                <Image
-                  src={firmaBase64Inspector}
-                  style={{ width: 200, height: 150 }}
-                />
-              )}
-            </View>
-          </View>
-            <Text style={[styles.cellLabel, { width: '12%', fontSize: 10 }]}>
-            {' '}
-            Chofer
-          </Text>
-            <View style={{ width: '38%' }}>
-            <Text style={[styles.cellValue, { flex: 0.3 }]}>
-              Nombre:{formData.nombreChofer}
-            </Text>
-            <View style={[styles.cellValue, {}]}>
-              <Text style={[styles.inputLabel, { paddingBottom: 10 }]}>
-                Firma:
-              </Text>
-              {firmaBase64Chofer && (
-                <Image
-                  src={firmaBase64Chofer}
-                  style={{ width: 200, height: 150 }}
-                />
-              )}
-            </View>
-          </View>
-          </View>
-         </View>
 
       </Page>
 
@@ -971,184 +953,184 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer, currentPag
                 <View>
                   <Text
                     style={{
-                    justifyContent: 'center',
-                    textAlign: 'center',
-                    borderWidth: 1,
-                    borderColor: '#000',
-                    backgroundColor: '#ccc'
-                  }}
+                      justifyContent: 'center',
+                      textAlign: 'center',
+                      borderWidth: 1,
+                      borderColor: '#000',
+                      backgroundColor: '#ccc'
+                    }}
                   >
                     Anexos
-                </Text>
+                  </Text>
                 </View>
 
                 <View>
 
                   {formData.optionLimpio === 'No' && (
                     <>
-                    <View style={{ borderWidth: 1, borderColor: '#000' }}>
+                      <View style={{ borderWidth: 1, borderColor: '#000' }}>
 
-                      <Text style={{ fontSize: '15px' }}>  Evidencia No cumple con Limpio, libre de malos olores  </Text>
+                        <Text style={{ fontSize: '15px' }}>  Evidencia No cumple con Limpio, libre de malos olores  </Text>
 
-                      <Text style={{ fontSize: '10px', paddingTop: 10 }}> {formData.limpio || ''} </Text>
+                        <Text style={{ fontSize: '10px', paddingTop: 10 }}> {formData.limpio || ''} </Text>
 
-                      <div style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'flex-start' }}>
+                        <div style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'flex-start' }}>
 
-                    {formData.imageLimpio.map((imageUrl, index) => (
+                          {formData.imageLimpio.map((imageUrl, index) => (
 
-                      <div key={index} style={{ padding: '4px', borderRadius: '10px', textAlign: 'center' }}>
-                        <Image
-                          src={imageUrl}
-                          alt={`Imagen ${index + 1}`}
-                          style={{ width: '150px', height: '150px', borderRadius: '5px', marginBottom: '10px' }}
-                        />
-                      </div>
-                    ))}
-                  </div>
-                    </View>
-                  </>
+                            <div key={index} style={{ padding: '4px', borderRadius: '10px', textAlign: 'center' }}>
+                              <Image
+                              src={imageUrl}
+                              alt={`Imagen ${index + 1}`}
+                              style={{ width: '150px', height: '150px', borderRadius: '5px', marginBottom: '10px' }}
+                            />
+                            </div>
+                          ))}
+                        </div>
+                      </View>
+                    </>
                   )}
 
                   {formData.optionLibre === 'No' && (
                     <>
-                    <View style={{ borderWidth: 1, borderColor: '#000' }}>
+                      <View style={{ borderWidth: 1, borderColor: '#000' }}>
 
-                      <Text style={{ fontSize: '15px' }}>  Evidencia No cumple libre de Fauna nociva  </Text>
+                        <Text style={{ fontSize: '15px' }}>  Evidencia No cumple libre de Fauna nociva  </Text>
 
-                      <Text style={{ fontSize: '10px', paddingTop: 10 }}> {formData.limpio || ''} </Text>
+                        <Text style={{ fontSize: '10px', paddingTop: 10 }}> {formData.limpio || ''} </Text>
 
-                      <div style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'flex-start' }}>
+                        <div style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'flex-start' }}>
 
-                    {formData.imageLibreFauna.map((imageUrl, index) => (
+                          {formData.imageLibreFauna.map((imageUrl, index) => (
 
-                      <div key={index} style={{ padding: '4px', borderRadius: '10px', textAlign: 'center' }}>
+                            <div key={index} style={{ padding: '4px', borderRadius: '10px', textAlign: 'center' }}>
 
-                        <Image
-                          src={imageUrl}
-                          alt={`Imagen ${index + 1}`}
-                          style={{ width: '150px', height: '150px', borderRadius: '5px', marginBottom: '10px' }}
-                        />
-                      </div>
-                    ))}
-                  </div>
-                    </View>
-                  </>
+                              <Image
+                              src={imageUrl}
+                              alt={`Imagen ${index + 1}`}
+                              style={{ width: '150px', height: '150px', borderRadius: '5px', marginBottom: '10px' }}
+                            />
+                            </div>
+                          ))}
+                        </div>
+                      </View>
+                    </>
                   )}
 
                   {formData.optionCaja === 'No' && (
                     <>
-                    <View style={{ borderWidth: 1, borderColor: '#000' }}>
-                      <Text style={{ fontSize: '15px' }}>  Evidencia No cumple Caja cerrada, en buen estado(sin hoyos o endiduras ):  </Text>
+                      <View style={{ borderWidth: 1, borderColor: '#000' }}>
+                        <Text style={{ fontSize: '15px' }}>  Evidencia No cumple Caja cerrada, en buen estado(sin hoyos o endiduras ):  </Text>
 
-                      <Text style={{ fontSize: '10px', paddingTop: 10 }}> {formData.cajaCerrada || ''} </Text>
+                        <Text style={{ fontSize: '10px', paddingTop: 10 }}> {formData.cajaCerrada || ''} </Text>
 
-                      <div style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'flex-start' }}>
+                        <div style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'flex-start' }}>
 
-                    {formData.imageCajaCerrada.map((imageUrl, index) => (
-                      <div key={index} style={{ margin: '10px' }}>
-                        <Image
-                        src={imageUrl}
-                        alt={`Imagen ${index + 1}`}
-                        style={{ width: '150px', height: '150px', borderRadius: '5px', marginBottom: '10px' }}
-                      />
-                      </div>
-                    ))}
-                  </div>
-                    </View>
-                  </>
+                          {formData.imageCajaCerrada.map((imageUrl, index) => (
+                            <div key={index} style={{ margin: '10px' }}>
+                              <Image
+                              src={imageUrl}
+                              alt={`Imagen ${index + 1}`}
+                              style={{ width: '150px', height: '150px', borderRadius: '5px', marginBottom: '10px' }}
+                            />
+                            </div>
+                          ))}
+                        </div>
+                      </View>
+                    </>
                   )}
                   {formData.optionLona === 'No' && (
                     <>
-                    <View style={{ borderWidth: 1, borderColor: '#000' }}>
+                      <View style={{ borderWidth: 1, borderColor: '#000' }}>
 
-                      <Text style={{ fontSize: '15px' }}>  Evidencia No cumple  Lona en buen estado  </Text>
+                        <Text style={{ fontSize: '15px' }}>  Evidencia No cumple  Lona en buen estado  </Text>
 
-                      <Text style={{ fontSize: '10px', paddingTop: 10 }}> {formData.lona || ''} </Text>
+                        <Text style={{ fontSize: '10px', paddingTop: 10 }}> {formData.lona || ''} </Text>
 
-                      <div style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'flex-start' }}>
+                        <div style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'flex-start' }}>
 
-                    {formData.imageLonaBuenEstado.map((imageUrl, index) => (
-                      <div key={index} style={{ margin: '10px' }}>
-                        <Image
-                        src={imageUrl}
-                        alt={`Imagen ${index + 1}`}
-                        style={{ width: '150px', height: '150px', borderRadius: '5px', marginBottom: '10px' }}
-                      />
-                      </div>
-                    ))}
-                  </div>
-                    </View>
-                  </>
+                          {formData.imageLonaBuenEstado.map((imageUrl, index) => (
+                            <div key={index} style={{ margin: '10px' }}>
+                              <Image
+                              src={imageUrl}
+                              alt={`Imagen ${index + 1}`}
+                              style={{ width: '150px', height: '150px', borderRadius: '5px', marginBottom: '10px' }}
+                            />
+                            </div>
+                          ))}
+                        </div>
+                      </View>
+                    </>
                   )}
                   {formData.optionCarga === 'No' && (
                     <>
-                    <View style={{ borderWidth: 1, borderColor: '#000' }}>
+                      <View style={{ borderWidth: 1, borderColor: '#000' }}>
 
-                      <Text style={{ fontSize: '15px' }}>  Evidencia No cumple Carga en buen estado</Text>
+                        <Text style={{ fontSize: '15px' }}>  Evidencia No cumple Carga en buen estado</Text>
 
-                      <Text style={{ fontSize: '10px', paddingTop: 10 }}> {formData.carga || ''} </Text>
+                        <Text style={{ fontSize: '10px', paddingTop: 10 }}> {formData.carga || ''} </Text>
 
-                      <div style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'flex-start' }}>
+                        <div style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'flex-start' }}>
 
-                    {formData.imageCargaBuenEstado.map((imageUrl, index) => (
-                      <div key={index} style={{ margin: '10px' }}>
-                        <Image
-                        src={imageUrl}
-                        alt={`Imagen ${index + 1}`}
-                        style={{ width: '150px', height: '150px', borderRadius: '5px', marginBottom: '10px' }}
-                      />
-                      </div>
-                    ))}
-                  </div>
-                    </View>
-                  </>
+                          {formData.imageCargaBuenEstado.map((imageUrl, index) => (
+                            <div key={index} style={{ margin: '10px' }}>
+                              <Image
+                              src={imageUrl}
+                              alt={`Imagen ${index + 1}`}
+                              style={{ width: '150px', height: '150px', borderRadius: '5px', marginBottom: '10px' }}
+                            />
+                            </div>
+                          ))}
+                        </div>
+                      </View>
+                    </>
                   )}
                   {formData.optionSeguridad === 'No' && (
                     <>
-                    <View style={{ borderWidth: 1, borderColor: '#000' }}>
+                      <View style={{ borderWidth: 1, borderColor: '#000' }}>
 
-                      <Text style={{ fontSize: '15px' }}>  Evidencia No cumple seguridad de carga </Text>
+                        <Text style={{ fontSize: '15px' }}>  Evidencia No cumple seguridad de carga </Text>
 
-                      <Text style={{ fontSize: '10px', paddingTop: 10 }}> {formData.seguridadCarga || ''} </Text>
+                        <Text style={{ fontSize: '10px', paddingTop: 10 }}> {formData.seguridadCarga || ''} </Text>
 
-                      <div style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'flex-start' }}>
+                        <div style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'flex-start' }}>
 
-                    {formData.imageSeguridadCarga.map((imageUrl, index) => (
-                      <div key={index} style={{ margin: '10px' }}>
-                        <Image
-                        src={imageUrl}
-                        alt={`Imagen ${index + 1}`}
-                        style={{ width: '150px', height: '150px', borderRadius: '5px', marginBottom: '10px' }}
-                      />
-                      </div>
-                    ))}
-                  </div>
-                    </View>
-                  </>
+                          {formData.imageSeguridadCarga.map((imageUrl, index) => (
+                            <div key={index} style={{ margin: '10px' }}>
+                              <Image
+                              src={imageUrl}
+                              alt={`Imagen ${index + 1}`}
+                              style={{ width: '150px', height: '150px', borderRadius: '5px', marginBottom: '10px' }}
+                            />
+                            </div>
+                          ))}
+                        </div>
+                      </View>
+                    </>
                   )}
 
                   {formData.optionSellado === 'No' && (
                     <>
-                    <View style={{ borderWidth: 1, borderColor: '#000' }}>
+                      <View style={{ borderWidth: 1, borderColor: '#000' }}>
 
-                      <Text style={{ fontSize: '15px' }}>  Evidencia No cumple con el sellado  </Text>
+                        <Text style={{ fontSize: '15px' }}>  Evidencia No cumple con el sellado  </Text>
 
-                      <Text style={{ fontSize: '10px', paddingTop: 10 }}> {formData.sellado || ''} </Text>
+                        <Text style={{ fontSize: '10px', paddingTop: 10 }}> {formData.sellado || ''} </Text>
 
-                      <div style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'flex-start' }}>
+                        <div style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'flex-start' }}>
 
-                    {formData.imageSellado.map((imageUrl, index) => (
-                      <div key={index} style={{ margin: '10px' }}>
-                        <Image
-                        src={imageUrl}
-                        alt={`Imagen ${index + 1}`}
-                        style={{ width: '150px', height: '150px', borderRadius: '5px', marginBottom: '10px' }}
-                      />
-                      </div>
-                    ))}
-                  </div>
-                    </View>
-                  </>
+                          {formData.imageSellado.map((imageUrl, index) => (
+                            <div key={index} style={{ margin: '10px' }}>
+                              <Image
+                              src={imageUrl}
+                              alt={`Imagen ${index + 1}`}
+                              style={{ width: '150px', height: '150px', borderRadius: '5px', marginBottom: '10px' }}
+                            />
+                            </div>
+                          ))}
+                        </div>
+                      </View>
+                    </>
                   )}
 
                 </View>
@@ -1575,14 +1557,14 @@ const ActaDeLlegada = () => {
   }
 
   return (
-      <Layout>
-          <div style={{ padding: '20px' }}>
-            <h1>Acta de Llegada</h1>
+    <Layout>
+      <div style={{ padding: '20px' }}>
+        <h1>Acta de Llegada</h1>
 
-            <div>
-              <Popover open={open} onOpenChange={setOpen}>
-                <PopoverTrigger asChild>
-                  <Button
+        <div>
+          <Popover open={open} onOpenChange={setOpen}>
+            <PopoverTrigger asChild>
+                <Button
                     variant='outline'
                     role='combobox'
                     aria-expanded={open}
@@ -1593,9 +1575,9 @@ const ActaDeLlegada = () => {
                       : 'Select Acta...'}
                     <ChevronsUpDown className='w-4 h-4 ml-2 opacity-50 shrink-0' />
                   </Button>
-                </PopoverTrigger>
-                <PopoverContent className='w-[200px] p-0'>
-                  <Command>
+              </PopoverTrigger>
+            <PopoverContent className='w-[200px] p-0'>
+                <Command>
                     <CommandInput placeholder='Search Acta...' />
                     <CommandList>
                       <CommandEmpty>No Acta found.</CommandEmpty>
@@ -1617,31 +1599,31 @@ const ActaDeLlegada = () => {
                       </CommandGroup>
                     </CommandList>
                   </Command>
-                </PopoverContent>
-              </Popover>
+              </PopoverContent>
+          </Popover>
 
-              {/* Mostrar los detalles de la acta seleccionada */}
-              {actaDetails && (
-                <div className='mt-4'>
-                  <h3>Acta Details:</h3>
-                  <p>
+          {/* Mostrar los detalles de la acta seleccionada */}
+          {actaDetails && (
+            <div className='mt-4'>
+                <h3>Acta Details:</h3>
+                <p>
                     <strong>ID Acta:</strong> {actaDetails.id}
                   </p>
-                  <p>
+                <p>
                     <strong>Fecha:</strong> {actaDetails.fecha}
                   </p>
-                  {/* Aquí puedes agregar más detalles de la acta según sea necesario */}
-                </div>
-              )}
-            </div>
+                {/* Aquí puedes agregar más detalles de la acta según sea necesario */}
+              </div>
+          )}
+        </div>
 
-            {/* Formulario con campos de entrada */}
-            <h2 />
+        {/* Formulario con campos de entrada */}
+        <h2 />
 
-            <Accordion type='single' collapsible style={{ padding: '8px 0' }}>
-              <AccordionItem value='item-1'>
-                <AccordionTrigger
-                  style={{
+        <Accordion type='single' collapsible style={{ padding: '8px 0' }}>
+          <AccordionItem value='item-1'>
+            <AccordionTrigger
+                style={{
                     fontSize: '20px',
                     fontWeight: 'bold',
                     padding: '12px 16px',
@@ -1650,11 +1632,11 @@ const ActaDeLlegada = () => {
                     textAlign: 'center',
                     cursor: 'pointer'
                   }}
-                >
-                  Datos Pedido
+              >
+                Datos Pedido
                 </AccordionTrigger>
-                <AccordionContent style={{ padding: '8px' }}>
-                  <Card style={{ padding: '8px' }}>
+            <AccordionContent style={{ padding: '8px' }}>
+                <Card style={{ padding: '8px' }}>
 
                     <CardContent>
                       {[
@@ -1686,15 +1668,15 @@ const ActaDeLlegada = () => {
                       {/* Puedes agregar botones o acciones adicionales en el footer */}
                     </CardFooter>
                   </Card>
-                </AccordionContent>
+              </AccordionContent>
 
-              </AccordionItem>
-            </Accordion>
+          </AccordionItem>
+        </Accordion>
 
-            <Accordion type='single' collapsible style={{ padding: '8px 0' }}>
-              <AccordionItem value='item-2'>
-                <AccordionTrigger
-                  style={{
+        <Accordion type='single' collapsible style={{ padding: '8px 0' }}>
+          <AccordionItem value='item-2'>
+            <AccordionTrigger
+                style={{
                     fontSize: '20px', // Tamaño de fuente grande
                     fontWeight: 'bold', // Negrita para mayor visibilidad
                     padding: '12px 16px', // Más espacio alrededor del texto
@@ -1705,11 +1687,11 @@ const ActaDeLlegada = () => {
                     textAlign: 'center', // Centrar el texto
                     cursor: 'pointer' // Cambia el cursor para que parezca un botón
                   }}
-                >
-                  Transporte
+              >
+                Transporte
                 </AccordionTrigger>
-                <AccordionContent>
-                  {[
+            <AccordionContent>
+                {[
                     { label: 'Línea transportista:', name: 'lineaTransportista' },
                     { label: 'Número de contenedor:', name: 'numeroContenedor' },
                     { label: 'Placas camión:', name: 'placasCamion' },
@@ -1727,14 +1709,14 @@ const ActaDeLlegada = () => {
                       />
                     </div>
                   ))}
-                </AccordionContent>
-              </AccordionItem>
-            </Accordion>
+              </AccordionContent>
+          </AccordionItem>
+        </Accordion>
 
-            <Accordion type='single' collapsible style={{ padding: '8px 0' }}>
-              <AccordionItem value='item-2'>
-                <AccordionTrigger
-                  style={{
+        <Accordion type='single' collapsible style={{ padding: '8px 0' }}>
+          <AccordionItem value='item-2'>
+            <AccordionTrigger
+                style={{
                     fontSize: '20px',
                     fontWeight: 'bold',
                     padding: '12px 16px',
@@ -1743,11 +1725,11 @@ const ActaDeLlegada = () => {
                     textAlign: 'center',
                     cursor: 'pointer'
                   }}
-                >
-                  Condiciones de transporte
+              >
+                Condiciones de transporte
                 </AccordionTrigger>
-                <AccordionContent>
-                  {[
+            <AccordionContent>
+                {[
                     { label: 'Temperatura de set point:', name: 'tempSetPoint' },
                     { label: 'Observaciones set point:', name: 'observacionesSetPoint' },
                     { label: 'Temperatura de pantalla:', name: 'tempPantalla' },
@@ -1767,7 +1749,7 @@ const ActaDeLlegada = () => {
                     </div>
                   ))}
 
-                  <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
                     <label style={{ flex: '0 0 250px', fontWeight: 'bold' }}>Termógrafo:</label>
                     <Input
                       type='text'
@@ -1778,7 +1760,7 @@ const ActaDeLlegada = () => {
                     />
                   </div>
 
-                  {[
+                {[
                     { label: 'Cumple termógrafo:', name: 'option' },
                     { label: 'Cumple termógrafo2:', name: 'option2' }
                   ].map(({ label, name }) => (
@@ -1804,14 +1786,14 @@ const ActaDeLlegada = () => {
                       </div>
                     </div>
                   ))}
-                </AccordionContent>
-              </AccordionItem>
-            </Accordion>
+              </AccordionContent>
+          </AccordionItem>
+        </Accordion>
 
-            <Accordion type='single' collapsible style={{ padding: '8px 0' }}>
-              <AccordionItem value='item-2'>
-                <AccordionTrigger
-                  style={{
+        <Accordion type='single' collapsible style={{ padding: '8px 0' }}>
+          <AccordionItem value='item-2'>
+            <AccordionTrigger
+                style={{
                     fontSize: '20px',
                     fontWeight: 'bold',
                     padding: '12px 16px',
@@ -1820,11 +1802,11 @@ const ActaDeLlegada = () => {
                     textAlign: 'center',
                     cursor: 'pointer'
                   }}
-                >
-                  Inspección de transporte
+              >
+                Inspección de transporte
                 </AccordionTrigger>
-                <AccordionContent>
-                  <div style={{ marginBottom: 30 }}>
+            <AccordionContent>
+                <div style={{ marginBottom: 30 }}>
                     <label>Limpio </label>
                     <div style={{ marginBottom: 20 }}>
                       <Button
@@ -1870,7 +1852,7 @@ const ActaDeLlegada = () => {
                                 )
                               : <p style={{ color: 'red', marginTop: '10px' }}>
                                 No puedes agregar más de 8 imágenes
-                                </p>}
+                              </p>}
                             <div style={{ display: 'flex', flexWrap: 'wrap', marginTop: '20px' }}>
                               {formData.imageLimpio.map((imageUrl, index) => (
                                 <img
@@ -1891,16 +1873,16 @@ const ActaDeLlegada = () => {
                       )}
                     </div>
                   </div>
-                  <label style={{ marginBottom: 30 }}>
+                <label style={{ marginBottom: 30 }}>
                     Pon una descripcion{' '}
                   </label>
-                  <Input
+                <Input
                     type='text'
                     name='limpio'
                     value={formData.limpio}
                     onChange={handleInputChange}
                   />
-                  <div style={{ marginBottom: 30 }}>
+                <div style={{ marginBottom: 30 }}>
                     <label>Caja cerrada, en buen estado </label>
                     <div style={{ marginBottom: 20 }}>
                       <Button
@@ -1946,7 +1928,7 @@ const ActaDeLlegada = () => {
                                 )
                               : <p style={{ color: 'red', marginTop: '10px' }}>
                                 No puedes agregar más de 8 imágenes
-                              </p>}
+                                </p>}
 
                             <div style={{ display: 'flex', flexWrap: 'wrap', marginTop: '20px' }}>
                               {formData.imageCajaCerrada.map(
@@ -1965,14 +1947,14 @@ const ActaDeLlegada = () => {
                       )}
                     </div>
                   </div>
-                  <label>Description</label>
-                  <Input
+                <label>Description</label>
+                <Input
                     type='text'
                     name='cajaCerrada'
                     value={formData.cajaCerrada}
                     onChange={handleInputChange}
                   />
-                  <div style={{ marginBottom: 30 }}>
+                <div style={{ marginBottom: 30 }}>
                     <label>Lona en buen estado: </label>
                     <div style={{ marginBottom: 20 }}>
                       <Button
@@ -2033,14 +2015,14 @@ const ActaDeLlegada = () => {
                       )}
                     </div>
                   </div>
-                  <label>Descripcion</label>
-                  <Input
+                <label>Descripcion</label>
+                <Input
                     type='text'
                     name='lona'
                     value={formData.lona}
                     onChange={handleInputChange}
                   />
-                  <div style={{ marginBottom: 30 }}>
+                <div style={{ marginBottom: 30 }}>
                     <label>Libre de fauna nociva: </label>
                     <div style={{ marginBottom: 20 }}>
                       <Button
@@ -2104,14 +2086,14 @@ const ActaDeLlegada = () => {
                       )}
                     </div>
                   </div>
-                  <label>Descripcion: </label>
-                  <Input
+                <label>Descripcion: </label>
+                <Input
                     type='text'
                     name='fauna'
                     value={formData.fauna}
                     onChange={handleInputChange}
                   />
-                  <div style={{ marginBottom: 30 }}>
+                <div style={{ marginBottom: 30 }}>
                     <label>Carga en buen estado: </label>
                     <div style={{ marginBottom: 20 }}>
                       <Button
@@ -2172,14 +2154,14 @@ const ActaDeLlegada = () => {
                       )}
                     </div>
                   </div>
-                  <label>Descripcion: </label>
-                  <Input
+                <label>Descripcion: </label>
+                <Input
                     type='text'
                     name='carga'
                     value={formData.carga}
                     onChange={handleInputChange}
                   />
-                  <div style={{ marginBottom: 30 }}>
+                <div style={{ marginBottom: 30 }}>
                     <label>Seguridad de carga: </label>
                     <div style={{ marginBottom: 20 }}>
                       <Button
@@ -2243,14 +2225,14 @@ const ActaDeLlegada = () => {
                       )}
                     </div>
                   </div>
-                  <label>Descripcion: </label>
-                  <Input
+                <label>Descripcion: </label>
+                <Input
                     type='text'
                     name='seguridadCarga'
                     value={formData.seguridadCarga}
                     onChange={handleInputChange}
                   />
-                  <div style={{ marginBottom: 30 }}>
+                <div style={{ marginBottom: 30 }}>
                     <label>Sellado: </label>
                     <div style={{ marginBottom: 20 }}>
                       <Button
@@ -2304,21 +2286,21 @@ const ActaDeLlegada = () => {
                       )}
                     </div>
                   </div>
-                  <label>Descripcion: </label>
-                  <Input
+                <label>Descripcion: </label>
+                <Input
                     type='text'
                     name='sellado'
                     value={formData.sellado}
                     onChange={handleInputChange}
                   />
-                </AccordionContent>
-              </AccordionItem>
-            </Accordion>
+              </AccordionContent>
+          </AccordionItem>
+        </Accordion>
 
-            <Accordion type='single' collapsible style={{ padding: '8px 0' }}>
-              <AccordionItem value='item-6'>
-                <AccordionTrigger
-                  style={{
+        <Accordion type='single' collapsible style={{ padding: '8px 0' }}>
+          <AccordionItem value='item-6'>
+            <AccordionTrigger
+                style={{
                     fontSize: '20px',
                     fontWeight: 'bold',
                     padding: '12px 16px',
@@ -2327,39 +2309,39 @@ const ActaDeLlegada = () => {
                     textAlign: 'center',
                     cursor: 'pointer'
                   }}
-                >
-                  Placas Caja
+              >
+                Placas Caja
                 </AccordionTrigger>
-                <AccordionContent>
-                  <label>Hay tarimas dañadas?: </label>
-                  <Input
+            <AccordionContent>
+                <label>Hay tarimas dañadas?: </label>
+                <Input
                     type='number'
                     name='tarimasDanadas'
                     value={formData.tarimasDanadas}
                     onChange={handleInputChange}
                   />
-                  <label>Cajas Identificadas: </label>
-                  <Input
+                <label>Cajas Identificadas: </label>
+                <Input
                     type='number'
                     name='cajasIdentificadas'
                     value={formData.cajasIdentificadas}
                     onChange={handleInputChange}
                   />
-                  <label>Cajas Dañadas por Maniobra: </label>
-                  <Input
+                <label>Cajas Dañadas por Maniobra: </label>
+                <Input
                     type='number'
                     name='danadasManiobra'
                     value={formData.danadasManiobra}
                     onChange={handleInputChange}
                   />
-                </AccordionContent>
-              </AccordionItem>
-            </Accordion>
+              </AccordionContent>
+          </AccordionItem>
+        </Accordion>
 
-            <Accordion type='single' collapsible style={{ padding: '8px 0' }}>
-              <AccordionItem value='item-2'>
-                <AccordionTrigger
-                  style={{
+        <Accordion type='single' collapsible style={{ padding: '8px 0' }}>
+          <AccordionItem value='item-2'>
+            <AccordionTrigger
+                style={{
                     fontSize: '20px', // Tamaño de fuente grande
                     fontWeight: 'bold', // Negrita para mayor visibilidad
                     padding: '12px 16px', // Más espacio alrededor del texto
@@ -2370,11 +2352,11 @@ const ActaDeLlegada = () => {
                     textAlign: 'center', // Centrar el texto
                     cursor: 'pointer' // Cambia el cursor para que parezca un botón
                   }}
-                >
-                  Temperatura de Pulpa
+              >
+                Temperatura de Pulpa
                 </AccordionTrigger>
-                <AccordionContent>
-                  <table>
+            <AccordionContent>
+                <table>
                     <thead>
                       <tr>
                         <th>
@@ -2497,7 +2479,7 @@ const ActaDeLlegada = () => {
                       </tr>
                     </tbody>
                   </table>
-                  <div style={{ paddingTop: 10 }}>
+                <div style={{ paddingTop: 10 }}>
                     <h3>
                       {' '}
                       <strong>Temperatura Ideal</strong>
@@ -2521,145 +2503,145 @@ const ActaDeLlegada = () => {
                       </SelectContent>
                     </Select>
                   </div>
-                </AccordionContent>
-              </AccordionItem>
-            </Accordion>
+              </AccordionContent>
+          </AccordionItem>
+        </Accordion>
 
-            <h2>Resultados de la Investigación</h2>
-            <Input
-              type='text'
-              name='resultadosInv'
-              value={formData.resultadosInv}
-              onChange={handleInputChange}
-            />
+        <h2>Resultados de la Investigación</h2>
+        <Input
+          type='text'
+          name='resultadosInv'
+          value={formData.resultadosInv}
+          onChange={handleInputChange}
+        />
 
-<Card>
-      <CardHeader>
-        <CardTitle>Datos de Calidad y Transporte</CardTitle>
-        <CardDescription>Proporcione los datos requeridos y firme en los campos indicados.</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-          {/* Names and Signatures Row */}
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '20px' }}>
-            {/* Inspector Section */}
-            <div style={{ flex: 1, textAlign: 'center' }}>
-              <label style={{ fontWeight: 'bold', display: 'block', marginBottom: '5px' }}>
+        <Card>
+          <CardHeader>
+            <CardTitle>Datos de Calidad y Transporte</CardTitle>
+            <CardDescription>Proporcione los datos requeridos y firme en los campos indicados.</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                {/* Names and Signatures Row */}
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '20px' }}>
+                    {/* Inspector Section */}
+                    <div style={{ flex: 1, textAlign: 'center' }}>
+          <label style={{ fontWeight: 'bold', display: 'block', marginBottom: '5px' }}>
                 Nombre Inspector de Calidad
               </label>
-              <Input
-                type="text"
-                name="nombreInspector"
+          <Input
+                type='text'
+                name='nombreInspector'
                 value={formData.nombreInspector}
                 onChange={handleInputChange}
                 style={{ marginBottom: '10px', width: '100%' }}
               />
-              <h2 style={{ margin: '10px 0' }}>Firma Inspector de Calidad</h2>
-              <div
+          <h2 style={{ margin: '10px 0' }}>Firma Inspector de Calidad</h2>
+          <div
                 style={{
                   border: '2px solid black',
                   padding: 10,
                   display: 'inline-block',
-                  boxSizing: 'border-box',
+                  boxSizing: 'border-box'
                 }}
               >
                 <SignatureCanvas
                   ref={signaturePadInspector}
-                  penColor="black"
+                  penColor='black'
                   canvasProps={{ width: 250, height: 100, className: 'signature-canvas' }}
                 />
               </div>
-            </div>
+        </div>
 
-            {/* Chofer Section */}
-            <div style={{ flex: 1, textAlign: 'center' }}>
-              <label style={{ fontWeight: 'bold', display: 'block', marginBottom: '5px' }}>Nombre Chofer</label>
-              <Input
-                type="text"
-                name="nombreChofer"
+                    {/* Chofer Section */}
+                    <div style={{ flex: 1, textAlign: 'center' }}>
+          <label style={{ fontWeight: 'bold', display: 'block', marginBottom: '5px' }}>Nombre Chofer</label>
+          <Input
+                type='text'
+                name='nombreChofer'
                 value={formData.nombreChofer}
                 onChange={handleInputChange}
                 style={{ marginBottom: '10px', width: '100%' }}
               />
-              <h2 style={{ margin: '10px 0' }}>Firma del Chofer</h2>
-              <div
+          <h2 style={{ margin: '10px 0' }}>Firma del Chofer</h2>
+          <div
                 style={{
                   border: '2px solid black',
                   padding: 10,
                   display: 'inline-block',
-                  boxSizing: 'border-box',
+                  boxSizing: 'border-box'
                 }}
               >
                 <SignatureCanvas
                   ref={signaturePadChofer}
-                  penColor="black"
+                  penColor='black'
                   canvasProps={{ width: 250, height: 100, className: 'signature-canvas' }}
                 />
               </div>
-            </div>
-          </div>
         </div>
-      </CardContent>
-      <CardFooter>
-        <p style={{ textAlign: 'center' }}>
-          Revise los datos y asegúrese de que las firmas sean claras antes de proceder.
+                  </div>
+              </div>
+          </CardContent>
+          <CardFooter>
+            <p style={{ textAlign: 'center' }}>
+                Revise los datos y asegúrese de que las firmas sean claras antes de proceder.
         </p>
-      </CardFooter>
-    </Card>
-            <div style={{ paddingTop: 5 }} />
-            <Button onClick={clearSignature}>Limpiar Firma</Button>
-            <Button onClick={saveSignature}>Guardar Firma</Button>
+          </CardFooter>
+        </Card>
+        <div style={{ paddingTop: 5 }} />
+        <Button onClick={clearSignature}>Limpiar Firma</Button>
+        <Button onClick={saveSignature}>Guardar Firma</Button>
 
-            <Button onClick={handleInsert}>Guardar datos en la Bd</Button>
+        <Button onClick={handleInsert}>Guardar datos en la Bd</Button>
+      </div>
+      <Dialog>
+        <DialogTrigger asChild>
+          <Button variant='outline'>Ver PDF</Button>
+        </DialogTrigger>
+        <DialogContent className='sm:max-w-[800px]'>
+          <DialogHeader>
+            <DialogTitle>Vista del Documento</DialogTitle>
+            <DialogDescription>
+                Navega por el documento PDF y haz clic en los botones para moverte entre las páginas.
+              </DialogDescription>
+          </DialogHeader>
+
+          <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+            {currentPage === 1 && (
+                <Button onClick={goToNextPage} style={{ padding: '10px 20px', fontSize: '16px' }}>
+                  Ir a la Página 2
+            </Button>
+              )}
+            {currentPage === 2 && (
+                <Button onClick={goToPreviousPage} style={{ padding: '10px 20px', fontSize: '16px' }}>
+                  Ir a la Página 3
+            </Button>
+              )}
+
+            {currentPage === 3 && (
+                <Button onClick={goToNextPage2} style={{ padding: '10px 20px', fontSize: '16px' }}>
+                  Volver a la Página 1
+            </Button>
+              )}
+
+            <PDFViewer width='100%' height='500px'>
+                <ActaPDF
+                  formData={formData}
+                  firmaBase64Inspector={firmaBase64Inspector}
+                  firmaBase64Chofer={firmaBase64Chofer}
+                  currentPage={currentPage}
+                />
+              </PDFViewer>
+
+            <div style={{ padding: '10px', display: 'flex', justifyContent: 'center' }} />
+            <div style={{ marginTop: 20, textAlign: 'center' }} />
           </div>
-        <Dialog>
-          <DialogTrigger asChild>
-            <Button variant="outline">Ver PDF</Button>
-          </DialogTrigger>
-        <DialogContent className="sm:max-w-[800px]">
-        <DialogHeader>
-          <DialogTitle>Vista del Documento</DialogTitle>
-          <DialogDescription>
-            Navega por el documento PDF y haz clic en los botones para moverte entre las páginas.
-          </DialogDescription>
-        </DialogHeader>
 
-        <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-          {currentPage === 1 && (
-            <Button onClick={goToNextPage} style={{ padding: '10px 20px', fontSize: '16px' }}>
-              Ir a la Página 2
-            </Button>
-          )}
-          {currentPage === 2 && (
-            <Button onClick={goToPreviousPage} style={{ padding: '10px 20px', fontSize: '16px' }}>
-              Ir a la Página 3
-            </Button>
-          )}
-
-          {currentPage === 3 && (
-            <Button onClick={goToNextPage2} style={{ padding: '10px 20px', fontSize: '16px' }}>
-              Volver a la Página 1
-            </Button>
-          )}
-
-          <PDFViewer width='100%' height='500px'>
-            <ActaPDF
-              formData={formData}
-              firmaBase64Inspector={firmaBase64Inspector}
-              firmaBase64Chofer={firmaBase64Chofer}
-              currentPage={currentPage}
-            />
-          </PDFViewer>
-
-          <div style={{ padding: '10px', display: 'flex', justifyContent: 'center' }} />
-          <div style={{ marginTop: 20, textAlign: 'center' }} />
-        </div>
-
-        <DialogFooter>
-          <Button variant="outline">Cerrar</Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+          <DialogFooter>
+            <Button variant='outline'>Cerrar</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </Layout>
   )
 }

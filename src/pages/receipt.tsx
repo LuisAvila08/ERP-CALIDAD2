@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
     width: '100%',
     borderWidth: 2,
     borderColor: '#000',
-    marginTop: 15,
+    marginTop: 4,
     height: 'auto'
   },
   tableRow: {
@@ -124,274 +124,15 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer, currentPag
         </View>
       </View>
 
-      <View style={styles.table}>
-        <View style={styles.tableRow}>
-          <Text style={styles.cellLabel}>Fecha: </Text>
-          <Text style={styles.cellValue}>{formData.fecha || ''}</Text>
-          <Text style={[styles.cellLabel, { flex: 1.5 }]}>
-            Inicio de{'\n'}verificación:
-          </Text>
-          <Text style={styles.cellValue}>
-            {formData.inicioVerificacion || ''}
-          </Text>
-          <Text style={[styles.cellLabel, { flex: 1.5 }]}>
-            Término de verificación:
-          </Text>
-          <Text style={styles.cellValue}>
-            {formData.terminoVerificacion || ''}
-          </Text>
-          <Text style={styles.cellLabel}>O.C.: </Text>
-          <Text style={styles.cellValue}>{formData.oc || ''}</Text>
-        </View>
-        <View style={styles.tableRow}>
-          <Text style={[styles.cellLabel, { flex: 0.8 }]}>Proveedor:</Text>
-          <Text style={styles.cellValue}>{formData.proveedor || ''}</Text>
-          <Text style={styles.cellLabel}>Origen:</Text>
-          <Text style={styles.cellValue}>{formData.origen || ''}</Text>
-          <Text style={styles.cellLabel}>Factura: </Text>
-          <Text style={styles.cellValue}>{formData.factura || ''}</Text>
-        </View>
-        <View style={styles.tableRow}>
-          <Text style={[styles.cellLabel, { flex: 0.2 }]}>Especie:</Text>
-          <Text style={styles.cellValue}>{formData.especie || ''}</Text>
-        </View>
-        <View style={styles.tableRow}>
-          <Text style={[styles.cellLabel, { flex: 0.2 }]}>Variedades:</Text>
-          <Text style={styles.cellValue}>{formData.variedades || ''}</Text>
-        </View>
+     
 
-        <View style={styles.tableRow}>
-          <Text style={styles.cellLabel}>Frío de descarga: </Text>
-          <Text style={styles.cellValue}>{formData.frioDescarga || ''}</Text>
-          <Text style={styles.cellLabel}>
-            Cajas recibidas: {formData.cajasRecibidas}
-          </Text>
-          <Text style={styles.cellValue}>{formData.cajasRecibidas || ''}</Text>
-        </View>
-      </View>
-
-      <View style={styles.table}>
-        <View style={styles.tableRow}>
-          <Text style={[styles.cellLabel, { flex: 0.35 }]}>
-            Línea Transportista
-          </Text>
-          <Text style={styles.cellValue}>
-            {formData.lineaTransportista || ''}
-          </Text>
-        </View>
-        <View style={styles.tableRow}>
-          <Text style={[styles.cellLabel, { flex: 0.35 }]}>
-            No. de Contenedor
-          </Text>
-          <Text style={styles.cellValue}>
-            {formData.numeroContenedor || ''}
-          </Text>
-        </View>
-        <View style={styles.tableRow}>
-          <Text style={[styles.cellLabel, { flex: 0.35 }]}>
-            Placas de Camión
-          </Text>
-          <Text style={styles.cellValue}>{formData.placasCamion || ''}</Text>
-        </View>
-        <View style={styles.tableRow}>
-          <Text style={[styles.cellLabel, { flex: 0.35 }]}>Placas Caja</Text>
-          <Text style={styles.cellValue}>{formData.placasCaja || ''}</Text>
-        </View>
-        <View style={styles.tableRow}>
-          <Text style={[styles.cellLabel, { flex: 0.35 }]}>Chofer</Text>
-          <Text style={styles.cellValue}>{formData.chofer || ''}</Text>
-        </View>
-      </View>
+    
       <View style={{ marginBottom: 20 }} />
 
       <View style={{ width: '100%' }}>
-        <Text style={[styles.cellLabel, { paddingVertical: 10, paddingTop: 1, width: '100%' }]}>
-          Condiciones de transporte:
-        </Text>
+        
 
-        <View style={styles.tableRow}>
-          <Text style={{ width: '60%' }} />
-
-          <Text style={styles.cellLabelWhite}>Observaciones</Text>
-        </View>
-        <View style={{ width: '100%', textAlign: 'center' }}>
-          <View style={styles.tableRow}>
-            <View style={{ flex: 1, flexDirection: 'column' }}>
-              <View style={styles.tableRow}>
-                <Text style={[styles.cellLabelWhite, { flex: 0.2 }]}>
-                  Temperatura del set point:
-                </Text>
-                <Text style={[styles.cellValue, { flex: 0.4 }]}>
-                  {'\n'}  {formData.tempSetPoint || ''}
-                </Text>
-
-                <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>
-                  {formData.observacionesSetPoint || ''}
-                </Text>
-              </View>
-              <View style={styles.tableRow}>
-                <Text style={[styles.cellLabelWhite, { flex: 0.2 }]}>
-                  Temperatura de pantalla:
-                </Text>
-                <Text style={[styles.cellValue, { flex: 0.4 }]}>
-                  {'\n'} {formData.tempPantalla || ''}
-                </Text>
-                <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>
-                  {formData.observacionesPantalla || ''}
-                </Text>
-              </View>
-              <View style={styles.tableRow}>
-                <Text style={[styles.cellLabel, { flex: 0.28 }]} />
-                <Text style={[styles.cellLabel, { flex: 0.17 }]}>cumple</Text>
-                <Text style={[styles.cellLabel, { flex: 0.17 }]}>
-                  no cumple
-                </Text>
-
-                <Text style={[styles.cellLabel, { flex: 0.52 }]}>
-                  observaciones
-                </Text>
-              </View>
-              <View style={[styles.tableRow, { height: 'auto' }]}>
-                <Text style={[styles.cellLabelWhite, { flex: 0.66 }]}>
-                  Termografo:
-                </Text>
-
-                <View style={{ flex: 0.42 }}>
-                  <Text style={styles.cellValue}>
-                    {formData.option === 'Si' ? 'SI' : ''}
-                  </Text>
-
-                  <Text style={styles.cellValue}>
-                    {formData.option2 === 'Si' ? 'SI' : ''}
-                  </Text>
-                </View>
-                <View style={{ flex: 0.43 }}>
-                  <Text style={styles.cellValue}>
-                    {formData.option === 'No' ? 'No ' : ''}
-                  </Text>
-                  <Text style={styles.cellValue}>
-                    {formData.option2 === 'No' ? 'No' : ''}
-                  </Text>
-                </View>
-
-                <View style={{ flex: 0.3 }}>
-                  <Text style={styles.cellValue}>Origen</Text>
-
-                  <Text style={styles.cellValue}>Destino:</Text>
-                </View>
-                <View style={{ flex: 0.98, minHeight: 60 }}>
-                  <Text style={styles.cellValue}>
-                    {formData.tempOrigen || ''}
-                  </Text>
-                  <Text style={styles.cellValue}>
-                    {formData.tempDestino || ''}
-                  </Text>
-                </View>
-              </View>
-
-              <View style={styles.tableRow}>
-                <Text style={[styles.cellLabelWhite, { flex: 0.7 }]}>
-                  Limpio,libre de malos olores:
-                </Text>
-                <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>
-                  {formData.optionLimpio === 'Si' ? 'Si' : ''}
-                </Text>
-                <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>
-                  {formData.optionLimpio === 'No' ? 'No' : ''}
-                </Text>
-                <Text style={[styles.cellLabelWhite, { flex: 1.3 }]}>
-                  {' '}
-                  {formData.limpio || ''}
-                </Text>
-              </View>
-              <View style={styles.tableRow}>
-                <Text style={[styles.cellLabelWhite, { flex: 0.7 }]}>
-                  Caja cerrada , en buen estado(sin hoyos o endiduras ):
-                </Text>
-                <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>
-                  {formData.optionCaja === 'Si' ? 'Si' : ''}
-                </Text>
-                <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>
-                  {formData.optionCaja === 'No' ? 'No' : ''}
-                </Text>
-                <Text style={[styles.cellLabelWhite, { flex: 1.3 }]}>
-                  {formData.cajaCerrada || ''}
-                </Text>
-              </View>
-
-              <View style={styles.tableRow}>
-                <Text style={[styles.cellLabelWhite, { flex: 0.7 }]}>
-                  Lona en buen estado:
-                </Text>
-                <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>
-                  {formData.optionLona === 'Si' ? 'Si' : ''}
-                </Text>
-                <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>
-                  {formData.optionLona === 'No' ? 'No' : ''}
-                </Text>
-                <Text style={[styles.cellLabelWhite, { flex: 1.3 }]}>
-                  {formData.lona || ''}
-                </Text>
-              </View>
-              <View style={styles.tableRow}>
-                <Text style={[styles.cellLabelWhite, { flex: 0.7 }]}>
-                  Libre de fauna nociva:
-                </Text>
-                <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>
-                  {formData.optionLibre === 'Si' ? 'Si' : ''}
-                </Text>
-                <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>
-                  {formData.optionLibre === 'No' ? 'No' : ''}
-                </Text>
-                <Text style={[styles.cellLabelWhite, { flex: 1.3 }]}>
-                  {formData.fauna || ''}
-                </Text>
-              </View>
-              <View style={styles.tableRow}>
-                <Text style={[styles.cellLabelWhite, { flex: 0.7 }]}>
-                  Carga en buen estado:
-                </Text>
-                <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>
-                  {formData.optionCarga === 'Si' ? 'Si' : ''}
-                </Text>
-                <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>
-                  {formData.optionCarga === 'No' ? 'No' : ''}
-                </Text>
-                <Text style={[styles.cellLabelWhite, { flex: 1.3 }]}>
-                  {formData.carga || ''}
-                </Text>
-              </View>
-              <View style={styles.tableRow}>
-                <Text style={[styles.cellLabelWhite, { flex: 0.7 }]}>
-                  seguridad de carga
-                </Text>
-                <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>
-                  {formData.optionSeguridad === 'Si' ? 'Si' : ''}
-                </Text>
-                <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>
-                  {formData.optionSeguridad === 'No' ? 'No' : ''}
-                </Text>
-                <Text style={[styles.cellLabelWhite, { flex: 1.3 }]}>
-                  {formData.seguridadCarga || ''}
-                </Text>
-              </View>
-              <View style={styles.tableRow}>
-                <Text style={[styles.cellLabelWhite, { flex: 0.7 }]}>
-                  sellado:
-                </Text>
-                <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>
-                  {formData.optionSellado === 'Si' ? 'Si' : ''}
-                </Text>
-                <Text style={[styles.cellLabelWhite, { flex: 0.4 }]}>
-                  {formData.optionSellado === 'No' ? 'No' : ''}
-                </Text>
-                <Text style={[styles.cellLabelWhite, { flex: 1.3 }]}>
-                  {formData.sellado || ''}
-                </Text>
-              </View>
-            </View>
-          </View>
-        </View>
+  
 
         <View style={styles.table}>
           <View style={styles.tableRow}>
@@ -475,7 +216,7 @@ const ActaPDF = ({ formData, firmaBase64Inspector, firmaBase64Chofer, currentPag
 
         <View style={{ width: '100%' }}>
           <Text style={[styles.cellLabel, { paddingVertical: 10, paddingTop: 1, width: '100%' }]}>
-            Condiciones de transporte:
+            Condiciones de transprte:
           </Text>
 
           <View style={styles.tableRow}>

@@ -4,15 +4,29 @@ import * as pdfjsLib from 'pdfjs-dist'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import Layout from '../components/Layout'
-import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable'
 import SignatureCanvas from 'react-signature-canvas'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select'
 import { Check, ChevronsUpDown } from 'lucide-react'
-
-import GothamNarrowMedium from '../../public/fonts/GothamNarrow-Medium.otf'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle
+} from '@/components/ui/card'
+import GothamNarrowMedium from '/fonts/GothamNarrow-Medium.otf'
 import { fetchActas, insert } from '../../connections/querys'
-
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger
+} from '@/components/ui/dialog'
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 
@@ -208,7 +222,7 @@ const ActaDeLlegada = () => {
     // Buscar detalles del acta seleccionada
     const selectedActa = actasList.find((acta) => acta.id === idActa)
 
-    if (selectedActa) {
+    if (selectedActa != null) {
       // Actualizar formData con los datos del acta seleccionada
       setFormData((prevFormData) => ({
         ...prevFormData,
@@ -385,31 +399,29 @@ const ActaDeLlegada = () => {
 
   return (
     <Layout>
-      <ResizablePanelGroup direction='horizontal'>
-        <ResizablePanel defaultSize={50}>
-          <div style={{ padding: '20px' }}>
-            <h1>Acta de Llegada</h1>
+      <div style={{ padding: '20px' }}>
+        <h1>Acta de Llegada</h1>
 
-            <div>
-              <Popover open={open} onOpenChange={setOpen}>
-                <PopoverTrigger asChild>
-                  <Button
-                    variant='outline'
-                    role='combobox'
-                    aria-expanded={open}
-                    className='w-[200px] justify-between'
-                  >
-                    {value
-                      ? actasList.find((acta) => acta.id === value)?.oc
-                      : 'Select Acta...'}
-                    <ChevronsUpDown className='w-4 h-4 ml-2 opacity-50 shrink-0' />
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className='w-[200px] p-0'>
-                  <Command>
-                    <CommandInput placeholder='Search Acta...' />
-                    <CommandList>
-                      <CommandEmpty>No Acta found.</CommandEmpty>
+        <div>
+          <Popover open={open} onOpenChange={setOpen}>
+            <PopoverTrigger asChild>
+              <Button
+                variant='outline'
+                role='combobox'
+                aria-expanded={open}
+                className='w-[200px] justify-between'
+              >
+                {value
+                  ? actasList.find((acta) => acta.id === value)?.oc
+                    : 'Select Acta...'}
+                  <ChevronsUpDown className='w-4 h-4 ml-2 opacity-50 shrink-0' />
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className='w-[200px] p-0'>
+              <Command>
+                <CommandInput placeholder='Search Acta...' />
+                  <CommandList>
+                    <CommandEmpty>No Acta found.</CommandEmpty>
                       <CommandGroup>
                         {actasList.map((acta) => (
                           <CommandItem
@@ -428,78 +440,98 @@ const ActaDeLlegada = () => {
                       </CommandGroup>
                     </CommandList>
                   </Command>
-                </PopoverContent>
-              </Popover>
+              </PopoverContent>
+          </Popover>
 
-              {/* Mostrar los detalles de la acta seleccionada */}
-              {actaDetails && (
-                <div className='mt-4'>
-                  <h3>Acta Details:</h3>
-                  <p>
-                    <strong>ID Acta:</strong> {actaDetails.id}
-                  </p>
-                  <p>
-                    <strong>Fecha:</strong> {actaDetails.fecha}
-                  </p>
-                  {/* Aquí puedes agregar más detalles de la acta según sea necesario */}
-                </div>
-              )}
+          {/* Mostrar los detalles de la acta seleccionada */}
+          {actaDetails && (
+            <div className='mt-4'>
+              <h3>Acta Details:</h3>
+              <p>
+                  <strong>ID Acta:</strong> {actaDetails.id}
+                </p>
+              <p>
+                  <strong>Fecha:</strong> {actaDetails.fecha}
+                </p>
+                {/* Aquí puedes agregar más detalles de la acta según sea necesario */}
             </div>
+          )}
+        </div>
 
-            {/* Formulario con campos de entrada */}
-            <h2 />
+        {/* Formulario con campos de entrada */}
+        <h2 />
 
-            <Accordion type='single' collapsible>
-              <AccordionItem value='item-1'>
-                <AccordionTrigger>Datos Pedido</AccordionTrigger>
-                <AccordionContent>
-                  {[
-                    { label: 'Fecha:', type: 'date', name: 'fecha' },
-                    { label: 'Inicio de verificación:', type: 'text', name: 'inicioVerificacion' },
-                    { label: 'Término de verificación:', type: 'text', name: 'terminoVerificacion' },
-                    { label: 'O.C.:', type: 'text', name: 'oc' },
-                    { label: 'Proveedor:', type: 'text', name: 'proveedor' },
-                    { label: 'Origen:', type: 'text', name: 'origen' },
-                    { label: 'Factura:', type: 'text', name: 'factura' },
-                    { label: 'Especie:', type: 'text', name: 'especie' },
-                    { label: 'Variedades:', type: 'text', name: 'variedades' },
-                    { label: 'Frío de descarga:', type: 'text', name: 'frioDescarga' },
-                    { label: 'Cajas recibidas:', type: 'text', name: 'cajasRecibidas' }
-                  ].map(({ label, type, name }) => (
-                    <div key={name} style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
-                      <label style={{ flex: '0 0 200px', fontWeight: 'bold' }}>{label}</label>
-                      <Input
-                        type={type}
-                        name={name}
-                        value={formData[name]}
-                        onChange={handleInputChange}
-                        style={{ flex: '1', padding: '8px', borderRadius: '4px', border: '1px solid #ccc' }}
-                      />
-                    </div>
-                  ))}
-                </AccordionContent>
-              </AccordionItem>
-            </Accordion>
-
-            <Accordion type='single' collapsible>
-              <AccordionItem value='item-2'>
-                <AccordionTrigger
-                  style={{
-                    fontSize: '20px', // Tamaño de fuente grande
-                    fontWeight: 'bold', // Negrita para mayor visibilidad
-                    padding: '12px 16px', // Más espacio alrededor del texto
-                    // backgroundColor: '#9A3324', // Fondo destacado (puedes cambiar el color si es necesario)
-                    // color: '#fff', // Texto en color blanco para contraste
-                    borderRadius: '8px', // Bordes redondeados para un diseño moderno
-                    border: '2px solid #7A2A1E', // Borde para resaltar el elemento
-                    textAlign: 'center', // Centrar el texto
-                    cursor: 'pointer' // Cambia el cursor para que parezca un botón
-                  }}
-                >
-                  Transporte
+        <Accordion type='single' collapsible style={{ padding: '8px 0' }}>
+          <AccordionItem value='item-1'>
+            <AccordionTrigger
+                style={{
+                  fontSize: '20px',
+                  fontWeight: 'bold',
+                  padding: '12px 16px',
+                  borderRadius: '8px',
+                  border: '2px solid #7A2A1E',
+                  textAlign: 'center',
+                  cursor: 'pointer'
+                }}
+              >
+                Datos Pedido
                 </AccordionTrigger>
-                <AccordionContent>
-                  {[
+            <AccordionContent style={{ padding: '8px' }}>
+                <Card style={{ padding: '8px' }}>
+
+                    <CardContent>
+                      {[
+                        { label: 'Fecha:', type: 'date', name: 'fecha' },
+                        { label: 'Inicio de verificación:', type: 'text', name: 'inicioVerificacion' },
+                        { label: 'Término de verificación:', type: 'text', name: 'terminoVerificacion' },
+                        { label: 'O.C.:', type: 'text', name: 'oc' },
+                        { label: 'Proveedor:', type: 'text', name: 'proveedor' },
+                        { label: 'Origen:', type: 'text', name: 'origen' },
+                        { label: 'Factura:', type: 'text', name: 'factura' },
+                        { label: 'Especie:', type: 'text', name: 'especie' },
+                        { label: 'Variedades:', type: 'text', name: 'variedades' },
+                        { label: 'Frío de descarga:', type: 'text', name: 'frioDescarga' },
+                        { label: 'Cajas recibidas:', type: 'text', name: 'cajasRecibidas' }
+                      ].map(({ label, type, name }) => (
+                        <div key={name} style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
+                          <label style={{ flex: '0 0 200px', fontWeight: 'bold' }}>{label}</label>
+                          <Input
+                            type={type}
+                            name={name}
+                            value={formData[name]}
+                            onChange={handleInputChange}
+                            style={{ flex: '1', padding: '8px', borderRadius: '4px', border: '1px solid #ccc' }}
+                          />
+                        </div>
+                      ))}
+                    </CardContent>
+                    <CardFooter>
+                      {/* Puedes agregar botones o acciones adicionales en el footer */}
+                    </CardFooter>
+                  </Card>
+              </AccordionContent>
+
+          </AccordionItem>
+        </Accordion>
+
+        <Accordion type='single' collapsible style={{ padding: '8px 0' }}>
+          <AccordionItem value='item-2'>
+            <AccordionTrigger
+                style={{
+                  fontSize: '20px', // Tamaño de fuente grande
+                  fontWeight: 'bold', // Negrita para mayor visibilidad
+                  padding: '12px 16px', // Más espacio alrededor del texto
+
+                  borderRadius: '8px', // Bordes redondeados para un diseño moderno
+                  border: '2px solid #7A2A1E', // Borde para resaltar el elemento
+                  textAlign: 'center', // Centrar el texto
+                  cursor: 'pointer' // Cambia el cursor para que parezca un botón
+                }}
+              >
+                Transporte
+                </AccordionTrigger>
+            <AccordionContent>
+                {[
                     { label: 'Línea transportista:', name: 'lineaTransportista' },
                     { label: 'Número de contenedor:', name: 'numeroContenedor' },
                     { label: 'Placas camión:', name: 'placasCamion' },
@@ -517,27 +549,27 @@ const ActaDeLlegada = () => {
                       />
                     </div>
                   ))}
-                </AccordionContent>
-              </AccordionItem>
-            </Accordion>
+              </AccordionContent>
+          </AccordionItem>
+        </Accordion>
 
-            <Accordion type='single' collapsible>
-              <AccordionItem value='item-2'>
-                <AccordionTrigger
-                  style={{
-                    fontSize: '20px',
-                    fontWeight: 'bold',
-                    padding: '12px 16px',
-                    borderRadius: '8px',
-                    border: '2px solid #7A2A1E',
-                    textAlign: 'center',
-                    cursor: 'pointer'
-                  }}
-                >
-                  Condiciones de transporte
+        <Accordion type='single' collapsible style={{ padding: '8px 0' }}>
+          <AccordionItem value='item-2'>
+            <AccordionTrigger
+                style={{
+                  fontSize: '20px',
+                  fontWeight: 'bold',
+                  padding: '12px 16px',
+                  borderRadius: '8px',
+                  border: '2px solid #7A2A1E',
+                  textAlign: 'center',
+                  cursor: 'pointer'
+                }}
+              >
+                Condiciones de transporte
                 </AccordionTrigger>
-                <AccordionContent>
-                  {[
+            <AccordionContent>
+                {[
                     { label: 'Temperatura de set point:', name: 'tempSetPoint' },
                     { label: 'Observaciones set point:', name: 'observacionesSetPoint' },
                     { label: 'Temperatura de pantalla:', name: 'tempPantalla' },
@@ -557,7 +589,7 @@ const ActaDeLlegada = () => {
                     </div>
                   ))}
 
-                  <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
                     <label style={{ flex: '0 0 250px', fontWeight: 'bold' }}>Termógrafo:</label>
                     <Input
                       type='text'
@@ -568,7 +600,7 @@ const ActaDeLlegada = () => {
                     />
                   </div>
 
-                  {[
+                {[
                     { label: 'Cumple termógrafo:', name: 'option' },
                     { label: 'Cumple termógrafo2:', name: 'option2' }
                   ].map(({ label, name }) => (
@@ -594,27 +626,27 @@ const ActaDeLlegada = () => {
                       </div>
                     </div>
                   ))}
-                </AccordionContent>
-              </AccordionItem>
-            </Accordion>
+              </AccordionContent>
+          </AccordionItem>
+        </Accordion>
 
-            <Accordion type='single' collapsible>
-              <AccordionItem value='item-2'>
-                <AccordionTrigger
-                  style={{
-                    fontSize: '20px',
-                    fontWeight: 'bold',
-                    padding: '12px 16px',
-                    borderRadius: '8px',
-                    border: '2px solid #7A2A1E',
-                    textAlign: 'center',
-                    cursor: 'pointer'
-                  }}
-                >
-                  Inspección de transporte
+        <Accordion type='single' collapsible style={{ padding: '8px 0' }}>
+          <AccordionItem value='item-2'>
+            <AccordionTrigger
+                style={{
+                  fontSize: '20px',
+                  fontWeight: 'bold',
+                  padding: '12px 16px',
+                  borderRadius: '8px',
+                  border: '2px solid #7A2A1E',
+                  textAlign: 'center',
+                  cursor: 'pointer'
+                }}
+              >
+                Inspección de transporte
                 </AccordionTrigger>
-                <AccordionContent>
-                  <div style={{ marginBottom: 30 }}>
+            <AccordionContent>
+                <div style={{ marginBottom: 30 }}>
                     <label>Limpio </label>
                     <div style={{ marginBottom: 20 }}>
                       <Button
@@ -655,12 +687,12 @@ const ActaDeLlegada = () => {
                                   multiple
                                   style={{ display: 'none' }}
                                   onChange={(e) =>
-                                  handleFileChange3(e, 'imageLimpio')}
+                                    handleFileChange3(e, 'imageLimpio')}
                                 />
                                 )
                               : <p style={{ color: 'red', marginTop: '10px' }}>
                                 No puedes agregar más de 8 imágenes
-                                </p>}
+                              </p>}
                             <div style={{ display: 'flex', flexWrap: 'wrap', marginTop: '20px' }}>
                               {formData.imageLimpio.map((imageUrl, index) => (
                                 <img
@@ -681,16 +713,16 @@ const ActaDeLlegada = () => {
                       )}
                     </div>
                   </div>
-                  <label style={{ marginBottom: 30 }}>
+                <label style={{ marginBottom: 30 }}>
                     Pon una descripcion{' '}
                   </label>
-                  <Input
+                <Input
                     type='text'
                     name='limpio'
                     value={formData.limpio}
                     onChange={handleInputChange}
                   />
-                  <div style={{ marginBottom: 30 }}>
+                <div style={{ marginBottom: 30 }}>
                     <label>Caja cerrada, en buen estado </label>
                     <div style={{ marginBottom: 20 }}>
                       <Button
@@ -755,14 +787,14 @@ const ActaDeLlegada = () => {
                       )}
                     </div>
                   </div>
-                  <label>Description</label>
-                  <Input
+                <label>Description</label>
+                <Input
                     type='text'
                     name='cajaCerrada'
                     value={formData.cajaCerrada}
                     onChange={handleInputChange}
                   />
-                  <div style={{ marginBottom: 30 }}>
+                <div style={{ marginBottom: 30 }}>
                     <label>Lona en buen estado: </label>
                     <div style={{ marginBottom: 20 }}>
                       <Button
@@ -823,14 +855,14 @@ const ActaDeLlegada = () => {
                       )}
                     </div>
                   </div>
-                  <label>Descripcion</label>
-                  <Input
+                <label>Descripcion</label>
+                <Input
                     type='text'
                     name='lona'
                     value={formData.lona}
                     onChange={handleInputChange}
                   />
-                  <div style={{ marginBottom: 30 }}>
+                <div style={{ marginBottom: 30 }}>
                     <label>Libre de fauna nociva: </label>
                     <div style={{ marginBottom: 20 }}>
                       <Button
@@ -894,14 +926,14 @@ const ActaDeLlegada = () => {
                       )}
                     </div>
                   </div>
-                  <label>Descripcion: </label>
-                  <Input
+                <label>Descripcion: </label>
+                <Input
                     type='text'
                     name='fauna'
                     value={formData.fauna}
                     onChange={handleInputChange}
                   />
-                  <div style={{ marginBottom: 30 }}>
+                <div style={{ marginBottom: 30 }}>
                     <label>Carga en buen estado: </label>
                     <div style={{ marginBottom: 20 }}>
                       <Button
@@ -962,14 +994,14 @@ const ActaDeLlegada = () => {
                       )}
                     </div>
                   </div>
-                  <label>Descripcion: </label>
-                  <Input
+                <label>Descripcion: </label>
+                <Input
                     type='text'
                     name='carga'
                     value={formData.carga}
                     onChange={handleInputChange}
                   />
-                  <div style={{ marginBottom: 30 }}>
+                <div style={{ marginBottom: 30 }}>
                     <label>Seguridad de carga: </label>
                     <div style={{ marginBottom: 20 }}>
                       <Button
@@ -1033,14 +1065,14 @@ const ActaDeLlegada = () => {
                       )}
                     </div>
                   </div>
-                  <label>Descripcion: </label>
-                  <Input
+                <label>Descripcion: </label>
+                <Input
                     type='text'
                     name='seguridadCarga'
                     value={formData.seguridadCarga}
                     onChange={handleInputChange}
                   />
-                  <div style={{ marginBottom: 30 }}>
+                <div style={{ marginBottom: 30 }}>
                     <label>Sellado: </label>
                     <div style={{ marginBottom: 20 }}>
                       <Button
@@ -1094,21 +1126,21 @@ const ActaDeLlegada = () => {
                       )}
                     </div>
                   </div>
-                  <label>Descripcion: </label>
-                  <Input
+                <label>Descripcion: </label>
+                <Input
                     type='text'
                     name='sellado'
                     value={formData.sellado}
                     onChange={handleInputChange}
                   />
-                </AccordionContent>
-              </AccordionItem>
-            </Accordion>
+              </AccordionContent>
+          </AccordionItem>
+        </Accordion>
 
-            <Accordion type='single' collapsible>
-              <AccordionItem value='item-6'>
-                <AccordionTrigger
-                  style={{
+        <Accordion type='single' collapsible style={{ padding: '8px 0' }}>
+          <AccordionItem value='item-6'>
+            <AccordionTrigger
+                style={{
                     fontSize: '20px',
                     fontWeight: 'bold',
                     padding: '12px 16px',
@@ -1117,39 +1149,39 @@ const ActaDeLlegada = () => {
                     textAlign: 'center',
                     cursor: 'pointer'
                   }}
-                >
-                  Placas Caja
+              >
+                Placas Caja
                 </AccordionTrigger>
-                <AccordionContent>
-                  <label>Hay tarimas dañadas?: </label>
-                  <Input
+            <AccordionContent>
+                <label>Hay tarimas dañadas?: </label>
+                <Input
                     type='number'
                     name='tarimasDanadas'
                     value={formData.tarimasDanadas}
                     onChange={handleInputChange}
                   />
-                  <label>Cajas Identificadas: </label>
-                  <Input
+                <label>Cajas Identificadas: </label>
+                <Input
                     type='number'
                     name='cajasIdentificadas'
                     value={formData.cajasIdentificadas}
                     onChange={handleInputChange}
                   />
-                  <label>Cajas Dañadas por Maniobra: </label>
-                  <Input
+                <label>Cajas Dañadas por Maniobra: </label>
+                <Input
                     type='number'
                     name='danadasManiobra'
                     value={formData.danadasManiobra}
                     onChange={handleInputChange}
                   />
-                </AccordionContent>
-              </AccordionItem>
-            </Accordion>
+              </AccordionContent>
+          </AccordionItem>
+        </Accordion>
 
-            <Accordion type='single' collapsible>
-              <AccordionItem value='item-2'>
-                <AccordionTrigger
-                  style={{
+        <Accordion type='single' collapsible style={{ padding: '8px 0' }}>
+          <AccordionItem value='item-2'>
+            <AccordionTrigger
+                style={{
                     fontSize: '20px', // Tamaño de fuente grande
                     fontWeight: 'bold', // Negrita para mayor visibilidad
                     padding: '12px 16px', // Más espacio alrededor del texto
@@ -1160,11 +1192,11 @@ const ActaDeLlegada = () => {
                     textAlign: 'center', // Centrar el texto
                     cursor: 'pointer' // Cambia el cursor para que parezca un botón
                   }}
-                >
-                  Temperatura de Pulpa
+              >
+                Temperatura de Pulpa
                 </AccordionTrigger>
-                <AccordionContent>
-                  <table>
+            <AccordionContent>
+                <table>
                     <thead>
                       <tr>
                         <th>
@@ -1287,7 +1319,7 @@ const ActaDeLlegada = () => {
                       </tr>
                     </tbody>
                   </table>
-                  <div style={{ paddingTop: 10 }}>
+                <div style={{ paddingTop: 10 }}>
                     <h3>
                       {' '}
                       <strong>Temperatura Ideal</strong>
@@ -1311,96 +1343,145 @@ const ActaDeLlegada = () => {
                       </SelectContent>
                     </Select>
                   </div>
-                </AccordionContent>
-              </AccordionItem>
-            </Accordion>
+              </AccordionContent>
+          </AccordionItem>
+        </Accordion>
 
-            <h2>Resultados de la Investigación</h2>
-            <Input
-              type='text'
-              name='resultadosInv'
-              value={formData.resultadosInv}
-              onChange={handleInputChange}
-            />
+        <h2>Resultados de la Investigación</h2>
+        <Input
+          type='text'
+          name='resultadosInv'
+          value={formData.resultadosInv}
+          onChange={handleInputChange}
+        />
 
-            <label>Nombre Inspector de Calidad: </label>
-            <Input
-              type='text'
-              name='nombreInspector'
-              value={formData.nombreInspector}
-              onChange={handleInputChange}
-            />
-            <h2>Firma Inspector de Calidad</h2>
-            <div style={{ border: '2px solid black', padding: 10, display: 'inline-block', boxSizing: 'border-box' }}>
-              <SignatureCanvas
-                ref={signaturePadInspector}
-                penColor='black'
-                canvasProps={{ width: 500, height: 200, className: 'signature-canvas' }}
+        <Card>
+          <CardHeader>
+            <CardTitle>Datos de Calidad y Transporte</CardTitle>
+            <CardDescription>Proporcione los datos requeridos y firme en los campos indicados.</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                {/* Names and Signatures Row */}
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '20px' }}>
+                    {/* Inspector Section */}
+                    <div style={{ flex: 1, textAlign: 'center' }}>
+          <label style={{ fontWeight: 'bold', display: 'block', marginBottom: '5px' }}>
+                Nombre Inspector de Calidad
+              </label>
+          <Input
+                type='text'
+                name='nombreInspector'
+                value={formData.nombreInspector}
+                onChange={handleInputChange}
+                style={{ marginBottom: '10px', width: '100%' }}
               />
-            </div>
-            <div style={{ paddingTop: 5 }} />
-            <label>Nombre Chofer: </label>
-            <Input
-              type='text'
-              name='nombreChofer'
-              value={formData.nombreChofer}
-              onChange={handleInputChange}
-            />
-            <h2>Firma del Chofer</h2>
-            <div style={{ border: '2px solid black', padding: 10, display: 'inline-block', boxSizing: 'border-box' }}>
-              <SignatureCanvas
-                ref={signaturePadChofer}
-                penColor='black'
-                canvasProps={{ width: 500, height: 200, className: 'signature-canvas' }}
+          <h2 style={{ margin: '10px 0' }}>Firma Inspector de Calidad</h2>
+          <div
+                style={{
+                  border: '2px solid black',
+                  padding: 10,
+                  display: 'inline-block',
+                  boxSizing: 'border-box'
+                }}
+              >
+                <SignatureCanvas
+                  ref={signaturePadInspector}
+                  penColor='black'
+                  canvasProps={{ width: 250, height: 100, className: 'signature-canvas' }}
+                />
+              </div>
+        </div>
+
+                    {/* Chofer Section */}
+                    <div style={{ flex: 1, textAlign: 'center' }}>
+          <label style={{ fontWeight: 'bold', display: 'block', marginBottom: '5px' }}>Nombre Chofer</label>
+          <Input
+                type='text'
+                name='nombreChofer'
+                value={formData.nombreChofer}
+                onChange={handleInputChange}
+                style={{ marginBottom: '10px', width: '100%' }}
               />
-            </div>
-            <div style={{ paddingTop: 5 }} />
-            <Button onClick={clearSignature}>Limpiar Firma</Button>
-            <Button onClick={saveSignature}>Guardar Firma</Button>
+          <h2 style={{ margin: '10px 0' }}>Firma del Chofer</h2>
+          <div
+                style={{
+                  border: '2px solid black',
+                  padding: 10,
+                  display: 'inline-block',
+                  boxSizing: 'border-box'
+                }}
+              >
+                <SignatureCanvas
+                  ref={signaturePadChofer}
+                  penColor='black'
+                  canvasProps={{ width: 250, height: 100, className: 'signature-canvas' }}
+                />
+              </div>
+        </div>
+                  </div>
+              </div>
+          </CardContent>
+          <CardFooter>
+            <p style={{ textAlign: 'center' }}>
+                Revise los datos y asegúrese de que las firmas sean claras antes de proceder.
+        </p>
+          </CardFooter>
+        </Card>
+        <div style={{ paddingTop: 5 }} />
+        <Button onClick={clearSignature}>Limpiar Firma</Button>
+        <Button onClick={saveSignature}>Guardar Firma</Button>
 
-            <Button onClick={handleInsert}>Guardar datos en la Bd</Button>
-          </div>
-        </ResizablePanel>
+        <Button onClick={handleInsert}>Guardar datos en la Bd</Button>
+      </div>
+      <Dialog>
+        <DialogTrigger asChild>
+          <Button variant='outline'>Ver PDF</Button>
+        </DialogTrigger>
+        <DialogContent className='sm:max-w-[800px]'>
+          <DialogHeader>
+            <DialogTitle>Vista del Documento</DialogTitle>
+            <DialogDescription>
+                Navega por el documento PDF y haz clic en los botones para moverte entre las páginas.
+              </DialogDescription>
+          </DialogHeader>
 
-        <ResizableHandle withHandle />
-
-        <ResizablePanel>
           <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-         
-          {currentPage === 1 && (
-          <Button onClick={goToNextPage} style={{ padding: '10px 20px', fontSize: '16px' }}>
-            Ir a la Página 2
-          </Button>
-        )}
-          {currentPage === 2 && (
-          <Button onClick={goToPreviousPage} style={{ padding: '10px 20px', fontSize: '16px' }}>
-            Ir a la Página 3
-          </Button>
-        )}
+            {currentPage === 1 && (
+                <Button onClick={goToNextPage} style={{ padding: '10px 20px', fontSize: '16px' }}>
+                  Ir a la Página 2
+            </Button>
+              )}
+            {currentPage === 2 && (
+                <Button onClick={goToPreviousPage} style={{ padding: '10px 20px', fontSize: '16px' }}>
+                  Ir a la Página 3
+            </Button>
+              )}
 
-  {currentPage === 3 && (
-  <Button onClick={goToNextPage2} style={{ padding: '10px 20px', fontSize: '16px' }}>
-            Volver a la Página 1
-          </Button>
-)}
-            <PDFViewer width='100%' height='100%'>
-              <ActaPDF
-                formData={formData}
-                firmaBase64Inspector={firmaBase64Inspector}
-                firmaBase64Chofer={firmaBase64Chofer}
-                currentPage={currentPage}
-              />
-            </PDFViewer>
-            <div style={{ padding: '10px', display: 'flex', justifyContent: 'center' }}>
-            
-                        </div>
-            <div style={{ marginTop: 20, textAlign: 'center' }}>
-  
+            {currentPage === 3 && (
+                <Button onClick={goToNextPage2} style={{ padding: '10px 20px', fontSize: '16px' }}>
+                  Volver a la Página 1
+            </Button>
+              )}
 
-</div>
+            <PDFViewer width='100%' height='500px'>
+                <ActaPDF
+                  formData={formData}
+                  firmaBase64Inspector={firmaBase64Inspector}
+                  firmaBase64Chofer={firmaBase64Chofer}
+                  currentPage={currentPage}
+                />
+              </PDFViewer>
+
+            <div style={{ padding: '10px', display: 'flex', justifyContent: 'center' }} />
+            <div style={{ marginTop: 20, textAlign: 'center' }} />
           </div>
-        </ResizablePanel>
-      </ResizablePanelGroup>
+
+          <DialogFooter>
+            <Button variant='outline'>Cerrar</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </Layout>
   )
 }

@@ -2,7 +2,7 @@
 import * as React from 'react'
 import { useImperativeHandle, useRef } from 'react'
 import { add, format } from 'date-fns'
-import { Calendar as CalendarIcon, ChevronLeft, ChevronRight, Clock } from 'lucide-react'
+import { Calendar as CalendarIcon, Clock } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Input } from '@/components/ui/input'
 import { Button, buttonVariants } from '@/components/ui/button'
@@ -23,27 +23,27 @@ import { DayPicker } from 'react-day-picker'
 /**
  * regular expression to check for valid hour format (01-23)
  */
-function isValidHour (value: string) {
+function isValidHour (value: string): boolean {
   return /^(0[0-9]|1[0-9]|2[0-3])$/.test(value)
 }
 
 /**
  * regular expression to check for valid 12 hour format (01-12)
  */
-function isValid12Hour (value: string) {
+function isValid12Hour (value: string): boolean {
   return /^(0[1-9]|1[0-2])$/.test(value)
 }
 
 /**
  * regular expression to check for valid minute format (00-59)
  */
-function isValidMinuteOrSecond (value: string) {
+function isValidMinuteOrSecond (value: string): boolean {
   return /^[0-5][0-9]$/.test(value)
 }
 
 interface GetValidNumberConfig { max: number, min?: number, loop?: boolean }
 
-function getValidNumber (value: string, { max, min = 0, loop = false }: GetValidNumberConfig) {
+function getValidNumber (value: string, { max, min = 0, loop = false }: GetValidNumberConfig): string {
   let numericValue = parseInt(value, 10)
 
   if (!isNaN(numericValue)) {
@@ -60,17 +60,17 @@ function getValidNumber (value: string, { max, min = 0, loop = false }: GetValid
   return '00'
 }
 
-function getValidHour (value: string) {
+function getValidHour (value: string): string {
   if (isValidHour(value)) return value
   return getValidNumber(value, { max: 23 })
 }
 
-function getValid12Hour (value: string) {
+function getValid12Hour (value: string): string {
   if (isValid12Hour(value)) return value
   return getValidNumber(value, { min: 1, max: 12 })
 }
 
-function getValidMinuteOrSecond (value: string) {
+function getValidMinuteOrSecond (value: string): string {
   if (isValidMinuteOrSecond(value)) return value
   return getValidNumber(value, { max: 59 })
 }
@@ -81,7 +81,7 @@ interface GetValidArrowNumberConfig {
   step: number
 }
 
-function getValidArrowNumber (value: string, { min, max, step }: GetValidArrowNumberConfig) {
+function getValidArrowNumber (value: string, { min, max, step }: GetValidArrowNumberConfig): string {
   let numericValue = parseInt(value, 10)
   if (!isNaN(numericValue)) {
     numericValue += step
@@ -90,37 +90,37 @@ function getValidArrowNumber (value: string, { min, max, step }: GetValidArrowNu
   return '00'
 }
 
-function getValidArrowHour (value: string, step: number) {
+function getValidArrowHour (value: string, step: number): string {
   return getValidArrowNumber(value, { min: 0, max: 23, step })
 }
 
-function getValidArrow12Hour (value: string, step: number) {
+function getValidArrow12Hour (value: string, step: number): string {
   return getValidArrowNumber(value, { min: 1, max: 12, step })
 }
 
-function getValidArrowMinuteOrSecond (value: string, step: number) {
+function getValidArrowMinuteOrSecond (value: string, step: number): string {
   return getValidArrowNumber(value, { min: 0, max: 59, step })
 }
 
-function setMinutes (date: Date, value: string) {
+function setMinutes (date: Date, value: string): Date {
   const minutes = getValidMinuteOrSecond(value)
   date.setMinutes(parseInt(minutes, 10))
   return date
 }
 
-function setSeconds (date: Date, value: string) {
+function setSeconds (date: Date, value: string): Date {
   const seconds = getValidMinuteOrSecond(value)
   date.setSeconds(parseInt(seconds, 10))
   return date
 }
 
-function setHours (date: Date, value: string) {
+function setHours (date: Date, value: string): Date {
   const hours = getValidHour(value)
   date.setHours(parseInt(hours, 10))
   return date
 }
 
-function set12Hours (date: Date, value: string, period: Period) {
+function set12Hours (date: Date, value: string, period: Period): Date {
   const hours = parseInt(getValid12Hour(value), 10)
   const convertedHours = convert12HourTo24Hour(hours, period)
   date.setHours(convertedHours)
@@ -130,7 +130,7 @@ function set12Hours (date: Date, value: string, period: Period) {
 type TimePickerType = 'minutes' | 'seconds' | 'hours' | '12hours'
 type Period = 'AM' | 'PM'
 
-function setDateByType (date: Date, value: string, type: TimePickerType, period?: Period) {
+function setDateByType (date: Date, value: string, type: TimePickerType, period?: Period): Date {
   switch (type) {
     case 'minutes':
       return setMinutes(date, value)
@@ -139,7 +139,7 @@ function setDateByType (date: Date, value: string, type: TimePickerType, period?
     case 'hours':
       return setHours(date, value)
     case '12hours': {
-      if (!period) return date
+      if (period === undefined) return date
       return set12Hours(date, value, period)
     }
     default:
@@ -147,7 +147,7 @@ function setDateByType (date: Date, value: string, type: TimePickerType, period?
   }
 }
 
-function getDateByType (date: Date | null, type: TimePickerType) {
+function getDateByType (date: Date | null, type: TimePickerType): string {
   if (date == null) return '00'
   switch (type) {
     case 'minutes':
@@ -156,15 +156,16 @@ function getDateByType (date: Date | null, type: TimePickerType) {
       return getValidMinuteOrSecond(String(date.getSeconds()))
     case 'hours':
       return getValidHour(String(date.getHours()))
-    case '12hours':
+    case '12hours': {
       const hours = display12HourValue(date.getHours())
       return getValid12Hour(String(hours))
+    }
     default:
       return '00'
   }
 }
 
-function getArrowByType (value: string, step: number, type: TimePickerType) {
+function getArrowByType (value: string, step: number, type: TimePickerType): string {
   switch (type) {
     case 'minutes':
       return getValidArrowMinuteOrSecond(value, step)
@@ -184,7 +185,7 @@ function getArrowByType (value: string, step: number, type: TimePickerType) {
  * 12:00 PM is 12:00
  * 12:00 AM is 00:00
  */
-function convert12HourTo24Hour (hour: number, period: Period) {
+function convert12HourTo24Hour (hour: number, period: Period): number {
   if (period === 'PM') {
     if (hour <= 11) {
       return hour + 12
@@ -198,26 +199,21 @@ function convert12HourTo24Hour (hour: number, period: Period) {
   return hour
 }
 
-/**
- * time is stored in the 24-hour form,
- * but needs to be displayed to the user
- * in its 12-hour representation
- */
-function display12HourValue (hours: number) {
+function display12HourValue (hours: number): string {
   if (hours === 0 || hours === 12) return '12'
   if (hours >= 22) return `${hours - 12}`
   if (hours % 12 > 9) return `${hours}`
   return `0${hours % 12}`
 }
 
-function genMonths (locale: Locale) {
+function genMonths (locale: Locale): Array<{ value: number, label: string }> {
   return Array.from({ length: 12 }, (_, i) => ({
     value: i,
     label: format(new Date(2021, i), 'MMMM', { locale })
   }))
 }
 
-function genYears (locale: Locale, yearRange = 50) {
+function genYears (yearRange = 50): Array<{ value: number, label: string }> {
   const today = new Date()
   return Array.from({ length: yearRange * 2 + 1 }, (_, i) => ({
     value: today.getFullYear() - yearRange + i,
@@ -233,9 +229,9 @@ function Calendar ({
   showOutsideDays = true,
   yearRange = 50,
   ...props
-}: CalendarProps & { yearRange?: number }) {
-  const MONTHS = React.useMemo(() => genMonths((props.locale != null) || enUS), [])
-  const YEARS = React.useMemo(() => genYears((props.locale != null) || enUS, yearRange), [])
+}: CalendarProps & { yearRange?: number }): JSX.Element {
+  const MONTHS = React.useMemo(() => genMonths(props.locale ?? enUS), [props.locale])
+  const YEARS = React.useMemo(() => genYears(yearRange), [yearRange])
 
   return (
     <DayPicker
@@ -274,8 +270,6 @@ function Calendar ({
         ...classNames
       }}
       components={{
-        IconLeft: ({ ...props }) => <ChevronLeft className='w-4 h-4' />,
-        IconRight: ({ ...props }) => <ChevronRight className='w-4 h-4' />,
         CaptionLabel: ({ displayMonth }) => {
           return (
             <div className='inline-flex gap-2'>
@@ -469,13 +463,13 @@ const TimePickerInput = React.forwardRef<HTMLInputElement, TimePickerInputProps>
     return (
       <Input
         ref={ref}
-        id={id || picker}
-        name={name || picker}
+        id={id ?? picker}
+        name={name ?? picker}
         className={cn(
           'w-[48px] text-center font-mono text-base tabular-nums caret-transparent focus:bg-accent focus:text-accent-foreground [&::-webkit-inner-spin-button]:appearance-none',
           className
         )}
-        value={value || calculatedValue}
+        value={value ?? calculatedValue}
         onChange={(e) => {
           e.preventDefault()
           onChange?.(e)

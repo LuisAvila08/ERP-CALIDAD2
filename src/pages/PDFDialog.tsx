@@ -1,9 +1,8 @@
 import React, { useState } from 'react'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, DialogTrigger } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
-import PDFViewer from '@react-pdf/renderer' // Cambia esto según tu librería
-import ActaPDF from './receipt' // Asegúrate de que este componente esté importado correctamente
-
+import { PDFViewer } from '@react-pdf/renderer' // Cambia esto según tu librería
+import ActaPDF from '../components/pdfComponents/pdfView' // Importa tanto el componente como el tipo
 interface PDFDialogProps {
   formData: any
   firmaBase64Inspector: string
@@ -13,9 +12,9 @@ interface PDFDialogProps {
 const PDFDialog: React.FC<PDFDialogProps> = ({ formData, firmaBase64Inspector, firmaBase64Chofer }) => {
   const [currentPage, setCurrentPage] = useState(1)
 
-  const goToNextPage = () => setCurrentPage((prev) => prev + 1)
-  const goToPreviousPage = () => setCurrentPage((prev) => prev - 1)
-  const goToNextPage2 = () => setCurrentPage(1)
+  const goToNextPage = (): void => setCurrentPage((prev) => prev + 1)
+  const goToPreviousPage = (): void => setCurrentPage((prev) => prev - 1)
+  const goToNextPage2 = (): void => setCurrentPage(1)
 
   return (
     <Dialog>

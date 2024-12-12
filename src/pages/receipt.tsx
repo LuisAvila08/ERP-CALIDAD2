@@ -196,8 +196,15 @@ const ActaDeLlegada = (): JSX.Element => {
 
   }
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement> | { target: { name: string, value: string } }
+  ): void => {
     const { name, value } = e.target
+    setFormData((prevData) => ({ ...prevData, [name]: value }))
+  }
+
+  const handleButtonClick = (e: React.MouseEvent<HTMLButtonElement>): void => {
+    const { name, value } = e.currentTarget // Usa `currentTarget` para acceder al botón
     setFormData((prevData) => ({ ...prevData, [name]: value }))
   }
 
@@ -220,7 +227,7 @@ const ActaDeLlegada = (): JSX.Element => {
         proveedor: selectedActa.provider ?? '',
         origen: selectedActa.origin ?? '',
         factura: selectedActa.bill ?? '',
-        // especie: "", hace falta especie en la bd
+        especie: '',
         variedades: selectedActa.varieties ?? '',
         frioDescarga: selectedActa.cold_disc ?? '',
         cajasRecibidas: selectedActa.boxes_received ?? '',
@@ -339,7 +346,7 @@ const ActaDeLlegada = (): JSX.Element => {
     }))
 
     // Actualizar el rango
-    //setTemperatureRange({ max: maxTemp, min: minTemp })
+    // setTemperatureRange({ max: maxTemp, min: minTemp })
   }, [
     formData.tempAPuerta,
     formData.tempAMedio,
@@ -566,7 +573,7 @@ const ActaDeLlegada = (): JSX.Element => {
                       style={{ padding: '8px 16px', borderRadius: '4px', backgroundColor: '#9A3324', cursor: 'pointer' }}
                       name={name}
                       value='Si'
-                      onClick={handleInputChange}
+                      onClick={handleButtonClick}
                     >
                       Sí
                     </Button>
@@ -574,7 +581,7 @@ const ActaDeLlegada = (): JSX.Element => {
                       style={{ padding: '8px 16px', borderRadius: '4px', backgroundColor: '#ccc', color: '#000', cursor: 'pointer' }}
                       name={name}
                       value='No'
-                      onClick={handleInputChange}
+                      onClick={handleButtonClick}
                     >
                       No
                     </Button>
@@ -608,7 +615,7 @@ const ActaDeLlegada = (): JSX.Element => {
                     style={{ flex: 5, marginRight: '10px' }}
                     name='optionLimpio'
                     value='Si'
-                    onClick={handleInputChange}
+                    onClick={handleButtonClick}
                   >
                     {' '}
                     Sí{' '}
@@ -616,7 +623,7 @@ const ActaDeLlegada = (): JSX.Element => {
                   <Button
                     name='optionLimpio'
                     value='No'
-                    onClick={handleInputChange}
+                    onClick={handleButtonClick}
                   >
                     {' '}
                     No{' '}
@@ -681,7 +688,7 @@ const ActaDeLlegada = (): JSX.Element => {
                     style={{ flex: 5, marginRight: '10px' }}
                     name='optionCaja'
                     value='Si'
-                    onClick={handleInputChange}
+                    onClick={handleButtonClick}
                   >
                     {' '}
                     Sí{' '}
@@ -689,7 +696,7 @@ const ActaDeLlegada = (): JSX.Element => {
                   <Button
                     name='optionCaja'
                     value='No'
-                    onClick={handleInputChange}
+                    onClick={handleButtonClick}
                   >
                     {' '}
                     No{' '}
@@ -749,7 +756,7 @@ const ActaDeLlegada = (): JSX.Element => {
                     style={{ flex: 5, marginRight: '10px' }}
                     name='optionLona'
                     value='Si'
-                    onClick={handleInputChange}
+                    onClick={handleButtonClick}
                   >
                     {' '}
                     Sí{' '}
@@ -757,7 +764,7 @@ const ActaDeLlegada = (): JSX.Element => {
                   <Button
                     name='optionLona'
                     value='No'
-                    onClick={handleInputChange}
+                    onClick={handleButtonClick}
                   >
                     {' '}
                     No{' '}
@@ -817,7 +824,7 @@ const ActaDeLlegada = (): JSX.Element => {
                     style={{ flex: 5, marginRight: '10px' }}
                     name='optionLibre'
                     value='Si'
-                    onClick={handleInputChange}
+                    onClick={handleButtonClick}
                   >
                     {' '}
                     Sí{' '}
@@ -825,7 +832,7 @@ const ActaDeLlegada = (): JSX.Element => {
                   <Button
                     name='optionLibre'
                     value='No'
-                    onClick={handleInputChange}
+                    onClick={handleButtonClick}
                   >
                     {' '}
                     No{' '}
@@ -886,7 +893,7 @@ const ActaDeLlegada = (): JSX.Element => {
                     style={{ flex: 5, marginRight: '10px' }}
                     name='optionCarga'
                     value='Si'
-                    onClick={handleInputChange}
+                    onClick={handleButtonClick}
                   >
                     {' '}
                     Sí{' '}
@@ -894,7 +901,7 @@ const ActaDeLlegada = (): JSX.Element => {
                   <Button
                     name='optionCarga'
                     value='No'
-                    onClick={handleInputChange}
+                    onClick={handleButtonClick}
                   >
                     {' '}
                     No{' '}
@@ -952,7 +959,7 @@ const ActaDeLlegada = (): JSX.Element => {
                     style={{ flex: 5, marginRight: '10px' }}
                     name='optionSeguridad'
                     value='Si'
-                    onClick={handleInputChange}
+                    onClick={handleButtonClick}
                   >
                     {' '}
                     Sí{' '}
@@ -960,7 +967,7 @@ const ActaDeLlegada = (): JSX.Element => {
                   <Button
                     name='optionSeguridad'
                     value='No'
-                    onClick={handleInputChange}
+                    onClick={handleButtonClick}
                   >
                     {' '}
                     No{' '}
@@ -1021,7 +1028,7 @@ const ActaDeLlegada = (): JSX.Element => {
                     style={{ flex: 5, marginRight: '10px' }}
                     name='optionSellado'
                     value='Si'
-                    onClick={handleInputChange}
+                    onClick={handleButtonClick}
                   >
                     {' '}
                     Sí{' '}
@@ -1029,7 +1036,7 @@ const ActaDeLlegada = (): JSX.Element => {
                   <Button
                     name='optionSellado'
                     value='No'
-                    onClick={handleInputChange}
+                    onClick={handleButtonClick}
                   >
                     {' '}
                     No{' '}
@@ -1374,15 +1381,20 @@ const ActaDeLlegada = (): JSX.Element => {
         <Button onClick={() => { void handleInsert() }}>Guardar datos en la Bd</Button>
 
         <div style={{ padding: '10px', display: 'flex', justifyContent: 'center' }}>
-          <PDFDownloadLink
-            document={<DownloadPDF
-              formData={formData}
-              firmaBase64Inspector={firmaBase64Inspector}
-              firmaBase64Chofer={firmaBase64Chofer}
-                      />} fileName='acta_de_llegada.pdf'
-          >
-            <Button variant='default'>Descargar PDF</Button>
-          </PDFDownloadLink>
+          {firmaBase64Inspector && firmaBase64Chofer ? (
+            <PDFDownloadLink
+              document={<DownloadPDF
+                formData={formData}
+                firmaBase64Inspector={firmaBase64Inspector}
+                firmaBase64Chofer={firmaBase64Chofer}
+              />}
+              fileName={`Acta_${formData.oc}.pdf`}
+            >
+              <Button variant='default'>Descargar PDF</Button>
+            </PDFDownloadLink>
+          ) : (
+            <Button variant='default' disabled>Faltan firmas</Button>
+          )}
         </div>
       </div>
       <Dialog>

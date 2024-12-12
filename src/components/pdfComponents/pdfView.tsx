@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
   }
 })
 
-interface ActaPDFProps {
+export interface ActaPDFProps {
   formData: FormData
   firmaBase64Inspector?: string
   firmaBase64Chofer?: string

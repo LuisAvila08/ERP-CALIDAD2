@@ -22,12 +22,7 @@ const router = createBrowserRouter([
       {
         path: 'receipt',
         element: <Receipt />
-      },
-      {
-        path: 'receipt',
-        element: <Receipt />
       }
-
     ]
   }
 ])
@@ -38,7 +33,7 @@ ReactDOM.createRoot(rootElement).render(
     <ThemeProvider>
       <TooltipProvider>
         <ErrorBoundary>
-          <RouterProvider router={router} />
+          <RouterProvider router={router} basename='/ERP-CALIDAD2' />
         </ErrorBoundary>
       </TooltipProvider>
     </ThemeProvider>

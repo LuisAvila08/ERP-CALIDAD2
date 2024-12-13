@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { createBrowserRouter, RouterProvider, BrowserRouter } from 'react-router-dom'
 import { ThemeProvider } from './components/ThemeProvider'
 import { TooltipProvider } from './components/ui/tooltip'
 import './App.css'
@@ -33,7 +33,9 @@ ReactDOM.createRoot(rootElement).render(
     <ThemeProvider>
       <TooltipProvider>
         <ErrorBoundary>
-          <RouterProvider router={router} basename='/ERP-CALIDAD2' />
+          <BrowserRouter basename='/ERP-CALIDAD2'>
+            <RouterProvider router={router} />
+          </BrowserRouter>
         </ErrorBoundary>
       </TooltipProvider>
     </ThemeProvider>

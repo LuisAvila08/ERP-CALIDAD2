@@ -1,5 +1,6 @@
 {
   "name": "frontend-scrum",
+  "homepage": "https://LuisAvila08.github.io/ERP-CALIDAD2",
   "private": true,
   "version": "0.0.0",
   "proxy": "http://localhost:5000",
@@ -8,7 +9,9 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "@emotion/react": "^11.13.5",
@@ -61,6 +64,7 @@
     "dotenv": "^16.4.5",
     "embla-carousel-react": "^8.1.8",
     "express": "^4.21.0",
+    "gh-pages": "^6.2.0",
     "input-otp": "^1.2.4",
     "install": "^0.13.0",
     "lucide-react": "^0.414.0",
